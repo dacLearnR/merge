@@ -526,16 +526,16 @@ fraction of rows (here 10%).
       sample_frac(.1)
 
     ## # A tibble: 8 x 11
-    ##   name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
-    ##   <chr>   <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
-    ## 1 Giraffe Gira~ herbi Arti~ cd                   1.9       0.4      NA      22.1
-    ## 2 Asian ~ Elep~ herbi Prob~ en                   3.9      NA        NA      20.1
-    ## 3 Mongoo~ Lemur herbi Prim~ vu                   9.5       0.9      NA      14.5
-    ## 4 Lesser~ Cryp~ omni  Sori~ lc                   9.1       1.4       0.15   14.9
-    ## 5 North ~ Dide~ omni  Dide~ lc                  18         4.9       0.333   6  
-    ## 6 Golden~ Sper~ herbi Rode~ lc                  15.9       3        NA       8.1
-    ## 7 Rock h~ Proc~ <NA>  Hyra~ lc                   5.4       0.5      NA      18.6
-    ## 8 Pig     Sus   omni  Arti~ domesticated         9.1       2.4       0.5    14.9
+    ##   name   genus  vore  order conservation sleep_total sleep_rem sleep_cycle awake
+    ##   <chr>  <chr>  <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
+    ## 1 "Donk~ Equus  herbi Peri~ domesticated         3.1       0.4      NA      20.9
+    ## 2 "Gold~ Mesoc~ herbi Rode~ en                  14.3       3.1       0.2     9.7
+    ## 3 "Vole~ Micro~ herbi Rode~ <NA>                12.8      NA        NA      11.2
+    ## 4 "Thre~ Brady~ herbi Pilo~ <NA>                14.4       2.2       0.767   9.6
+    ## 5 "East~ Scalo~ inse~ Sori~ lc                   8.4       2.1       0.167  15.6
+    ## 6 "Dog"  Canis  carni Carn~ domesticated        10.1       2.9       0.333  13.9
+    ## 7 "Big ~ Eptes~ inse~ Chir~ lc                  19.7       3.9       0.117   4.3
+    ## 8 "Gray~ Heter~ herbi Hyra~ lc                   6.3       0.6      NA      17.7
     ## # ... with 2 more variables: brainwt <dbl>, bodywt <dbl>
 
 ### A user-defined slice of rows
