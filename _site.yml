@@ -1,0 +1,29 @@
+name: "DAC"
+navbar:
+  title: "Workshop Data Analytics"
+  left:
+    - text: "Home"
+      href: index.html
+    - text: "Intro"
+      href: intro.html
+    - text: "Tutorial"
+      menu:
+      - text: "Select"
+        href: 11-dplyr-select.html
+      - text: "Transform"
+        href: 12-dplyr-transform.html
+      - text: "Filter"
+        href: 13-dplyr-filter.html
+      - text: "Summarize"
+        href: 14-dplyr-sum.html
+    - text: "Processing"
+      href: 01-processing.html
+    - text: "GGPlot"
+      href: 02-vaksin.html
+    - text: "Plotly"
+      href: 03-covid.html
+    - text: "Maps"
+      href: 04-maps.html
+    - text: "About"
+      href: about.html
+output_dir: "docs"

@@ -1,0 +1,599 @@
+---
+title: Visualisasi Maps (Leaflet)
+author: Team Laboratorium Biro TI
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    number_sections: true
+    theme: united
+    highlight: espresso
+    fig_width: 10
+    fig_height: 5
+    df_print: paged
+    code_folding: show
+    #mathjax: null
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+
+options(scipen = 9999)
+```
+
+# Init Data
+
+## Library
+
+```{r}
+# General
+library(tidyverse)
+library(glue)
+library(scales)
+
+# Read Json
+library(jsonlite)
+
+# Maps
+library(leaflet)
+library(sf)
+library(htmltools)
+
+# Read xlsx
+library(readxl)
+```
+
+## Load Data
+```{r}
+mapPoly <-  read_sf("./data/prov.bps.json")
+mapCases <- fromJSON("./data/raw_covid.json")
+mapPenduduk <- read_excel("./data/raw_maps.xlsx", sheet = 1)
+mapikf <- read_excel("./data/raw_maps.xlsx", sheet = 3)
+```
+
+# Maps
+
+## Basemap
+
+```{r}
+basemap <- leaflet() %>%
+  addTiles() %>% 
+  
+  # Options Maps
+  addProviderTiles(providers$CartoDB.Positron) %>%
+  
+  # Set View Map (Center)
+  fitBounds(95.240772,-10.919438,141.019400,5.649667) %>% 
+  
+  # Add Custom Button (Home)
+  addEasyButton(easyButton(
+     icon="fa-globe", title="Home", position = "topleft",
+     onClick=JS("function(btn, map){ map.setZoom(4); map.setView([-2.548926,118.0148634],4); }")))
+
+basemap
+```
+
+## Marker
+
+### Simple Marker
+
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    # data
+    data = mapCases, 
+    
+    #Latitude
+    lat = ~ lokasi$lat, 
+    
+    #Longitude
+    lng = ~ lokasi$lon
+  )
+```
+
+### Custom Marker
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    
+    # Weigth Line
+    weight = 1,
+    
+    # Weight Circle
+    radius = ~(jumlah_kasus)^(1/4.5),
+    
+    # Color
+    color = "#cc4c02"
+  )
+```
+
+
+## Labels
+
+### Simple Labels
+
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    
+    # Add Label
+    label = paste(mapCases$key,mapCases$jumlah_kasus,sep = ": ")
+  )
+```
+
+### Custom Labels
+
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    
+    # Format Numeric
+    label = paste(mapCases$key,comma(mapCases$jumlah_kasus,accuracy = 1), sep = ": ")
+  )
+```
+
+** Make Function **
+```{r}
+labels_map <-
+  glue("<b>{mapCases$key}</b><br>
+       Total Cases : {comma(mapCases$jumlah_kasus,accuracy = 1)}<br>
+       Recover Cases : {comma(mapCases$jumlah_sembuh,accuracy = 1)}<br>
+       Death Cases : {comma(mapCases$jumlah_meninggal,accuracy = 1)}") %>%
+  lapply(htmltools::HTML)
+```
+
+
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    
+    # Make Function
+    label = labels_map,
+    
+    # Style Label
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto")
+  )
+```
+
+## Layer Markers
+
+### Add Layer Markers
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto")
+  ) %>% 
+  
+  # Add Marker
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_meninggal)^(1/4.5),
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto")
+  )
+```
+
+
+### Add Group Marker
+
+```{r}
+basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto"),
+    # Add Group
+    group = "Kasus"
+  ) %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_meninggal)^(1/4.5),
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto"),
+    # Add Group
+    group = "Meninggal"
+  ) %>% 
+  
+  # Add Group
+  addLayersControl(
+    position = "bottomright",
+    baseGroups = c("Kasus", "Meninggal"),
+    options = layersControlOptions(collapsed = FALSE)) %>% 
+  hideGroup(c("Meninggal"))
+```
+
+## Polygon
+
+### Init Data
+
+```{r}
+map_merge <- merge(
+  mapPoly, 
+  select(mapPenduduk, c(nama_provinsi, jumlah_penduduk)), 
+  by.x = "provinsi", 
+  by.y = "nama_provinsi")
+
+map_merge
+```
+
+### Single Polygon
+
+#### Simple Legend
+```{r}
+basemap %>%
+  # Polygon
+  addPolygons(data = map_merge,
+              group = 'Penduduk',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~colorBin("YlOrRd", domain = map_merge$jumlah_penduduk, bins = 6)(jumlah_penduduk),
+              label = ~provinsi) %>% 
+  
+  # Legend
+  addLegend(
+    "bottomleft",
+    pal = colorBin("YlOrRd", domain = map_merge$jumlah_penduduk, bins = 6),
+    values = map_merge$jumlah_penduduk, title='Penduduk', group = 'Penduduk')
+```
+
+#### Custom Legend Scale
+
+```{r}
+bins <- c(500000, 1000000, 3000000, 5000000, 10000000, 20000000, 30000000,Inf)
+pal <- colorBin("YlOrRd", domain = map_merge$jumlah_penduduk, bins = bins)
+```
+
+```{r}
+basemap %>%
+  addPolygons(data = map_merge,
+              group = 'Penduduk',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal(jumlah_penduduk),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal,
+    values = map_merge$jumlah_penduduk, title='Penduduk', group = 'Penduduk')
+```
+
+
+### Multiple Polygon
+
+#### Merge Poligon
+
+```{r}
+map_merge_poly <- 
+  merge(map_merge, mapikf %>% select(-kode_provinsi), by.x = "provinsi", by.y = "nama_provinsi")
+
+map_merge_poly
+```
+
+```{r}
+bins_ikf <- c(.0100, .1000, .200, .3000, .5000,Inf)
+pal_ikf <- colorBin("YlGnBu", domain = map_merge_poly$t_2020, bins = bins_ikf)
+```
+
+```{r}
+basemap %>%
+  addPolygons(data = map_merge_poly,
+              group = 'Penduduk',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal(jumlah_penduduk),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal,
+    values = map_merge$jumlah_penduduk, title='Penduduk', group = 'Penduduk') %>% 
+  
+  # New Polygon
+  addPolygons(data = map_merge_poly,
+              group = 'IKF',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal_ikf(t_2020),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal_ikf,
+    values = map_merge_poly$t_2020, title='IKF', group = 'IKF')
+```
+
+
+#### Add Group
+
+```{r}
+basemap %>%
+  addPolygons(data = map_merge_poly,
+              group = 'Penduduk',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal(jumlah_penduduk),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal,
+    values = map_merge$jumlah_penduduk, title='Penduduk', group = 'Penduduk') %>% 
+  
+  # New Polygon
+  addPolygons(data = map_merge_poly,
+              group = 'IKF',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal_ikf(t_2020),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal_ikf,
+    values = map_merge_poly$t_2020, title='IKF', group = 'IKF') %>% 
+  
+  # Add Group
+  addLayersControl(
+    position = "bottomright",
+    overlayGroups  = c("Penduduk", "IKF"),
+    options = layersControlOptions(collapsed = FALSE)) %>% 
+  hideGroup(c("IKF"))
+```
+
+
+# Latihan
+
+## Instruksi
+
+- Gabungkan Marker dan Polygon Menjadi Satu Maps
+
+_ Tambahkan Judul Peta
+
+
+## Pembahasan
+
+### Merge Data
+
+```{r}
+map_merge_poly <- 
+  merge(mapPoly, select(mapPenduduk, c(nama_provinsi, jumlah_penduduk)), by.x = "provinsi", by.y = "nama_provinsi") %>% 
+  merge(mapikf %>% select(-kode_provinsi), by.x = "provinsi", by.y = "nama_provinsi")
+
+map_merge_poly
+```
+
+### Map Ikf
+
+```{r}
+merge_basemap <- basemap %>% 
+  addPolygons(data = map_merge_poly,
+              group = 'IKF',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal_ikf(t_2020),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal_ikf,
+    values = map_merge_poly$t_2020, title='IKF', group = 'IKF')
+
+merge_basemap
+```
+
+\
+**Custom Label**
+
+```{r}
+# Add Simbol
+up_arrow <- "<span style=\"color:green\">&#9650;</span>"
+down_arrow <- "<span style=\"color:red\">&#9660;</span>"
+
+# Custom Label
+labels_map_ikf_prov <-
+  glue("<span style=font-size:14px;><b>{str_to_title(mapikf$nama_provinsi)}</b><br>
+       2020 : {comma(mapikf$t_2020)} {ifelse(mapikf$t_2020 > mapikf$t_2019, up_arrow, down_arrow)}<br>
+       2019 : {comma(mapikf$t_2019)} {ifelse(mapikf$t_2019 > mapikf$t_2018, up_arrow, down_arrow)}<br>
+       2018 : {comma(mapikf$t_2018)} {ifelse(mapikf$t_2018 > mapikf$t_2017, up_arrow, down_arrow)}<br>
+       2017 : {comma(mapikf$t_2017)} {ifelse(mapikf$t_2017 > mapikf$t_2016, up_arrow, down_arrow)}<br>
+       2016 : {comma(mapikf$t_2016)} {ifelse(mapikf$t_2016 > mapikf$t_2015, up_arrow, down_arrow)}<br>
+       2015 : {comma(mapikf$t_2015)} {ifelse(mapikf$t_2015 > mapikf$t_2014, up_arrow, down_arrow)}<br>
+       2014 : {comma(mapikf$t_2014)} {ifelse(mapikf$t_2014 > mapikf$t_2013, up_arrow, down_arrow)}<br>
+       2013 : {comma(mapikf$t_2013)}</span>") %>%
+  lapply(htmltools::HTML)
+```
+
+\
+**Map Ikf with Custom Label**
+
+```{r}
+merge_basemap <- basemap %>% 
+  addPolygons(data = map_merge_poly,
+              group = 'IKF',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal_ikf(t_2020),
+              label = ~labels_map_ikf_prov) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal_ikf,
+    values = map_merge_poly$t_2020, title='IKF', group = 'IKF')
+
+merge_basemap
+```
+
+
+
+### Merge All 
+
+```{r}
+merge_basemap <- basemap %>% 
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_kasus)^(1/4.5),
+    color = "#cc4c02",
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto"),
+    group = "Kasus"
+  ) %>% 
+  
+  addCircleMarkers(
+    data = mapCases, 
+    lat = ~ lokasi$lat, 
+    lng = ~ lokasi$lon,
+    weight = 1,
+    radius = ~(jumlah_meninggal)^(1/4.5),
+    label = labels_map,
+    labelOptions = labelOptions(
+                     style = list("font-weight" = "normal", padding = "3px 8px", "color" = "#cc4c02"),
+                     textsize = "14px", direction = "auto"),
+    group = "Meninggal"
+  ) %>%
+  
+  addPolygons(data = map_merge_poly,
+              group = 'Penduduk',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal(jumlah_penduduk),
+              label = ~provinsi) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal,
+    values = map_merge$jumlah_penduduk, title='Penduduk', group = 'Penduduk') %>% 
+  
+
+  addPolygons(data = map_merge_poly,
+              group = 'IKF',
+              weight=1, opacity = 1.0,color = 'green',
+              fillOpacity = 0.6, smoothFactor = 0.5,
+              fillColor = ~pal_ikf(t_2020),
+              label = ~labels_map_ikf_prov) %>% 
+  addLegend(
+    "bottomleft",
+    pal = pal_ikf,
+    values = map_merge_poly$t_2020, title='IKF', group = 'IKF') %>% 
+  
+  
+  addLayersControl(
+    position = "bottomright",
+    baseGroups = c("Kasus", "Meninggal"),
+    overlayGroups  = c("Penduduk", "IKF"),
+    options = layersControlOptions(collapsed = FALSE)) %>% 
+  hideGroup(c("Meninggal","IKF"))
+
+merge_basemap
+```
+
+
+### Change Group
+
+```{r}
+merge_basemap <- merge_basemap %>% 
+  addLayersControl(
+    position = "bottomright",
+    overlayGroups  = c("Kasus", "Meninggal", "Penduduk", "IKF"),
+    options = layersControlOptions(collapsed = FALSE)) %>% 
+  hideGroup(c("Meninggal","Penduduk", "IKF"))
+
+merge_basemap
+```
+
+
+### Add title
+
+```{r}
+tag.map.title <- tags$style(HTML("
+  .leaflet-control.map-title { 
+    transform: translate(100%,20%);
+    position: absolute !important;
+    width: 300px;
+    text-align: center;
+    padding-left: 2px; 
+    padding-right: 2px; 
+    background: #f5e23d;
+    font-weight: bold;
+    font-size: 16px;
+  }
+"))
+
+title <- tags$div(
+  tag.map.title, HTML("Sebaran Covid, Penduduk dan IKF")
+) 
+```
+
+
+## Final Map
+
+```{r}
+merge_basemap %>% 
+  addControl(title, className="map-title")
+```
+
+
+# Referensi
+
+- https://rstudio.github.io/leaflet/
+
+- https://dashboard.bpk.go.id/app/data-berbasis-wilayah
+
+- https://dashboard.bpk.go.id/app/covid
+

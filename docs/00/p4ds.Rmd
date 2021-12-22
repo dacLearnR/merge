@@ -1,0 +1,857 @@
+---
+title: "Programming for Data Science"
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+    df_print: paged
+    theme: flatly
+    highlight: pygment
+    css: assets/style.css
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+
+options(scipen = 9999)
+```
+
+
+
+# Pendahuluan
+
+Kebutuhan atas analisis data semakin berkembang pesat; dan hal ini menunjukkan bahwa _data science_ merupakan _skill set_ yang sangat berharga. Dalam _chapter_ ini, kita akan mempelajari **bahasa pemrograman R** untuk memecahkan berbagai masalah bisnis menggunakan data.
+
+Belajar bahasa pemrograman sendiri mungkin akan susah bagi sebagian orang, tetapi mengapa akan sangat penting bagi kita untuk mempelajarinya?
+
+1. **Diciptakan oleh statistikawan untuk statistikawan*
+    
+    R adalah bahasa pemrograman statistik yang dibuat oleh Ross Ihaka dan Robert Gentleman dari Departemen Statistik, di University of Auckland (Selandia Baru). R dibuat untuk keperluan analisis data, dan karena itu, sifatnya berbeda dari bahasa pemrograman tradisional lain. R bukan hanya bahasa pemrograman statistik, namun juga berupa sebuah _environment_ yang lengkap untuk berbagai keperluan _data scientist_, dan merupakan salah satu _software_ untuk analisis data yang paling banyak digunakan saat ini.
+
+2. **_Libraries_**
+
+    Library yang tersedia pada R mencakup hampir seluruh kebutuhan pengolahan data termasuk visualisasi data, fungsi model linear, model non linear, uji statistik (selang kepercayaan, _p-value_, uji-t, dan lain-lain), analisis deret waktu (_time series_), dan berbagai tools machine learning seperti algoritma regresi, klasifikasi, dan _clustering._ Komunitas R cukup aktif berkontribusi dalam diskusi untuk update _packages_ dan pembuatan _packages_ baru untuk suatu kebutuhan data science.
+
+
+3. **_Open Source_ dan Komunitas Besar**
+
+    Salah satu alasan dari berkembangnya komunitas R dengan sangat cepat adalah R yang merupakan _software open source_. Pengguna (_user_) dapat berkontribusi dalam pembuatan packages dan sebgian besar package untuk kebutuhan analisis statistik bersifat non-komersil.
+
+4. **Digunakan oleh Perusahaan Perangkat Lunak Terbesar di Dunia**
+
+    R digunakan oleh **Google** untuk menghitung _Return on Investment_ (ROI) dari berbagai iklan, dan seringkali digunakan untuk mengestimasi _casual effect_; seperti estimasi dampak dari sebuah fitur dari suatu aplikasi terhadap jumlah _download_ dari aplikasi tersebut, ataupun peningkatan tingkat penjualan setelah mengeluarkan _AdWords_. Bahkan, Google merilis _package_ R yang dapat digunakan oleh pengguna R lain untuk melakukan analisis serupa (lihat [`CausalImpact`](https://opensource.googleblog.com/2014/09/causalimpact-new-open-source-package.html){target="_blank"}). Banyak pegawai di Google telah berkontribusi aktif terhadap komunitas pengguna R: mereka seringkali aktif dalam berbagai grup pengguna R; [membuat _interface_ untuk _Google Prediction_](https://code.google.com/archive/p/google-prediction-api-r-client/){target="_blank"}; [membuat _coding style_ versi Google untuk R](http://web.stanford.edu/class/cs109l/unrestricted/resources/google-style.html){target="_blank"}, dan telah berkontribusi berbagai _package_ untuk R.
+    
+    **Microsoft** juga termasuk sebagai salah satu di antara perusahaan besar yang sangat bergantung pada R. Pada awalnya, Microsoft menggunakan R dalam: _platform_ Azure--tepatnya sebagai _capacity planning_; sistem _matchmaking_ pada Xbox's TrueSkill; analisis _churn_ untuk berbagai produk; dan beberapa _internal services_ lain dalam [Microsoft's line of products](http://blog.revolutionanalytics.com/2015/06/r-at-microsoft.html){target="_blank"}. Langkah penting yang diambil oleh Microsoft dalam hal ini adalah akuisisi dari _Revolution Analytics_, yang terkenal atas berbagai produk perkembangan di R; yang sekarang lebih dikenal sebagai _Microsoft R Server_, _Microsoft R Open_, _Microsoft Data Science Virtual Machine_, dll.
+    
+
+5. **_Ready for Big Data_**
+
+    Ready for big data RHadoop, ParallelR, Revolution R Enterprise dan beberapa tools big data lainnya memumngkinkan para engineer untuk melakukan parallel dan distribusi dari komputasinya terhadap data untuk menangani masalah running time di R. Hal ini membuat R menjadi pilihan yang cukup populer untuk analisis big data.
+
+6. **_Employability_**
+
+    R merupakan salah satu bahasa pemrograman dan tools yang harus dikuasai oleh seorang data scientist, dan beberapa startup besar di Indonesia menjadikan R sebagai syarat yang harus dimiliki oleh para pelamar yang ingin bergabung dalam tim data scientist misalkan : GoJek, Traveloka, Uber, Tiket.com, SaleStock, Twitter, HappyFresh dll. Jika melihat Tech In Asia’s Jobs, dan JobStreet kita bisa temukan bahwa R menjadi salah satu bahasa pemrograman yang paling dibutuhkan saat ini.
+
+## Silabus
+
+Tujuan utama dari _chapter_ ini adalah untuk memberikan pengenalan komprehensif kepada terhadap pemgrograman untuk statistik, dan _tools_ yang akan berguna untuk berbagai keperluan di _data science_.
+
+Adapun silabus untuk _chapter_ ini akan meliputi:
+
+* **Dasar Pemrograman R**
+    + Objek dan _Environment_
+    + Struktur Data di R
+* **Wrangling Data**
+    + Mengimpor Data ke R
+    + Proses Pembersihan Data
+    + Transformasi Data
+* **_Reproducible Research_**
+    + Pengelolaan Projek Data Science
+    + _Reporting_ menggunakan R Markdown
+    + _Custom Function_ dan _File_ R Script
+
+
+## Menggunakan R Markdown
+
+Pada bagian ini, kita akan memahami bagaimana cara menggunakan R Markdown, mulai dari membuat dokumen R Markdown, komponen-komponen R Markdown, dan bagaimana kita dapat membuat laporan menggunakan R Markdown.
+
+Sebelum menggunakan R Markdown, Kita perlu meng-*install* package *rmarkdown* ke komputer. Untuk mempelajari lebih lanjut tentang package dan instalasi, Anda dapat melihat bagian **Library and Setup** di atas. Pastikan Anda juga sudah meng-*install* versi terbaru [*R*] (<https://cran.r-project.org/>) dan [*RStudio*] (<https://rstudio.com/products/rstudio/download/>) di komputer. Jika ini adalah pertama kalinya Anda menggunakan RStudio, Anda akan melihat ini di jendela RStudio Anda:
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/rstudio.png")
+```
+
+<br>
+
+Di atas adalah tampilan default RStudio. Ada 4 panel yang masing-masing fungsinya adalah sebagai berikut:
+
+-   **Editor**: adalah tempat kita dapat menulis kode dan narasi pada file (dengan beragam *extension*) dan file dapat disimpan ke dalam komputer kita.
+-   **Console**: adalah tempat kita dapat menulis kode dan menjalankannya, namun tidak bisa menyimpannya ke komputer kita.
+-   **Environment**: adalah tempat R menyimpan data sementara saat melakukan analisis data. Hal ini memungkinkan kita untuk melacak data yang digunakan saat analisis. Ada juga tab **history** dan **connection**, meskipun kita tidak akan menggunakannya dalam workshop ini.
+-   **File, package, help, dll**: adalah tempat kita dapat melacak file di komputer, package, dan mencari dokumentasi tentang fungsi R yang digunakan. Selain itu, ada juga **plot** dan **viewer** untuk menampilkan pratinjau plot dan file yang dihasilkan menggunakan R.
+
+Untuk lebih mudah menganalisis data dan menghasilkan laporan bisnis menggunakan R kita akan menggunakan R Markdown. Kita dapat membuat *R Markdown document* baru dengan mengklik menu **File \> New File \> R Markdown**. Sebagai alternatif, kita dapat mengarahkan kursor kita ke menu dropdown di sudut kiri RStudio ![](assets/p4ds/new-button.PNG) dan kemudian pilih "R Markdown". Kita akan diarahkan ke pop-up untuk membuat dokumen R Markdown baru.
+
+```{r, out.width = "80%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/new.png")
+```
+
+Kita bisa memilih **title**, **author**, dan beberapa pilihan output. Untuk pendahuluan, mari gunakan keluaran **HTML default**. Setelah ini, file teks dengan ekstensi `.Rmd`, akan terbuat di panel Editor.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/new2.png")
+```
+
+R Markdown document terdiri dari 3 komponen:
+
+-   **YAML**
+
+    -   terletak di bagian paling atas, dikelilingi oleh `---` sebelum dan sesudah bagiannya.
+    -   di sini kita dapat mengatur template laporan kita (akan dibahas di bagian berikutnya).
+
+-   **Chunk**
+
+    -   dikelilingi oleh ```` ``` ```` sebelum dan sesudah bagiannya, berwarna abu-abu.
+    -   disinilah kita dapat meletakkan code / fungsi R untuk analisis data.
+
+-   **Teks/Narasi**
+
+    -   bagian berwarna putih.
+    -   disinilah kita dapat menulis paragraf atau penjelasan untuk laporan bisnis kita.
+    -   dapat ditambahkan dengan berbagai format teks seperti penggunaan `#` untuk heading.
+
+R Markdown memungkinkan kita untuk menulis code R untuk analisis data sekaligus penjelasan/narasi bisnis dalam satu file. Itu seperti bekerja dengan Excel dan Word pada saat bersamaan, dengan fungsionalitas tambahan yaitu mengekspor file ke berbagai keluaran dengan template yang disesuaikan! Banyak sekali pekerjaan yang bisa kita lakukan dengan hanya satu dokumen.
+
+Selain multifungsi, manfaat lain dari R Markdown adalah adanya **tampilan notebook**. Dengan R Markdown, kode di dalam chunk dapat dijalankan secara independen dan interaktif, dengan **output yang ditampilkan tepat di bawah chunk**. Hal ini memudahkan pengguna untuk melihat dengan cepat hasil analisis data. Misalnya, jika kita ingin menjalankan kode pada chunk di bawah, dapat klik ikon hijau segitiga (menyerupai tombol play) di sisi kanan chunk, dan sebuah plot akan keluar.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/new3.png")
+```
+
+
+
+Kita juga dapat mengekspor R Markdown ke beberapa format seperti Word, PDF, dll., dengan menggunakan tombol *Knit* ![](assets/p4ds/knitt-button.PNG) di bagian atas file.
+
+Jika sebelumnya kita belum menyimpan R Markdown yang sedang diedit, R akan mengarahkan kita untuk menyimpan file terlebih dahulu. Pada contoh di bawah ini, file disimpan dengan nama `dummy.Rmd` di dalam *working directory* (folder) yang sama dengan materi workshop. Praktik terbaiknya adalah menyimpan file R Markdown dan data yang kita gunakan dalam satu working directory. Ini akan mencegah error saat kita memanggil data ke R yang diakibatkan oleh kesalahan *file path*. Setelah melakukan knit R Markdown, R akan menghasilkan dokumen sesuai format atau ekstensi yang kita pilih.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/new4.png")
+```
+
+Pada bagian selanjutnya, kita akan membahas berbagai cara menuliskan kode dan narasi di R Markdown, termasuk format teks sederhana yang dapat membuat laporan lebih elegan.
+
+## Menulis Kode & Narasi
+
+### Kode
+
+Menulis *kode* di R Markdown bisa dilakukan di dalam *chunk*. Dalam demo yang kita buat sebelumnya, kita memiliki 3 chunk dengan kode masing-masing. Kita dapat dengan cepat memasukkan chunk ke dalam R Markdown menggunakan:
+
+-   Keyboard shortcut: Ctrl + Alt + I (OS X: Cmd + Option + I)
+-   Klik tombol *add chunk* ![](assets/p4ds/notebook-insert-chunk.png) di toolbar panel Editor.
+-   Secara manual mengetik ```` ```{r} ```` dan ```` ``` ````.
+
+Saat kita melakukan knit dokumen, hasil kode akan ditampilkan di bawah chunk. Berikut adalah contohnya:
+
+```{r}
+print("Hello!")
+```
+
+Sebagai alternatif, Kita juga dapat memasukkan kode secara langsung ke bagian narasi pada R Markdown atau disebut sebagai *inline code* dengan melampirkan kode dengan `` `r` ``. Misalnya, `r paste ("apakah Anda memperhatikan bahwa saya menulis ini menggunakan kode R?")` Karena saya melakukannya, menggunakan sintaks berikut:
+
+`` `r '\x60r paste("apakah Anda memperhatikan bahwa saya menulis ini menggunakan kode R?")\x60'` ``
+
+Ini memudahkan pengguna untuk memasukkan hasil analisis data secara otomatis ke dalam narasi, dalam laporan bisnis. Hal ini memungkinkan fleksibilitas dalam membuat *automated business report* dimana kita akan menghasilkan narasi berdasarkan proses analisis yang dinamis (sesuai input).
+
+### Narasi
+
+Menulis *narasi* di R Markdown sebagian besar mirip dengan menulis narasi pada Word Processor biasa. Perbedaannya adalah bagaimana R Markdown menggunakan [Pandoc's Markdown] (<https://pandoc.org/MANUAL.html#pandocs-markdown>), satu set anotasi markup untuk mengatur format teks pada narasi.
+
+Ada beberapa anotasi yang umum digunakan di R Markdown. Untuk kenyamanan, kami telah membuat daftar anotasi beserta pratinjaunya di bawah ini. Anda dapat mengakses dokumen `text_formatting.Rmd` di folder materi workshop untuk melihatnya lebih detail. Anotasi diambil dari [*R Markdown Cheatsheet*] (<https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf>) yang dapat Anda unduh dan untuk memudahkan pembelajaran lebih lanjut tentang berbagai fitur di R Markdown.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/tformat.png")
+```
+
+Dalam beberapa kasus, Anda mungkin juga ingin menulis penjelasan kode atau *narasi di dalam chunk*. Saat Anda mengetik narasi di dalam chunk, maka akan menghasilkan error karena R mengenali narasi Anda sebagai code / perintah R yang perlu dijalankan. Untuk menulis narasi di dalam chunk Anda perlu menandainya sebagai *comment* atau komentar dengan menggunakan `#` sebelum teks. Berikut ini contohnya:
+
+```{r}
+# ini adalah contoh komentar!
+# dan di bawah ini adalah suatu operasi matematika:
+(4+6)/3 # akan menghasilkan 3.33
+```
+
+## Chunk & Global Options
+
+### Chunk Options
+
+Jika Anda perhatikan sebelumnya, sebagian besar kode dan chunk yang kita buat beserta hasul chunk tersebut ditampilkan pada dokumen akhir (hasil knit). Ini karena kita mengikuti serangkaian chunk options yang diatur secara default pada R Markdown. *Chunk options* adalah sekumpulan argumen yang dapat disesuaikan untuk mengelola bagaimana chunk harus diproses saat menghasilkan output. Secara default, chunk menggunakan argumen yang disebut `echo = TRUE` yang berarti **menampilkan kode** dalam dokumen yang dihasilkan.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/chunk.png")
+```
+
+Di atas adalah contoh chunk yang diambil dari `dummy.Rmd`. Dokumen berisi 3 chunk dimana dua di antaranya memiliki opsi chunk yang telah ditetapkan. Chunk options bisa diatur di dalam tanda kurung `{}` dari sebuah header chunk, mengikuti setelah *chunk name/id* (nama chunk adalah opsional). Berikut ini contohnya:
+
+```` ```{r pressure, echo = FALSE}``` ````
+
+Kita bisa melihat chunk bernama **pressure** diikuti dengan koma `,` dan chunk options `echo` yang diset `FALSE`. Berdasarkan opsi tersebut, R akan mengeksekusi kode, menampilkan output code, namun tidak akan menampilkan kode dalam hasil knit dokumen R Markdown.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/echof.png")
+```
+
+Ada beberapa chunk options yang biasa digunakan:
+
+-   **include** = default TRUE, jika FALSE maka chunk tidak akan dimasukkan dalam dokumen final namun kode masih akan dijalankan.
+-   **eval** = default TRUE, jika FALSE maka kode tidak akan dijalankan.
+-   **echo** = default TRUE, jika FALSE maka kode tidak akan ditampilkan di dokumen final.
+-   **message** = default TRUE, jika FALSE maka pesan yang dihasilkan dari run kode pada chunk tidak akan ditampilkan.
+-   **warning** = default TRUE, jika FALSE warning/peringatan yang dihasilkan dari run kode pada chunk tidak akan ditampilkan.
+-   **fig.height, fig.width** = lebar & tinggi output chunk yang berupa gambar / plot.
+
+Untuk daftar lengkap chunk options, Anda dapat melihat *R Markdown Cheatsheet* atau untuk versi yang lebih singkat di [*R Markdown Reference Guide*] (<https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference> .pdf).
+
+### Global Options
+
+Terkadang, Anda ingin menyetel chunk options tertentu ke semua bagian dalam dokumen. Kita dapat mengaturnya menggunakan *global chunk options*. Kita dapat mengetik `knitr::opts_chunk$set` dalam chunk dan R akan memberlakukan chunk options yang sama untuk setiap chunk pada dokumen.
+
+Chunk bernama **setup** dari `dummy.Rmd` adalah contoh dimana kita mengatur `echo = TRUE` untuk semua chunk pada dokumen. Jika kita ingin menyembunyikan semua kode dalam dokumen, maka kita tinggal mengubah opsi echo menjadi `echo = FALSE`. Di bawah ini adalah contoh bagaimana kita menyembunyikan kode untuk membuat summary (ringkasan statistik) dari data *cars*, yang sebelumnya ditampilkan dalam dokumen akhir.
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/globalopt.png")
+```
+
+Perhatikan bahwa global chunk options dapat ditimpa dengan chunk options per chunk nya. Inilah sebab mengapa keluaran yang dihasilkan tidak menampilkan chunk untuk membuat plot pressure meskipun dinyatakan `echo = TRUE` dalam global chunk options. Perhatikan bahwa kita telah mengatur `echo = FALSE` di bagian chunk pembuatan plot tersebut.
+
+## Template Laporan menggunakan YAML
+
+Bagian terakhir dari pengenalan R Markdown adalah menyesuaikan template laporan menggunakan YAML. *YAML* dinyatakan di bagian pertama dari dokumen. Sebuah YAML default terdiri dari:
+
+    title: "judul dokumen"
+    author: "penulis dokumen"
+    date: "tanggal pembuatan"
+    output: html_document
+
+Output default untuk R Markdown adalah *HTML document*. Itulah mengapa dokumen HTML memiliki fitur terkaya di antara output lainnya. Kita dapat menentukan beragam file output dalam opsi YAML, namun pemahaman sebelumnya tentang cara kerja YAML pada HTML document akan banyak membantu kita dalam memahami cara pembuatan output lainnya.
+
+Sebelum menjelajahi banyak fitur HTML document, mari tambahkan lebih banyak konten ke `dummy.Rmd`. Gunakan pengetahuan yang telah Anda pelajari dari bagian sebelumnya untuk melakukan tugas-tugas berikut:
+
+1.  Ubah judul dokumen menjadi "Automate: Business Reporting with R".
+2.  Ubah penulis dokumen menjadi nama Anda.
+3.  Ubah tanggal dokumen menjadi tanggal hari ini.
+4.  Tambahkan Header level 1 dengan nama "Bab 1" sebelum header level 2 "R Markdown".
+5.  Ubah "Including Plots" menjadi header level 3.
+
+### Daftar Isi
+
+Untuk menambahkan berbagai fitur ke output HTML, kita dapat memposisikan `html_document` di line baru dengan tab (ENTER + TAB). Indentasi penting dalam YAML dan oleh karena itu harus diperiksa secara menyeluruh.
+
+Fitur pertama adalah *table of content* atau daftar isi yang dapat Anda tambahkan menggunakan opsi `toc` di bawah ini (ENTER + Double TAB). Anda dapat mengatur kedalaman header yang akan ditampilkan pada daftar isi dengan opsi `toc_depth` (default di header level 3). Menggunakan YAML di bawah ini, output yang dihasilkan akan menampilkan daftar isi untuk header level 1-3.
+
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/toc.png")
+```
+
+Anda juga dapat memposisikan daftar isi di sisi kiri dokumen dan membuatnya mengambang dengan menggunakan `toc_float`. *Floating table of content* akan selalu terlihat bahkan ketika dokumen di scroll. Anda dapat menyetel dua opsi tambahan ke dalam `toc_float`:
+
+-   **collapsed**: default TRUE, apakah toc hanya akan menampilkan header level teratas (level 1-2).
+-   **smooth scroll**: default TRUE, apakah scroll halaman dianimasikan saat item TOC dinavigasi menggunakan kursor.
+
+```{=html}
+<!-- -->
+```
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/toc2.png")
+```
+
+
+### Penomoran Bab
+
+Anda juga dapat menambahkan *section numbering* atau penomoran bab/header menggunakan opsi `number_sections`.
+
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+        number_sections: true
+
+### Tab Set
+
+Jika Anda perhatikan, course book ini memiliki bagian tabset di bagian pembuka. Tabset dapat dibuat menggunakan `{.tabset}` setelah header. Ini akan menyebabkan seluruh sub-header dari header dengan atribut `{.tabset}` terbagi menjadi beberapa tab, bukan ditampilkan secara berurutan.
+
+Kita juga dapat mengontrol tampilan tab menggunakan:
+
+-   **.tabset-fade**: menyebabkan tab memudar (fade in/fade out) saat beralih antar tab.
+-   **.tabset-pills**: menyebabkan tampilan tab berbentuk "pil", bukan tab tradisional.
+
+Berikut ini adalah contohnya:
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/tabsec.png")
+```
+
+### Tampilan dan Tema
+
+Fitur yang paling diunggulkan dalam R Markdown mungkin adalah kemampuan untuk secara langsung menentukan *themes* (tema) untuk dokumen. Anda dapat memilih antara **default, cerulean, journal, flatly, darkly, readable, spacelab, united, cosmo, lumen, paper, sandstone, simpleks,** dan **yeti**. Anda dapat melihat pratinjau masing-masing [di sini](https://www.datadreaming.org/post/r-markdown-theme-gallery/) termasuk beberapa tema lain menggunakan package tambahan seperti *prettydoc* dan *rmdformats*. Anda juga dapat menuliskan `null` untuk dokumen tanpa tema atau jika Anda ingin menggunakan **parameter CSS** untuk tema Anda sendiri.
+
+Kita juga dapat menentukan *highlight* untuk gaya penyorotan chunk. Highlight yang didukung termasuk **default, tango, pygments, kate, monokrom, espresso, zenburn, haddock, breezedark,** dan **textmate**. Tuliskan `null` untuk mencegah penyorotan chunk.
+
+Dalam contoh ini, kita akan menggunakan tema **united** dan highlight **breezedark**.
+
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+        number_sections: true
+        theme: united
+        highlight: breezedark
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/theme.png")
+```
+
+### Pengaturan Gambar
+
+Kita juga dapat mengatur seluruh tampilan plot pada R Markdown menggunakan *figure options*:
+
+-   **fig_width** dan **fig_height**: untuk mengontrol lebar dan tinggi gambar (defaultnya adalah 7x5).
+-   **fig_caption**: apakah gambar akan dirender dengan teks/captions nya
+
+```{=html}
+<!-- -->
+```
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+        number_sections: true
+        theme: united
+        highlight: breezedark
+        fig_width: 6
+        fig_height: 4
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/fig.png")
+```
+
+Kita dapat melihat bahwa plot yang dihasilkan sedikit lebih kecil dari yang dihasilkan sebelumnya.
+
+### Tampilan Data
+
+Seringkali kita akan perlu menampilkan data dalam bentuk tabel di laporan bisnis. Kita dapat mempercantik tampilan data melalui opsi `df_print`. Sebagai contoh, kita bisa menampilkan suatu tabel dalam bentuk *paged HTML tables* dengan mengatur `df_print: paged`. Ini akan memungkinkan kita untuk menavigasi halaman baris dan kolom dengan mudah.
+
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+        number_sections: true
+        theme: united
+        highlight: breezedark
+        fig_width: 6
+        fig_height: 4
+        df_print: paged
+
+Sebagai contoh, berikut adalah data **Motor Trend Car Road Test** yang diambil dari majalah 1974 Motor Trend US dan terdiri dari konsumsi bahan bakar dan 10 aspek desain dan kinerja mobil untuk 32 mobil (model 1973-74).
+
+```{r}
+mtcars
+```
+
+Opsi `df_print: paged` bisa sangat nyaman untuk keluaran HTML document, tetapi format lain seperti`kable` mungkin lebih cocok untuk keluaran PDF dan Word, yang menghasilkan satu table rapih yang statis.
+
+### Code Folding
+
+Sebelumnya kita telah membahas bagaimana menampilkan dan tidak menampilkan chunk menggunakan *chunk options*. Dalam beberapa kasus, kita mungkin ingin kode tersedia untuk ditampilkan namun tidak ditampilkan secara default. Opsi *code_folding* memungkinkan kita untuk melakukan hal tersebut. Tersedia opsi **hide** (sembunyikan) atau **show** (tampilkan) chunk ketika dokumen dibuka pertama kali. Tersedia pula opsi untuk menampilkan chunk satu per satu atau untuk keseluruhan dokumen. Sebagai contoh:
+
+    title: 'BPK RI: Data Visualization & NLP'
+    author: "Team Algoritma"
+    date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+    output: 
+      html_document:
+        toc: true
+        toc_depth: 3
+        toc_float:
+          collapsed: false
+          smooth_scroll: true
+        number_sections: true
+        theme: united
+        highlight: breezedark
+        fig_width: 6
+        fig_height: 4
+        df_print: paged
+        code_folding: hide
+
+```{r, out.width = "100%", echo = FALSE, fig.align = "center"}
+knitr::include_graphics("assets/p4ds/codef.png")
+```
+
+Kita telah mempelajari pengaturan YAML yang biasa digunakan untuk output R Markdown (HTML document). Meski begitu, masih banyak lagi opsi YAML yang tersedia untuk dieksplorasi dan tercantum dalam [*R Markdown: The Definitive Guide*](https://bookdown.org/yihui/rmarkdown/html-document.html), sebuah buku oleh Yihui Xie, JJ Allaire, dan Garrett Grolemund yang dibuat menggunakan R Markdown itu sendiri. Sementara itu, untuk eksplorasi yang lebih santai, Anda dapat melihat opsi YAML di [*R Markdown Cheatsheet*](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf) atau [*R Markdown Reference Guide*](https://rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf) untuk versi yang lebih sederhana.
+
+
+# Dasar Pemrograman R
+
+Langkah penting pertama dalam mempelajari bahasa pemrograman R adalah mengenali cara kerja R, dan cara kerja menggunakan RStudio--_Integrated Development Environment_ (IDE) untuk R. Kita akan mempelajari lebih jauh cara kerja R danfitur-fitur yang ada di dalam RStudio; dan jika ini adalah pertama kalinya Anda bekerja menggunakan bahasa pemrograman, berusahalah untuk membiasakan diri dengan IDE ini, karena anda akan seringkali menggunakan RStudio untuk berbagai kebutuhan di suatu projek _data science_.
+
+Sebagai perkenalan, kita akan mencoba kode R untuk pertama kalinya, dengan mengetik `print("Hello!")` ke dalam _console_ (secara _default_, terletak di bagian bawah kiri RStudio) dan tekan ENTER; cara lain yang lebih disarankan adalah dengan menjalankannya di dalam _chunk_; lihat tombol hijau yang bertuliskan "_Run Current Chunk_", atau tekan **CTRL + SHIFT + ENTER** di dalam _chunk_:
+
+```{r}
+# ini adalah komentar
+print("Hello!")
+
+# print("Hello Algoritma!")
+```
+
+`print()` adalah salah satu **_function_** di R. Perintah tersebut adalah cara dasar di R untuk "_print_" output yang kita masukkan sebagai parameter di dalamnya; dalam contoh di atas, kita memasukkan `"Hello!"` sebagai parameter di dalam `print()`.
+
+Perhatikan juga karakter `#` di karakter pertama pada beberapa baris di _chunk_ di atas. Karakter tersebut mengindikasikan bahwa karakter-karakter berikutnya akan dianggap sebagai komentar, dan tidak akan diperhatikan oleh R. Jika kita menjalankan _chunk_ di atas, perintah `print("Hello Algoritma!")` diabaikan oleh R karena dalam baris yang salam dan berada di sebelah kanan dari karakter `#`.
+
+## Objek dan _Environment_
+
+`"Hello!"` pada _chunk_ sebelumnya, adalah sebuah **_object_**. **_Object_** dapat dituliskan secara mentah, seperti contoh di atas, ataupun dapat **di-_assign_ ke dalam suatu _object_ yang mempunyai nama, menggunakan operator `<-`**:
+
+```{r}
+activity <- "Programming"
+
+print(activity)
+```
+
+Setelah di-_assign_ ke dalam suatu _object_, kita dapat melihat daftar dari _object_ yang telah kita buat di **_Environment_ Pane** (secara _default_, terletak di kanan atas dari RStudio).
+
+Penting juga untuk dicatat bahwa **R bersifat _case-sensitive_**; sebagai contoh, _object_ `"Algoritma"` dan `"algoritma"` akan dianggap berbeda, dan menunjukkan variabel yang juga berbeda:
+
+```{r}
+# gunakan == untuk membandingkan 2 object
+activity == "Programming"
+activity == "programming"
+
+# gunakan object `activity` di dalam function `paste()`
+paste(activity, "is one of the most therapeutic activity.")
+
+# object 'Activity' tidak ada;
+# sehingga perintah di bawah ini akan mengeluarkan eror:
+# print(Activity)
+```
+
+Setiap _object_ yang mempunyai nama akan bersifat **_unique_**, sehingga jika kita membuat _object_ dengan nama yang sama, maka akan menggantikan _object_ yang lama:
+
+```{r}
+activity <- "Coding"
+
+paste(activity, "is one of the most therapeutic activity.")
+```
+
+
+## Struktur Data di R
+
+_Object_ `activity` yang telah kita buat sebelumnya adalah salah satu bentuk dasar dari **struktur data** di R, yaitu **`vector`**. Akan ada beberapa struktur data yang akan kita pelajari, yaitu: **`list`**, **`matrix`**, dan **`data.frame`**.
+
+### _Vectors_
+
+`vector`, mempunyai 4 `class` dasar yang akan sering kita temui, yaitu:
+
+1. **`character`**
+2. **`numeric`**
+3. **`integer`**
+4. **`logical`**
+
+Sebagai aturan dasar yang dapat kita jadikan acuan, **sebuah _vector_ hanya dapat menyimpan _object_ dengan `class` yang sama**:
+
+```{r}
+vector1 <- c("Learning", "Data", "Science", "2021")
+
+class(vector1)
+
+vector2 <- c(1, 0, 1)
+
+class(vector2)
+```
+
+Perhatikan juga bagaimana kita menggunakan _function_ `c()` untuk meng-_concatenate_ beberapa _object_, untuk membentuk sebuah _vector_--_function_ tersebut akan sering kita gunakan ketika bekerja dengan _vector_.
+
+Sebuah _object_ sendiri dapat mempunyai `attributes`, seperti `names`, `class`, `length`, `colnames`, `dim`, dll. Salah satu contoh sederhana adalah `names()`, untuk melihat atau memberi penamaan pada isi dari suatu _object_:
+
+```{r}
+names(vector2) <- c("User ID", "Packages", "KLDI")
+
+# gunakan names() untuk hanya melihat nama
+names(vector2)
+
+# dan print object tersebut untuk melihat hasilnya:
+# vector2
+```
+
+Dan contoh lain yang akan sering kita gunakan adalah _function_ `length()` untuk melihat jumlah _object_ di dalam suatu `vector`:
+
+```{r}
+length(vector2)
+```
+
+**Dive Deeper:**
+
+1. Buatlah sebuah `vector`, dan namakan sebagai _object_ `kldi`, dan isi `vector` tersebut dengan 4 nama Kementerian/Lembaga/SatuanKerja Perangkat Daerah/Institusi lainnya -- pastikan data yang dimasukkan merupakan `character`:
+
+```{r}
+# isi solusi Anda di sini:
+
+```
+
+2. Gunakan `class()` dan `length()` untuk melihat apakah hasil Anda sudah sesuai:
+
+```{r}
+# isi solusi Anda di sini:
+
+```
+
+3. Buatlah `vector` lain dengan nama `kldi_2`. Simpan 3 nama lain di dalamnya:
+
+```{r}
+# isi solusi Anda di sini:
+
+```
+
+4. Gabungkan data `kldi` dengan `kldi_2`, menggunakan _function_ `c()`:
+
+```{r}
+# isi solusi Anda di sini:
+
+```
+
+Untuk mengakses data tertentu dalam suatu _object_, **R menyediakan operator `[]` untuk mengakses data tertentu dalam suatu dimensi, dengan memasukkan indeks (urutan) dari data tersebut, dan setiap dimensi yang berbeda akan dipisahkan oleh tanda `,`**. Karena `vector` hanya memiliki 1 dimensi, maka kita bisa langsung mengakses suatu data dengan indeks dari data tersebut:
+
+```{r}
+vector2[2]
+```
+
+Sejauh ini, kita telah mencoba `vector` dengan `class` tipe `character`, `numeric`, dan `logical`. Mari mencoba untuk membuat `vector` untuk setiap `class`.
+
+#### `character`
+
+Sebuah `vector` dengan tipe `character` akan seringkali kita gunakan untuk berkerja dengan data berbentuk _text_. Sebagai contoh yang cukup simpel, kita mempunyai sebuah daftar nama yang akan kita kirimkan sebuah email:
+
+```{r}
+name_vec <- c("Samuel Chan", "Ahmad Husain", "Joe Cristian")
+
+name_vec
+```
+
+Kita bisa menggunakan _function_ `paste()` untuk membuat kalimat "Dear XXX,", _programmatically_:
+
+```{r}
+paste("Dear ", name_vec, ",", sep = "")
+
+# atau, sama dengan
+# paste0("Dear ", name_vec, ",")
+```
+
+Seperti yang dapat terlihat contoh di atas, dapat dilihat bahwa kita dapat melakukan pengolahan data _text_ menggunakan `character`; dan tidak menutup kemungkinan untuk melakukan teknik pengolahan data yang lebih _advance_ di ranah _text analysis_.
+
+#### `numeric`
+
+Sebuah `vector` dengan tipe `numeric` akan seringkali kita gunakan untuk pengolahan data berbentuk angka, khususnya operasi matematis. Sebagai contoh, misalkan kita mempunyai data nilai HPS dari kuartal (3 bulan) terakhir yang disimpan dalam jutaan:
+
+```{r}
+HPS <- c(150, 87, 95)
+
+HPS
+```
+
+Jika ingin menghitung rata-rata dari seluruh jumlah penjualan, kita dapat menggunakan _function_ `mean()`:
+
+```{r}
+mean(HPS)
+```
+
+
+Seperti yang dapat terlihat contoh di atas, dapat dilihat bahwa `vector` dengan tipe `numeric` sangat memudahkan kita untuk melakukan operasi matematis; dan terlebih lagi, R dan beberapa _extension_-nya mempunyai berbagai _function_ yang dapat kita gunakan untuk melakukan berbagai macam operasi matematis dan statistik yang lebih rumit.
+
+#### `integer`
+
+Sebuah `vector` dengan tipe `integer` pada dasarnya dapat digunakan untuk operasi matematis seperti `numeric`; namun, `vector` dengan tipe `integer` tidak dapat memiliki angka dibelakang koma:
+
+```{r}
+int_vec <- c(0L, 1L, 4L, 7L, 10L)
+
+int_vec
+```
+
+Karena bersifat seperti `numeric`, kita masih dapat menggunakan _function_ seperti `mean()` pada data `integer`:
+
+```{r}
+mean(int_vec)
+```
+
+Namun, _best practice_ dari penggunakan `integer` sendiri adalah **untuk menyimpan informasi yang bersifat _indexing_**, seperti menjadi _identifier_ untuk nomor pegawai, atau pun menandakan sesuatu yang bersifat kategori--kita akan membahas _use case_ ini lebih lanjut dalam bagian **`factor`**.
+
+#### `logical`
+
+`vector` dengan tipe `logical`, atau yang lebih dikenal dengan istilah _boolean_ pada bahasa pemrograman pada umummnya, lebih identik dengan keperluan pemrograman di R. Misalkan, kita mempunyai data terkait nama paket yang terdapat potongan harga:
+
+```{r}
+promo <- c(TRUE, FALSE, TRUE, TRUE)
+
+promo
+```
+
+Data tersebut bisa kita gunakan untuk _function_ yang terkait dengan pemgrograman, seperti `ifelse()`:
+
+```{r}
+paket_promo <- ifelse(promo, 50, 15)
+
+paket_promo
+```
+
+Namun, `logical` umumnya didapatkan dari operasi lain, ketimbang dibuat sendiri:
+
+```{r}
+paket_hist <- c(150, 15, 200, 175)
+
+# perintah di bawah memberi vector
+# yang sama dengan promo
+
+paket_hist >= 100
+```
+
+Sehingga, umumnya `logical` lebih sering digunakan secara langsung, ketimbang disimpan sebagai _object_ terlebih dahulu:
+
+```{r}
+paket_hist2 <- ifelse(paket_hist >= 100, 50, 15)
+
+paket_hist2
+```
+
+### _Coercion_
+
+Mari kembali sejenak ke `vector1`. Hasil dari `class(vector1)` menunjukkan bahwa _object_ tersebut adalah sebuah `character` _vector_.
+
+```{r}
+class(vector1)
+```
+
+jika kita menambahkan data `2021` (sebuah data `numeric`), perhatikan yang terjadi pada `class` dari `vector1`:
+
+```{r}
+vector1 <- c(vector1, 2021)
+
+class(vector1)
+```
+
+Meskipun _object_ `2021` sendiri adalah `numeric`, karena aturan dasar terkait `class` yang sama, _object_ tersebut akan mengalami _coercion_ menjadi `character`, sehingga `vector1` masih mengikuti aturan dasar yang sama untuk sebuah `vector`, yaitu **hanya dapat menyimpan _object_ dengan `class` yang sama**:
+
+```{r}
+vector1
+```
+
+Seiring dengan contoh di atas, dalam _object_ `vector2`, jika kita tambahkan data `FALSE` (sebuah `logical`), perhatikan yang terjadi pada `class` dari `vector2`:
+
+```{r}
+vector2 <- c(vector2, FALSE)
+
+class(vector2)
+```
+Object_ `1` adalah sebuah `numeric` dan `FALSE` adalah sebuah `logical`; dan jika mengikuti aturan dasar yang telah dijelaskan sebelumnya, nilai `FALSE` akan mengalami _implicit coercion_ menjadi sebuah `numeric`:
+
+```{r}
+vector2
+```
+
+_Implicit coercion_ sendiri akan mengubah suatu tipe `vector`, ke tipe `vector` yang lebih _general_ dalam menjelaskan seluruh data dalam `vector` tersebut, dengan urutan: `logical` -> `integer` -> `numeric` -> `character` (dari kiri ke kanan menunjukkan semakin _general_).
+
+Jika kita ingin mengubah `class` suatu _object_, kita bisa melakukan _explicit coercion_ menggunakan _function_ dengan pola `as.*`:
+
+```{r}
+vector2_logical <- as.logical(vector2)
+
+vector2_logical
+
+class(vector2_logical)
+```
+
+### Tipe Data Lain
+
+Dalam pengolahan data di R, kita akan sering menggunakan beberapa tipe data yang lebih _advance_. Beberapa di antaranya yang seringkali akan kita gunakan adalah:
+
+* `factor`
+
+```{r}
+fctr <- c("Type A", "Type A", "Type B", "Type A", "Type C", "Type C")
+
+fctr <- as.factor(fctr)
+
+levels(fctr)
+```
+
+* `date`
+
+```{r}
+tanggal_pembuatan <- c("2021-01-01", "2021-01-01", "2021-01-02")
+
+tanggal_pembuatan <- as.Date(tanggal_pembuatan)
+
+tanggal_pembuatan
+```
+
+
+**Quiz 1:**
+
+Ingat bahwa sebuah `vector` hanya dapat menampung data dengan `class` yang sama.
+
+Perhatikan kode berikut:
+
+```{r}
+quiz1 <- c(c(FALSE, "True"), c(4, "False"), c(1L, FALSE))
+```
+
+1. Apakah `class` akhir dari _object_ `quiz1`?
+2. Berapakah jumlah data pada `quiz1`?
+3. Berapakah jumlah kejadian _implicit coercion_ pada data di atas?
+
+### Matrix
+
+`matrix` merupakan salah satu cara di R untuk menyimpan data dalam bentuk _object_. Pada dasarnya, **`matrix` memiliki sifat yang sama dengan `character`, yaitu hanya dapat menyimpan data dengan `class` yang sama**. Untuk membuat sebuah `matrix`, kita dapat menggunakan function `matrix()`:
+
+```{r}
+mat <- matrix(11:16, nrow = 3, ncol = 2)
+
+mat
+```
+
+Perhatikan bagaimana nilai dalam sebuah `matrix` terisi; `matrix` akan terisi secara _by row_ karena parameter `byrow` yang bernilai `FALSE` secara _default_. Nilai dalam sebuah `matrix` akan terisi dari indeks `[1, 1]`--dapat dibaca sebagai `[row index, column index]`--yang merupakan nilai paling kiri atas.
+
+Untuk melihat dimensi dari `matrix`--yang akan sangat berguna untuk kita akses menggunakan `[row index, column index]`--, kita dapat menggunakan _function_ `dim()`:
+
+```{r}
+dim(mat)
+```
+
+Mari kita coba untuk mengakses data dengan:
+
+* _row index_ nomor 1
+
+```{r}
+mat[1, ]
+```
+
+* _column index_ nomor 2
+
+```{r}
+mat[, 2]
+```
+
+* _row index_ nomor 1 dan _column index_ nomor 2
+
+```{r}
+mat[1, 2]
+```
+
+### List
+
+Dalam `vector` dan `matrix`, kita hanya bisa menggunakan data dengan `class` yang homogen. Jika kita ingin menyimpan beberapa data dengan `class` yang berbeda, kita bisa menggunakan `list`:
+
+```{r}
+our_list <- list(c(TRUE, FALSE), "TRUE", c(1, 6, 12), 1L)
+
+our_list
+```
+
+Seperti yang dapat kita lihat di atas, sebuah `list` dapat menyimpan _object_ dengan tipe yang berbeda, dan juga memperbolehkan masing-masing _object_ di dalamnya untuk memiliki `length` yang berbeda juga. Seperti `vector`, sebuah `list` hanya memiliki 1 dimensi; namun jika kita mengakses data di dalamnya menggunakan `[]`, kita masih akan mendapatkan `object` dengan `class` berupa `list`:
+
+```{r}
+class(our_list[3])
+```
+
+Untuk mengakses _vector_ yang ada di dalamnya, maka kita bisa menggunakan `[[]]`:
+
+```{r}
+class(our_list[[3]])
+```
+
+### Data Frames
+
+Dalam pengolahan data, seringkali kita akan dihadapkan dengan data berbentuk tabel; seperti hasil sebuah survei aktivitas setiap pegawai, atau hasil rekapitulasi penjualan dari masing-masing toko. Umumnya, data dengan bentuk seperti ini akan memiliki 2 dimensi, yaitu _row_--untuk menggambarkan setiap observasi--dan _column_--untuk menggambarkan setiap variabel dari data kita.
+
+Untuk merepresentasikan data yang berbentuk seperti itu, kita bisa menggunakan _object_ dengan `class` bertipe `data.frame`. Sebagai contoh, kita bisa membuat data dengan `class` tersebut menggunakan _function_ `data.frame()`:
+
+```{r}
+sample_lpse <- data.frame(
+  id = 111:113,
+  namapaket = c("Pengadaan Jasa Kebersihan Gedung",
+                "Pengadaan Jasa Cleaning Service",
+                "Pengadaan Jasa Sewa Mesin Foto Copy")
+  )
+
+sample_lpse
+```
+
+Karena tujuan utama dari penggunaan `data.frame()` adalah untuk pengolahan data, maka kita akan sering menggunakan _subsetting_ untuk mengakses _row_ atau _column_ tertentu. Untuk sekedar memilih data tertentu, kita bisa menggunakan `[row index, column index]` seperti yang telah kita lakukan pada `matrix`:
+
+```{r}
+sample_lpse[1, ]
+```
+
+Cara lain untuk mengakses data di dalam sebuah `data.frame` adalah menggunakan operator `$`. Dengan menggunakan pendekatan ini, kita bisa mengakses sebuah kolom pada `data.frame` sebagai sebuah `vector`:
+
+```{r}
+sample_lpse$namapaket
+```
+
+Dengan menggunakan pendekatan yang sama, kita juga bisa memperbarui data yang ada di dalam suatu kolom. Misalkan, untuk memperbarui data pada kolom `category_id`, kita bisa meng-_assign_ data baru pada kolom yang kita akses menggunakan `$`:
+
+```{r}
+sample_lpse$id <- sample_lpse$id + 1
+```

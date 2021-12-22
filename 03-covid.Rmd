@@ -1,0 +1,276 @@
+---
+title: Visualisasi Data Covid (Series Data)
+author: Team Laboratorium Biro TI
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    number_sections: true
+    theme: united
+    highlight: espresso
+    fig_width: 10
+    fig_height: 4
+    df_print: paged
+    code_folding: hide
+    #mathjax: null
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+
+options(scipen = 9999)
+```
+
+# Init Data
+
+## Library
+
+```{r}
+library(jsonlite)
+library(dplyr)
+```
+
+## Load Data
+```{r, eval=FALSE, echo=FALSE}
+raw_covid <- fromJSON("https://data.covid19.go.id/public/api/update.json?_=1633270817098")
+```
+
+```{r, eval=FALSE, echo=FALSE}
+write(toJSON(raw_covid, pretty = TRUE), "./data/data_covid.json")
+```
+
+```{r}
+raw_covid <- fromJSON("./data/data_covid.json")
+str(raw_covid, max.level = 2)
+```
+
+
+## Describe Data
+
+**Show Data**
+
+```{r}
+str(raw_covid$update, max.level = 2)
+```
+
+**Check Class Data**
+```{r}
+class(raw_covid$update$harian)
+```
+
+**Get Data**
+```{r}
+df_covid <- raw_covid$update$harian
+
+head(df_covid)
+```
+
+**Show Jumlah Positif**
+
+```{r}
+str(raw_covid$update$harian$jumlah_positif)
+```
+
+
+**Clean Data**
+
+```{r}
+df_merge <- data.frame(
+  as.Date(df_covid$key_as_string),
+  df_covid$jumlah_positif,
+  df_covid$jumlah_dirawat,
+  df_covid$jumlah_sembuh,
+  df_covid$jumlah_meninggal)
+
+names(df_merge) <- c('Dates','Positif','Dirawat','Sembuh','Meninggal')
+
+df_merge
+```
+
+
+```{r}
+glimpse(df_merge)
+tail(df_merge)
+
+```
+
+# Visualise Data
+
+## Library
+```{r}
+library(plotly)
+library(glue)
+```
+
+
+## Base Chart
+
+```{r}
+fig <- plot_ly(df_merge, type = 'scatter', mode = 'lines')
+fig
+```
+
+## Add Series Data
+
+```{r}
+fig <- fig %>% 
+# Add Kasus Positif
+  add_trace(x = ~Dates, y = ~Positif, name = 'POSITIF')%>%
+  
+  # Add Kasus Sembuh
+  add_trace(x = ~Dates, y = ~Sembuh, name='SEMBUH')%>%
+  
+  # Add Kasus Meninggal
+  add_trace(x = ~Dates, y = ~Meninggal, name='MENINGGAL')
+fig
+```
+
+## Layout
+
+### X, Y Axis and Title
+
+```{r}
+fig <- fig %>% 
+  layout(
+    xaxis = list(title  = "Tanggal"),
+    
+    yaxis = list(title = "Kasus (Ribu)"),
+    
+    title=glue("Time Series Update Covid-19 in Indonesia \n Update at: {raw_covid$update$penambahan$created} WIB")
+    
+  )
+fig
+```
+
+### Legend Orientation
+
+```{r}
+fig <- fig %>% 
+  layout(
+    legend = list(orientation = 'h', x = 0.4, y = 0.93)
+  )
+fig
+```
+
+### Slide Date
+
+```{r, fig.height=8}
+fig <- fig %>% 
+  layout(
+     xaxis = list(
+      rangeslider = list(visible = T)
+     )
+  )
+fig
+```
+
+
+### Custom Filter
+
+```{r, fig.height=8}
+fig <- fig %>% 
+  layout(
+    xaxis = list(
+      rangeselector=list(
+        buttons=list(
+          list(count=7, label="7w", step="day", stepmode="backward"),
+          list(count=1, label="1m", step="month", stepmode="backward"),
+          list(count=6, label="6m", step="month", stepmode="backward"),
+          list(count=1, label="YTD", step="year", stepmode="todate"),
+          list(count=1, label="1y", step="year", stepmode="backward"),
+          list(step="all")
+          )
+        )
+      )
+  )
+fig
+```
+
+
+## Final Code (Merge)
+
+```{r, fig.height=8}
+fig <- 
+  # Base Ploylt
+  plot_ly(df_merge, type = 'scatter', mode = 'lines')%>%
+  
+  # Add Kasus Positif
+  add_trace(x = ~Dates, y = ~Positif, name = 'POSITIF')%>%
+  
+  # Add Kasus Sembuh
+  add_trace(x = ~Dates, y = ~Sembuh, name='SEMBUH')%>%
+  
+  # Add Kasus Meninggal
+  add_trace(x = ~Dates, y = ~Meninggal, name='MENINGGAL')%>%
+  
+  # Change Layout
+  layout(
+    
+    # X-Axis
+    xaxis = list(
+      
+      # Title X
+      title  = "Tanggal",
+      
+      # Add Slider
+      rangeslider = list(visible = T),
+      
+      # Add Custom Selector Date
+      rangeselector=list(
+        buttons=list(
+          list(count=7, label="7w", step="day", stepmode="backward"),
+          list(count=1, label="1m", step="month", stepmode="backward"),
+          list(count=6, label="6m", step="month", stepmode="backward"),
+          list(count=1, label="YTD", step="year", stepmode="todate"),
+          list(count=1, label="1y", step="year", stepmode="backward"),
+          list(step="all")
+          )
+        )
+      ),
+    
+    # Y-Axis
+    yaxis = list(title = "Kasus (Ribu)"),
+    
+    # Change Legend Label
+    legend = list(orientation = 'h', x = 0.4, y = 0.93),
+    
+    # Add Title Chart
+    title=glue("Time Series Update Covid-19 in Indonesia \n Update at: {raw_covid$update$penambahan$created} WIB")
+    
+  )
+
+fig
+```
+
+## Optional (Draw Background)
+
+```{r, fig.height=8, fig.width=12}
+fig <- fig %>%
+  layout(
+    xaxis = list(zerolinecolor = '#ffff',
+                 zerolinewidth = 2,
+                 gridcolor = 'ffff'),
+    yaxis = list(zerolinecolor = '#ffff',
+                 zerolinewidth = 2,
+                 gridcolor = 'ffff'),
+    plot_bgcolor='#e5ecf6', margin = 0.1)
+
+fig
+```
+
+
+# Referensi
+
+- https://plotly-r.com/overview.html
+- https://plotly.com/r/line-and-scatter/
+- https://dashboard.bpk.go.id/app/covid

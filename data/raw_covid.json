@@ -1,0 +1,342 @@
+[
+  {
+    "key": "DKI JAKARTA",
+    "jumlah_kasus": 864454,
+    "jumlah_sembuh": 850491,
+    "jumlah_meninggal": 13601,
+    "lokasi": {
+      "lon": 106.8361,
+      "lat": -6.2047
+    }
+  },
+  {
+    "key": "JAWA BARAT",
+    "jumlah_kasus": 708415,
+    "jumlah_sembuh": 692757,
+    "jumlah_meninggal": 14745,
+    "lokasi": {
+      "lon": 107.6037,
+      "lat": -6.9204
+    }
+  },
+  {
+    "key": "JAWA TENGAH",
+    "jumlah_kasus": 486682,
+    "jumlah_sembuh": 455216,
+    "jumlah_meninggal": 30253,
+    "lokasi": {
+      "lon": 110.2011,
+      "lat": -7.2591
+    }
+  },
+  {
+    "key": "JAWA TIMUR",
+    "jumlah_kasus": 399766,
+    "jumlah_sembuh": 369876,
+    "jumlah_meninggal": 29717,
+    "lokasi": {
+      "lon": 112.7329,
+      "lat": -7.7233
+    }
+  },
+  {
+    "key": "KALIMANTAN TIMUR",
+    "jumlah_kasus": 158280,
+    "jumlah_sembuh": 152795,
+    "jumlah_meninggal": 5451,
+    "lokasi": {
+      "lon": 116.4684,
+      "lat": 0.4539
+    }
+  },
+  {
+    "key": "DAERAH ISTIMEWA YOGYAKARTA",
+    "jumlah_kasus": 156931,
+    "jumlah_sembuh": 151286,
+    "jumlah_meninggal": 5265,
+    "lokasi": {
+      "lon": 110.4449,
+      "lat": -7.8945
+    }
+  },
+  {
+    "key": "BANTEN",
+    "jumlah_kasus": 132751,
+    "jumlah_sembuh": 129963,
+    "jumlah_meninggal": 2691,
+    "lokasi": {
+      "lon": 106.109,
+      "lat": -6.4567
+    }
+  },
+  {
+    "key": "RIAU",
+    "jumlah_kasus": 128865,
+    "jumlah_sembuh": 124393,
+    "jumlah_meninggal": 4110,
+    "lokasi": {
+      "lon": 101.8051,
+      "lat": 0.5116
+    }
+  },
+  {
+    "key": "BALI",
+    "jumlah_kasus": 114311,
+    "jumlah_sembuh": 110112,
+    "jumlah_meninggal": 4052,
+    "lokasi": {
+      "lon": 115.1317,
+      "lat": -8.3695
+    }
+  },
+  {
+    "key": "SULAWESI SELATAN",
+    "jumlah_kasus": 109952,
+    "jumlah_sembuh": 107674,
+    "jumlah_meninggal": 2240,
+    "lokasi": {
+      "lon": 120.1621,
+      "lat": -3.7311
+    }
+  },
+  {
+    "key": "SUMATERA UTARA",
+    "jumlah_kasus": 106087,
+    "jumlah_sembuh": 103121,
+    "jumlah_meninggal": 2889,
+    "lokasi": {
+      "lon": 99.052,
+      "lat": 2.1919
+    }
+  },
+  {
+    "key": "SUMATERA BARAT",
+    "jumlah_kasus": 89865,
+    "jumlah_sembuh": 87675,
+    "jumlah_meninggal": 2152,
+    "lokasi": {
+      "lon": 100.4651,
+      "lat": -0.8503
+    }
+  },
+  {
+    "key": "KALIMANTAN SELATAN",
+    "jumlah_kasus": 69939,
+    "jumlah_sembuh": 67533,
+    "jumlah_meninggal": 2391,
+    "lokasi": {
+      "lon": 115.4386,
+      "lat": -2.9936
+    }
+  },
+  {
+    "key": "NUSA TENGGARA TIMUR",
+    "jumlah_kasus": 64168,
+    "jumlah_sembuh": 62663,
+    "jumlah_meninggal": 1345,
+    "lokasi": {
+      "lon": 121.5923,
+      "lat": -8.6822
+    }
+  },
+  {
+    "key": "SUMATERA SELATAN",
+    "jumlah_kasus": 59966,
+    "jumlah_sembuh": 56852,
+    "jumlah_meninggal": 3071,
+    "lokasi": {
+      "lon": 104.1695,
+      "lat": -3.2162
+    }
+  },
+  {
+    "key": "KEPULAUAN RIAU",
+    "jumlah_kasus": 53895,
+    "jumlah_sembuh": 52125,
+    "jumlah_meninggal": 1748,
+    "lokasi": {
+      "lon": 108.2617,
+      "lat": 3.9163
+    }
+  },
+  {
+    "key": "KEPULAUAN BANGKA BELITUNG",
+    "jumlah_kasus": 52329,
+    "jumlah_sembuh": 50822,
+    "jumlah_meninggal": 1458,
+    "lokasi": {
+      "lon": 106.5499,
+      "lat": -2.4474
+    }
+  },
+  {
+    "key": "LAMPUNG",
+    "jumlah_kasus": 49734,
+    "jumlah_sembuh": 45314,
+    "jumlah_meninggal": 3872,
+    "lokasi": {
+      "lon": 105.0214,
+      "lat": -4.9168
+    }
+  },
+  {
+    "key": "SULAWESI TENGAH",
+    "jumlah_kasus": 47201,
+    "jumlah_sembuh": 45541,
+    "jumlah_meninggal": 1603,
+    "lokasi": {
+      "lon": 121.2011,
+      "lat": -1.0041
+    }
+  },
+  {
+    "key": "KALIMANTAN TENGAH",
+    "jumlah_kasus": 45642,
+    "jumlah_sembuh": 44160,
+    "jumlah_meninggal": 1430,
+    "lokasi": {
+      "lon": 113.4177,
+      "lat": -1.6025
+    }
+  },
+  {
+    "key": "KALIMANTAN BARAT",
+    "jumlah_kasus": 41617,
+    "jumlah_sembuh": 40509,
+    "jumlah_meninggal": 1063,
+    "lokasi": {
+      "lon": 111.1212,
+      "lat": -0.0865
+    }
+  },
+  {
+    "key": "ACEH",
+    "jumlah_kasus": 38424,
+    "jumlah_sembuh": 36351,
+    "jumlah_meninggal": 2066,
+    "lokasi": {
+      "lon": 96.9105,
+      "lat": 4.2256
+    }
+  },
+  {
+    "key": "KALIMANTAN UTARA",
+    "jumlah_kasus": 35901,
+    "jumlah_sembuh": 35067,
+    "jumlah_meninggal": 811,
+    "lokasi": {
+      "lon": 116.2189,
+      "lat": 2.891
+    }
+  },
+  {
+    "key": "SULAWESI UTARA",
+    "jumlah_kasus": 34762,
+    "jumlah_sembuh": 33585,
+    "jumlah_meninggal": 1062,
+    "lokasi": {
+      "lon": 124.5212,
+      "lat": 1.2596
+    }
+  },
+  {
+    "key": "PAPUA",
+    "jumlah_kasus": 34358,
+    "jumlah_sembuh": 33653,
+    "jumlah_meninggal": 560,
+    "lokasi": {
+      "lon": 138.696,
+      "lat": -4.6662
+    }
+  },
+  {
+    "key": "JAMBI",
+    "jumlah_kasus": 29777,
+    "jumlah_sembuh": 28973,
+    "jumlah_meninggal": 790,
+    "lokasi": {
+      "lon": 102.7236,
+      "lat": -1.6977
+    }
+  },
+  {
+    "key": "NUSA TENGGARA BARAT",
+    "jumlah_kasus": 27791,
+    "jumlah_sembuh": 26896,
+    "jumlah_meninggal": 815,
+    "lokasi": {
+      "lon": 117.5086,
+      "lat": -8.607
+    }
+  },
+  {
+    "key": "PAPUA BARAT",
+    "jumlah_kasus": 23464,
+    "jumlah_sembuh": 22783,
+    "jumlah_meninggal": 357,
+    "lokasi": {
+      "lon": 132.9763,
+      "lat": -2.0452
+    }
+  },
+  {
+    "key": "BENGKULU",
+    "jumlah_kasus": 23105,
+    "jumlah_sembuh": 22626,
+    "jumlah_meninggal": 473,
+    "lokasi": {
+      "lon": 102.3384,
+      "lat": -3.5336
+    }
+  },
+  {
+    "key": "SULAWESI TENGGARA",
+    "jumlah_kasus": 20166,
+    "jumlah_sembuh": 19600,
+    "jumlah_meninggal": 527,
+    "lokasi": {
+      "lon": 122.0703,
+      "lat": -4.1247
+    }
+  },
+  {
+    "key": "MALUKU",
+    "jumlah_kasus": 14589,
+    "jumlah_sembuh": 14322,
+    "jumlah_meninggal": 262,
+    "lokasi": {
+      "lon": 129.5768,
+      "lat": -3.1926
+    }
+  },
+  {
+    "key": "SULAWESI BARAT",
+    "jumlah_kasus": 12359,
+    "jumlah_sembuh": 12007,
+    "jumlah_meninggal": 346,
+    "lokasi": {
+      "lon": 119.345,
+      "lat": -2.4617
+    }
+  },
+  {
+    "key": "MALUKU UTARA",
+    "jumlah_kasus": 12105,
+    "jumlah_sembuh": 11797,
+    "jumlah_meninggal": 303,
+    "lokasi": {
+      "lon": 127.5391,
+      "lat": 0.212
+    }
+  },
+  {
+    "key": "GORONTALO",
+    "jumlah_kasus": 11841,
+    "jumlah_sembuh": 11376,
+    "jumlah_meninggal": 460,
+    "lokasi": {
+      "lon": 122.3761,
+      "lat": 0.687
+    }
+  }
+]

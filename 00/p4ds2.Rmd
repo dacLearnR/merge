@@ -1,0 +1,453 @@
+---
+title: "Programming for Data Science - Part 2"
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    number_sections: yes
+    toc: yes
+    toc_depth: 3
+    toc_float:
+      collapsed: false
+    df_print: paged
+    theme: flatly
+    highlight: pygment
+    css: assets/style.css
+  pdf_document:
+    toc: yes
+    toc_depth: '2'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+
+options(scipen = 9999)
+```
+
+# _Wrangling_/Persiapan Data
+
+Anda perlu memastikan data Anda direpresentasikan dalam bentuk yang benar. Proses ini mungkin menghabiskan sebagian besar waktu Anda, tetapi dengan mengetahui bentuk data yang Anda inginkan untuk dianalisis, dapat membantu Anda menghemat banyak waktu di masa mendatang.
+
+Untuk persiapan data, R menyediakan berbagai _function_ yang dapat kita gunakan untuk mengolah dataset yang kita miliki; mulai dari meng-_import_ dataset, hingga melakukan agregasi yang kompleks.
+
+Seiring dengan perkembangan _extensions_ di R, kita juga bisa menggunakan beberapa _package_ yang saat ini dianggap sebagai _best practice_ dalam pengolahan data menggunakan R; dan hampir seluruh _package_ tersebut termasuk di dalam _package_ **`tidyverse`**. Tidyverse sebenarnya adalah sekumpulan paket yang menurut saya sangat membantu dalam tugas analisis data apa pun; banyak dari mereka sudah populer di kalangan pengguna R.
+
+Untuk menambahkan _package_ `tidyverse`, kita bisa menggunakan _function_ `install.packages()`:
+
+```{r, eval=FALSE}
+install.packages("tidyverse")
+```
+
+Dan untuk memanggil _package_ `tidyverse`, kita bisa menggunakan _function_ `library()`:
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+```
+
+**_Note_:** untuk melihat _package_ apa saja yang ter-_import_ di dalam _session_ yang kita gunakan, kita bisa menggunakan _function_ `sessionInfo()`.
+
+## Mengimpor Data ke R
+
+Untuk memulai analisis data menggunakan R , terlebih dahulu dapat dilakukan proses import dataset yang dimiliki dan kemudian disiman sebagai objek yang nantinya dikenali oleh _environment_. 
+
+Sebagai contoh, kita akan menggunakan data `LPSEKemenkeu` (yang terletak di dalam folder `data/`). Untuk mengimpor data tersebut, kita akan menggunaan `read_csv()` dari _package_ [`readr`](readr.tidyverse.org){target="_blank"}:
+
+
+```{r}
+lpse_kemenkeu <- read_csv(file = "data/LPSEKemenkeu.csv")
+
+head(lpse_kemenkeu)
+```
+
+Pada baris pertama digunakan fungsi `read_csv()` untuk import data yang terletak di folder `data/LPSEKemenkeu.csv`. Kemudian baris kedua digunakan fungsi `head` untuk melihat 6 data teratas yang dimiliki. Untuk melihat 6 data terbawah maka fungsi yang tepat adalah `tail()`. Secara default fungsi ini akan memunculkan 6 baris data. Untuk mengubah nilai defaultnya, dapat ditambahkan parameter setelah dataframe di dalam fungsi `head()` seperti berikut:
+
+```{r}
+head(lpse_kemenkeu, 10)
+```
+
+Secara _default_, _function_ `read_*` dari _package_ `readr` akan mencoba untuk mendeteksi tipe data dari setiap kolom. Kita bisa menggunakan _function_ `glimpse()` untuk mengkonfirmasi hal tersebut:
+
+```{r}
+glimpse(lpse_kemenkeu)
+```
+
+Fungsi `glimpse()` bertujuan untuk merangkum tiap struktur objek dari R. Pada R, _row_ didefinisikan sebagai **observasi** dan _column_ sebagai **variable**.  Berdasarkan hasil di atas kita dapat mengetahui bahwa jumlah observasi dari data sebanyak 4500 dan jumlah kolomnya sebanyak 10. Cara lain untuk periksa jumlah baris dan jumlah kolom dengan R, kita dapat menggunakan fungsi `dim()`
+
+```{r}
+dim(lpse_kemenkeu)
+```
+
+## Deteksi _Missing Value_
+
+Ketika data yang dimiliki dari excel dan akan dibaca di R, umumnya akan ada beberapa karakter yang memiliki nilai:
+
+* `-`
+* `NA`
+* `NULL`
+* `Unknown`
+
+yang mana karakter-karakter itu merupakan informasi jika baris yang dimaksud tidak ada nilainya. Untuk menangani hal tersebut, beberapa karakter itu dapat diubah menjadi nilai `NA` sesuai dengan format _missing value_ di R. Kita cukup menambahkan argumen `na = c("NULL", "NA", " - ", ""` pada fungsi `read_csv()`. Mengapa perlu demikian, karena pembacaan nilai itu akan dianggap sebagai karakter oleh R dan R akan melakukan koersi implisit terhadap kolom yang memiliki nilai-nilai tersebut.
+
+```{r}
+lpse_kemenkeu <- read_csv(file = "data/LPSEKemenkeu.csv", na = c("NULL", "NA", " - ", ""))
+```
+
+Kita dapat melakukan pemeriksaan terhadap nilai `NA` atau _missing value_ yang ada di dalam data dengan menggunakan fungsi `anyNA()`. Kita akan mendapatkan nilai `TRUE` atau `FALSE` tergantung ada tidaknya nilai `NA` dalam data frame.
+
+```{r}
+anyNA(lpse_kemenkeu)
+```
+
+output dari fungsi di atas adalah `TRUE` artinya ada _missing value_ pada data frame. Untuk memeriksa banyaknya jumlah data yang hilang pada setiap kolom dapat digunakan gabungan dari fungsi `is.na()` dan `colSums()`.
+
+```{r}
+colSums(is.na(lpse_kemenkeu))
+```
+
+Berdasarkan hasil output fungsi di atas, kita dapat mengetahui nilai `NA` ada pada variabel:
+
+* `hps`: sebanyak 1 baris
+* `nilaitawar`: sebanyak 191 baris
+* `nilaiterkoreksi`: sebanyak 1225 baris.
+
+```{r}
+# membuang na pada setiap baris
+
+lpse_kemenkeu <- na.omit(lpse_kemenkeu)
+```
+
+
+Untuk memeriksa berapa banyak baris yang memiliki data lengkap, kita dapat menggunakan fungsi `complete.cases()` seperti di bawah ini:
+
+```{r}
+nrow(lpse_kemenkeu[complete.cases(lpse_kemenkeu),])
+```
+
+Dari semua kolom, yang berkontribusi pada kasus yang tidak kita perlukan sebenarnya hanya satu kolom `sumberlpse`. Kolom ini berisi informasi url sumber lpse yang hanya memuat satu informasi saja. 
+
+```{r}
+lpse_kemenkeu %>% 
+  count(sumberlpse)
+```
+
+Kali ini, kita akan menghilangkan kolom tersebut sehingga kita tidak akan khawatir tentang hal kolom tersebut dalam analisis kita. Ada banyak cara menanganani nilai yang hilang, menhilangkan kolom adalah salah satu opsi jika analisis baik-baik saja dengan kehilangan informasi tertentu.
+
+```{r}
+lpse_kemenkeu <- lpse_kemenkeu[,-10]
+
+glimpse(lpse_kemenkeu)
+```
+
+Karena berurusan dengan nilai-nilai yang hilang atau NAs (Mereka ide yang berbeda) adalah bagian dari pekerjaan sebenarnya di dalam data science, mari kita membahas beberapa cara untuk menghadapinya:
+
+* Analisis Complete-case (kelemahan dari pendekatan ini adalah kita membuang data)
+* Imputation (menarik nilai dari distribusi terkait untuk menggantikan yang hilang)
+
+Sebagai aturan praktis, saya sarankan menggunakan analisis _Complete-case_ jika kasus _non-Complete-case_ mewakili kurang dari 0,5% dari seluruh dataset. Sebagai alternatif, untuk variabel-variabel dengan keragaman yang rendah seperti data cuaca di Indonesia, saya juga melihat para analis mengasumsikan mean / median / mode untuk mengganti yang hilang. Namun, ini harus digunakan dengan hati-hati, karena Anda akan kehilangan banyak sinyal ketika Anda menerapkannya dengan variabel yang memiliki variabilitas tinggi (mis. analisis sentimen selama kampanye presiden atau data frekuensi penjualan barang). 
+
+Beberapa metode yang lebih maju untuk imputasi melibatkan membuat _model machine learning_ untuk memprediksi nilai yang hilang. Mari kita intip kembali apakah data kita masih mempunyai NA menggunakan colSums dan is.na() untuk dengan cepat memahami distribusi nilai yang hilang dalam data kita:
+
+```{r}
+colSums(is.na(lpse_kemenkeu))
+```
+
+
+## _Basic Grammar_ di `dplyr`
+
+Di bagian ini Anda harus membiasakan diri dengan sintaks %>% yang dikenal sebagai _piping_. Sintaks ini membantu Anda untuk meneruskan data dari satu fungsi ke fungsi berikutnya dan membuat tata bahasa transformasi data yang mudah dipahami. Untuk memulainya kita akan belajar 5 fungsi dasar library dengan menjawab pertanyaan bisnis:
+
+**Pada tahun dan bulan apa total Harga Perkiraan Sendiri (HPS) yang tertinggi untuk pengadaan barang/jasa di Kementerian Sosial?**
+
+```{r}
+lpse_kemenkeu <- read_csv(file = "data/lpse-edit.csv")
+
+
+glimpse(lpse_kemenkeu)
+```
+
+1. `select()`: membantu subset spesifik kolom dengan nama.
+
+```{r}
+lpse_kemenkeu %>% 
+  select(tanggal, kldi, hps) %>% 
+  head()
+```
+
+2. `mutate()`: membantu dalam membuat variable baru atau mengganti kolom yang ada.
+
+Kita akan coba mempraktikan fungsi `mutate()` dengan tujuan untuk ektraksi informasi bulan menggunakan library `lubridate` dari kolom `tanggal`.
+
+Package `lubridate` berfungsi untuk mem-parsing data dari kolom date kedalam bentuk kelas tanggal yang lebih cocok dengan data. lihat dokumentasi tentang package tersebut pada panel _help_, ketik `?lubridate` pada _Console._ Pada materi selanjutnya gunakan `?fungsiX/?namaPackage` untuk mempelajari subyek lebih dalam.
+
+```{r}
+library(lubridate)
+
+lpse_kemenkeu %>% 
+  select(tanggal, kldi, hps) %>% 
+  mutate(bulan = month(tanggal, label = TRUE),
+         tahun = year(tanggal)) %>% 
+  head()
+```
+
+3. `filter()`: Membantu anda melakukan penyaringan _row_ data yang anda butuhkan.
+
+Kita akan mendemokan subsetting baris dengan kondisi kldi Kementerian Sosial dan kondisi harga pagu di atas Rp 10 Milyar.
+
+```{r}
+lpse_kemenkeu %>% 
+  select(tanggal, kldi, hps) %>% 
+  mutate(bulan = month(tanggal, label = TRUE),
+         tahun = year(tanggal)) %>% 
+  filter(kldi == "Kementerian Sosial")
+```
+
+4. `group_by()` and `summarise()`: Membantu mengelompokan data frame dan meringkas berdasarkan kelompok.
+
+```{r}
+lpse_kemenkeu %>% 
+  select(tanggal, kldi, hps) %>% 
+  mutate(bulan = month(tanggal, label = TRUE),
+         tahun = year(tanggal)) %>% 
+  filter(kldi == "Kementerian Sosial") %>% 
+  group_by(tahun, bulan) %>% 
+  summarise(total_hps = sum(hps)) %>% 
+  head()
+```
+
+5. `arrange()`: mengatur/ melakukan penyortiran data.
+
+```{r}
+lpse_kemenkeu %>% 
+  select(tanggal, kldi, hps) %>% 
+  mutate(bulan = month(tanggal, label = TRUE),
+         tahun = year(tanggal)) %>% 
+  filter(kldi == "Kementerian Sosial") %>% 
+  group_by(tahun, bulan) %>% 
+  summarise(total_hps = sum(hps)) %>% 
+  arrange(desc(total_hps)) %>% 
+  head()
+```
+
+**Penjabaran**
+
+* Pertama-tama, Anda harus mulai membiasakan diri dengan operator %>%. Ini berasal dari paket [magrittr] (https://magrittr.tidyverse.org) {target =” _blank ”}, dan banyak digunakan dalam tidyverse untuk mengaitkan proses manipulasi data.
+* Proses pertama dimulai dengan `select` untuk memilih kolom. 
+* `mutate()`. Fungsi ini untuk membuat atau memanipulasi data secara kolumnar; misalnya, karena tujuan kita terkait dengan variabel tahun dan bulan. tetapi kita tidak memilikinya di awal, kita dapat membuat variabel tersebut menggunakan `mutate()`. Perhatikan bahwa ini juga menunjukkan betapa mudahnya menggabungkan proses pembuatan / manipulasi variabel dengan fungsi lainnya - seperti fungsi year() dari paket lubridate untuk mengekstraksi tahun dari variabel tanggal.
+* Proses kedua adalah `filter()`. Jika kita merujuk kembali ke tujuan kita, kita hanya tertarik pada Kementerian Sosial, jadi kita perlu **menyaring** sisanya. Di sinilah `filter()` berguna. Fungsi ini berfungsi seperti pencocokan kondisi yang biasa kita pelajari sebelumnya.
+* Bagian selanjutnya adalah proses agregasi, menggunakan `group_by()` dan `summarise()`. `Group_by()` digunakan untuk mendeklarasikan variabel grup, yang akan digunakan oleh `summarise()` untuk melakukan proses agregasi informasi statistik apapun. 
+* Yang terakhir namun tidak kalah pentingnya, kita dapat memadukannya dengan `arrange()` untuk membantu kita mengurutkan variabel total. Dalam contoh di atas, saya menggunakan fungsi `desc()` untuk menyatakan bahwa proses pengurutan menurun.
+
+Masih banyak fungsi di dplyr dan tidyverse yang bisa kita jelajahi. Jika Anda tertarik untuk mempelajari lebih lanjut tentang fungsinya, Anda dapat memeriksa pengantar artikel ini berikut: [Data Wars: Episode IV](https://algotech.netlify.app/blog/data-wars-episode-iv/)
+
+
+# Menghasilkan Laporan dari RMarkdown
+
+Seringkali pengguna perlu membuat laporan bisnis dalam berbagai format. Misalnya, Seseorang membutuhkan laporannya untuk dibagikan dengan rekan satu timnya dalam format _Dokumen Word_, beberapa lainnya meminta lebih banyak interaktivitas dan kemudahan untuk mengakses melalui browser sehingga mereka meminta Dokumen _HTML_. Ia juga membutuhkan satu untuk dicetak menggunakan PDF dan satu untuk dipresentasikan di depan dewan/anggota tim dalam Presentasi _PowerPoint_ Interaktif. Permintaan yang paling tidak terduga kemudian datang dari atasannya yang menginginkan laporannya dipublikasikan dalam bentuk _Interactive Dashboard_, sehingga Ia dapat dengan mudah mengaksesnya begitu pula rekan-rekannya dan departemen lainnya. Banyak sekali yang harus dilakukan dan dibuat! Seseorang mungkin terlalu fokus untuk memoles hanya satu laporan bisnis untuk setiap format yang diminta daripada dalam mengembangkan analisis mendalam tentang kasus/proyek yang perlu Dia analisis.
+
+Pada bagian ini di mana R Markdown dapat membantu! R Markdown menawarkan berbagai output dengan hanya menggunakan satu file diantaranya _HTML Document, PDF, Word Document_, dan _Interactive PowerPoint Presentation_ yang banyak digunakan untuk laporan bisnis (dan akan dibahas pada bagian ini). Selain itu, R Markdown juga mendukung format termasuk dashboard interaktif, situs web, buku, dan lainnya yang dapat Anda jelajahi [di sini](https://rmarkdown.rstudio.com/lesson-9.html).
+
+Kita dapat menentukan output yang diinginkan dengan memilih format di pop-up yang muncul saat pertama kali membuat file R Markdown baru. Jika kita klik tab _Presentation_ maka akan terlihat beberapa format presentasi. Jika kita mengklik tab _Shiny_, kita dapat memilih antara mengembangkan dokumen atau presentasi interaktif. 
+
+Ketika kita memilih sebuah output, R Markdown akan secara otomatis menentukan output tersebut dalam pilihan output dari YAML kita. Misalnya, dummy.Rmd yang kita buat sebelumnya mengambil output _html_document_. Di bawah ini adalah sekilas YAML dari `dummy.Rmd` yang kita buat tadi.
+
+```
+title: "BPK RI: Data Visualization & NLP"
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    toc: true
+```
+
+Ketika kita _knit_ dokumen kita, R secara otomatis akan membuat output pertama yang ditentukan yang dinyatakan dalam opsi YAML kita (dalam hal ini Dokumen HTML). Kita juga bisa langsung membuat format lain dengan mengklik menu dropdown tombol Knit, dan memilih output yang tersedia. Misalnya, jika kita memilih output PDF maka PDF ini akan dihasilkan:
+
+```{r echo=FALSE, out.width="90%"}
+knitr::include_graphics(path = "assets/p4ds/yaml.png")
+```
+
+Ketika kita melihat kembali ke opsi YAML, R secara otomatis menambahkan output: pdf_document sebagai hasilnya, lengkap dengan opsi fitur default.
+
+```{r echo=FALSE, out.width="90%"}
+knitr::include_graphics(path = "assets/p4ds/pdf_output.png")
+```
+
+YAML dalam Rmarkdown memungkinkan pengguna untuk menentukan **lebih dari satu format output untuk dokumen R Markdown** miliknya. Selain itu, pengguna juga dapat **secara bersamaan menyesuaikan tampilan untuk semua output** yang diinginkan hanya dengan menggunakan satu dokumen. Ini cukup menguntungkan karena pengguna tidak perlu menghabiskan banyak waktu untuk menyesuaikan satu per satu untuk setiap output tertentu di masing-masing sotfware. Mengapa tidak menggunakan waktu yang begitu berharga dengan sesuatu yang sangat penting.
+
+Kita telah memahami bahwa ada berbagai output yang dapat dibuat oleh R Markdown. Setiap output dan formatnya dapat disetel di dalam YAML R Markdown. Selanjutnya kita akan membahas empat output yang biasa kita gunakan untuk membuat laporan bisnis dan cara membuatnya menggunakan dokumen R Markdown yang telah kita buat sebelumnya.
+
+
+## Dokumen HTML
+
+Dokumen HTML adalah output default dari dokumen R Markdown. `Dummy.Rmd` yang kita buat sebelumnya adalah contoh output Dokumen HTML. Selain memilih output HTML di pop-up “create new R Markdown”. Kita juga dapat mengatur output secara manual dalam YAML.
+
+```
+title: 'BPK RI: Data Visualization & NLP'
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: html_document:
+```
+
+Contoh YAML di atas akan menghasilkan output dokumen HTML default, tanpa tema atau fitur tertentu seperti floating table of content. Saat kita ingin menentukan tema dan fitur, kita dapat menambahkan opsi YAML seperti yang telah kita diskusikan di bagian sebelumnya “Template Laporan menggunakan YAML”.
+
+```
+title: 'BPK RI: Data Visualization & NLP'
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    toc: true
+    toc_depth: 3
+    toc_float:
+      collapsed: false  
+      smooth_scroll: true
+    number_sections: true
+    theme: united
+    highlight: breezedark
+    fig_width: 6
+    fig_height: 4
+    df_print: paged
+    code_folding: hide
+```
+
+## PDF
+
+Untuk membuat output PDF, kita dapat membuat R Markdown baru dan memilih output untuk PDF atau secara manual mengatur output: `pdf_document` di YAML. Karena banyak fitur dokumen HTML berlaku untuk output PDF, lebih baik jika kita menambahkan output secara manual di YAML jika kita mengerjakan banyak output. Setelah itu knit bisa dilakukan untuk output PDF. Sebagai contoh,
+
+```
+title: 'BPK RI: Data Visualization & NLP'
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+  pdf_document:
+    toc: true
+```
+
+Perhatikan bahwa indentasi untuk `pdf_document` sejajar dengan `html_document` output lainnya. Opsi YAML untuk fitur di setiap outputq juga dapat ditentukan secara manual.
+
+### Fitur PDF
+
+Banyak fitur yang tersedia dalam dokumen HTLM juga tersedia dalam PDF dan dapat diatur dalam YAML. Itu adalah daftar isi dan kedalamannya (default ke 3), bagian angka, opsi gambar, dan penyorotan sintaks. Fitur lain seperti pengaturan font, margin dokumen, dan jenis kutipan tertentu dapat dieksplorasi lebih lanjut [di sini](https://bookdown.org/yihui/rmarkdown/pdf-document.html#pdf-document).
+
+### Data Display
+
+Menampilkan data atau tabel dalam PDF sangat berbeda dengan di HTML. Sementara dokumen HTML bisa menggunakan `df_print: paged`, PDF tidak bisa. Ini karena keterbatasan output statis yang dimiliki PDF. Pilihan yang tersedia untuk menampilkan data dalam keluaran PDF adalah default, `kable` dan `tibble`, sedangkan `kable` menawarkan tampilan yang lebih rapi dibandingkan dengan yang lain. Di bawah ini adalah contoh data yang ditampilkan menggunakan opsi kable.
+
+```
+title: 'BPK RI: Data Visualization & NLP'
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output:
+  pdf_document:
+    toc: yes
+    df_print: kable
+```
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/kable.png")
+```
+
+## Word
+
+Untuk membuat dokumen Word, kita dapat membuat RMarkdown baru dan memilih output untuk Word atau secara manual mengatur keluaran: `word_document` di YAML. Sama seperti PDF, banyak fitur dokumen HTML berlaku untuk keluaran Word. Oleh karena itu, kita dapat menambahkan output secara manual di YAML. Sebagai contoh,
+
+```
+title: 'BPK RI: Data Visualization & NLP'
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+  word_document:
+    toc: true
+    df_print: kable
+```
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/word.png")
+```
+
+## Interaktif Powerpoint 
+
+Format terakhir yang akan kita bahas adalah format presentasi yang meliputi:
+
+* **Beamer Presentation**: Presentasi PDF dengan beamer
+* **Presentasi Ioslides**: Presentasi HTML dengan ioslides
+* **Slidy Presentation**: Presentasi HTML dengan rapi
+* **Presentasi Powerpoint**: Presentasi PowerPoint
+* **Revealjs Presentation**: presentasi HTML dengan mengungkapkan.js (menggunakan paket tambahan mengungkapkan)
+
+Di bagian ini, kita akan lebih fokus pada Presentasi Beamer. Namun demikian, setiap format akan secara intuitif membagi konten kita ke dalam slide. Berikut ini akan dibahas cara kerja Presentasi Beamer, fitur-fiturnya, dan cara menyesuaikan tampilannya.
+
+Membuat Presentasi Beamer hampir sama dengan membuat dokumen HTML baru. Anda dapat membuat R Markdown baru dan memilih output untuk Beamer Presentation. Atau, Anda juga dapat menyetel `output: beamer_presentation` secara manual di YAML.
+
+
+```
+title: "Beamer Presentation"
+author: "Team Algoritma"
+date: '`r format(Sys.Date(), "%A, %d %B %Y")`'
+output: 
+  beamer_presentation:
+    theme: "Ilmenau"
+    colortheme: "beaver"
+    fonttheme: "structurebold"
+    incremental: true
+```
+
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/beamer.png")
+```
+
+Ada lebih banyak untuk dieksplorasi untuk Beamer Presentation dan begitu juga berbagai output presentasi menggunakan R Markdown. Misalnya, jika Anda tertarik untuk membuat presentasi yang dinamis, Anda dapat menjelajahi Presentasi Ioslides atau Presentasi Revealjs yang terkenal [di sini](https://bookdown.org/yihui/rmarkdown/presentations.html) 
+
+Kita telah menjajaki berbagai output yang didukung oleh R Markdown yang dapat digunakan untuk mengembangkan laporan bisnis. Meski begitu, masih banyak yang bisa dijelajahi. Untuk mencari lebih banyak output yang dihasilkan dari R Markdown, Anda dapat menjelajahi [The R Markdown Gallery](https://rmarkdown.rstudio.com/gallery.html)
+
+# Automasi Laporan R Markdown
+
+R Markdown sangat bagus dalam membuat laporan, tetapi untuk mengoptimalkan potensinya, mari kita bahas bagaimana R Markdown dapat membuat laporan kita dapat direproduksi dengan menggunakan _Parameterized Report_.
+
+Saat kita menggunakan _Parameterized Report_, R Markdown akan menyertakan satu atau lebih parameter yang nilainya akan diatur untuk membuat laporan. Hal ini memungkinkan kita untuk menentukan, misalnya dataset yang akan dibuat menjadi laporan. Memungkinkan kami membuat **Pelaporan Otomatis**!
+
+## Membuat Parameter
+
+Parameter dideklarasikan menggunakan opsi `params` dalam YAML. Misalnya, file di bawah membuat parameter bernama `head` dan menetapkan 5 sebagai nilai defaultnya.
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/params.png")
+```
+
+## Menggunakan Parameter di Chunk
+
+Parameter tersedia untuk digunakan dalam potongan kode dengan mengakses nilai menggunakan parameter `$ <nama parameter>`. Misalnya, kode di bawah ini dapat digunakan untuk menampilkan 5 data observasi pertama. Ini dilakukan dengan meneruskan 5 (nilai default) dari `params$head` ke fungsi `head()` yang akan mengembalikan observasi-n pertama dari sebuah data.
+
+```
+USArrests %>% 
+  head(params$head)
+```
+
+## Menggunakan Parameter di barisan Kode
+
+Parameter juga dapat dipanggil dalam _inline code_. Di bawah ini adalah contoh bagaimana menggunakan params dalam potongan kode dan juga dalam _inline code_.
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/params-knit.png")
+```
+
+Kemudahan menggunakan _Parameterized Document_ adalah ketika kita ingin membuat dokumen dengan parameter/input tertentu. Kita dapat membuat dokumen dengan parameter dengan mengklik Knit with Parameters pada menu drop-down Knit.
+
+Dalam contoh di bawah ini, kami mencoba knit dengan parameter dengan menentukan '10' untuk nilai di `params$head`. Kita bisa lihat di sisi kanan gambar, output yang dibuat akan mengikuti input yang kita inginkan.
+
+```{r echo=FALSE}
+knitr::include_graphics(path = "assets/p4ds/params-knit2.png")
+```
+
+Untuk eksplorasi lebih lanjut tentang Parameterized Document, Anda dapat mengakses panduan lengkapnya [di sini](https://bookdown.org/yihui/rmarkdown/parameterized-reports.html).

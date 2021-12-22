@@ -1,0 +1,578 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Team Laboratorium Biro TI" />
+
+
+<title>Pengenalan JupyterHub, RX, dan RStudio</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Workshop Data Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="11-dplyr-select.html">Select</a>
+    </li>
+    <li>
+      <a href="12-dplyr-transform.html">Transform</a>
+    </li>
+    <li>
+      <a href="13-dplyr-filter.html">Filter</a>
+    </li>
+    <li>
+      <a href="14-dplyr-sum.html">Summarize</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="01-processing.html">Processing</a>
+</li>
+<li>
+  <a href="02-vaksin.html">GGPlot</a>
+</li>
+<li>
+  <a href="03-covid.html">Plotly</a>
+</li>
+<li>
+  <a href="04-maps.html">Maps</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Pengenalan JupyterHub, RX, dan RStudio</h1>
+<h4 class="author">Team Laboratorium Biro TI</h4>
+<h4 class="date">Rabu, 22 Desember 2021</h4>
+
+</div>
+
+
+<div id="jupyterhub" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> JupyterHub</h1>
+<div id="notebook" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> Notebook</h2>
+<p>Notebook adalah dokumen yang bisa menyatukan kode yang bisa dieksekusi, visualisasi, dan teks <a href="https://medium.com/analytics-vidhya/the-ultimate-markdown-guide-for-jupyter-notebook-d5e5abf728fd">Markdown</a>. Sangat berguna untuk menjelaskan dan memvisualisasikan data. Populer digunakan dalam <a href="https://arxiv.org/pdf/1810.08055.pdf"><em>reproducible research</em></a>. Saat ini banyak didukung oleh aplikasi dan layanan populer:</p>
+<ul>
+<li>Jupyter Notebook;</li>
+<li>RStudio;</li>
+<li>Visual Studio Code; memiliki fitur <a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">Notebook</a></li>
+<li>GitHub; mis. <a href="https://github.com/Reproducible-Science-Curriculum/introduction-RR-Jupyter/blob/gh-pages/notebooks/getting_started_with_jupyter_notebooks.ipynb">Getting Started with Jupyter Notebook</a></li>
+<li>Kaggle; mis. <a href="https://www.kaggle.com/codefreaksubhamml/movie-recommendation-system-vectorization-bow">Movie recommendation system notebook</a></li>
+</ul>
+</div>
+<div id="fitur-jupyterhub" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> Fitur JupyterHub</h2>
+<p>print(“hello”)</p>
+<p>JupyterHub adalah multi-user Jupyter Notebook yang bisa berjalan di <a href="https://zero-to-jupyterhub.readthedocs.io/en/latest/index.html">infrastruktur sendiri</a> atau di penyedia-awan dan menyediakan lingkungan kerja untuk mengeksplorasi dan publikasi data untuk user yang tidak ingin repot dengan rumitnya instalasi lingkungan pemrograman di komputer pribadinya.</p>
+<p>Lingkungan tersebut memiliki banyak kelebihan:</p>
+<p>TODO: scratch these. dari sisi user aja.</p>
+<ul>
+<li><strong>Mudah dikustomisasi</strong>: menyediakan beragam ‘kernel’ (R, Julia, Python) dan paketan library bawaan serta bisa diakses dari beragam antarmuka (Jupyter Notebook, RStudio, dll)</li>
+<li><strong>Fleksibel</strong>: mudah dikustomisasi dan diintegrasikan dengan sistem lain</li>
+<li><strong>Scalable</strong>: container-based dan berjalan pada infrastruktur komputasi terdistribusi; jumlah pengguna yang didukung dapat dengan disesuaikan dengan ketersediaan sumberdaya komputasi.</li>
+</ul>
+</div>
+<div id="jupyterhub-bpk" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> JupyterHub BPK</h2>
+<p>JupyterHub BPK tersedia di <a href="https://jupyterhub.bpk.go.id" class="uri">https://jupyterhub.bpk.go.id</a>. Saat ini sementara dibatasi untuk peserta DAC dan pegawai tertentu.</p>
+<p><img src="00/jupi-01.png" /></p>
+<div id="fitur-yang-tersedia" class="section level3" number="1.3.1">
+<h3 number="1.3.1"><span class="header-section-number">1.3.1</span> Fitur yang tersedia</h3>
+<ul>
+<li>Notebook dan Shell Console</li>
+<li>Publish aplikasi Shiny</li>
+<li>Publish aplikasi Dash (python)</li>
+</ul>
+</div>
+<div id="pembuatan-notebook" class="section level3" number="1.3.2">
+<h3 number="1.3.2"><span class="header-section-number">1.3.2</span> Pembuatan Notebook</h3>
+<p>Notebook dapat digunakan untuk eksplorasi data dan membuat narasi dari langkah ekplorasi Anda.</p>
+<ul>
+<li>Dari launcher, silakan pilih jenis Notebook berdasarkan kernel yang didukung (R dan Python).</li>
+<li>Saat ini mendukung akses ke database SQL Server, MySQL, dan SQLite</li>
+<li>Basis workspace image adalah <a href="https://jupyter-docker-stacks.readthedocs.io/en/latest/using/selecting.html#jupyter-datascience-notebook">Datascience docker image</a> dengan tambahan library yang umum digunakan di <a href="https://dashboard.bpk.go.id" class="uri">https://dashboard.bpk.go.id</a>.</li>
+<li>Tentukan <em>framework</em> yang digunakan; JupyterHub BPK mendukung publikasi untuk aplikasi Shiny dan Dash python.</li>
+</ul>
+</div>
+<div id="berbagi-notebook" class="section level3" number="1.3.3">
+<h3 number="1.3.3"><span class="header-section-number">1.3.3</span> Berbagi Notebook</h3>
+<p>Saat ini, JupyterHub BPK belum menyediakan cara yang mudah untuk berbagi dengan user lain. Sementara ini gunakan fitur <code>Download</code>.</p>
+</div>
+</div>
+<div id="r-dan-rstudio" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> R dan RStudio</h2>
+<p>Lorem ipsum</p>
+</div>
+</div>
+<div id="publikasi" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Publikasi</h1>
+<div id="jupyterhub-1" class="section level2" number="2.1">
+<h2 number="2.1"><span class="header-section-number">2.1</span> JupyterHub</h2>
+<p>Setelah eksplorasi, saatnya mempublikasikan karya Anda agar bisa dilihat dan digunakan oleh pegawai BPK lainnya.</p>
+<div id="r" class="section level3" number="2.1.1">
+<h3 number="2.1.1"><span class="header-section-number">2.1.1</span> R</h3>
+<p>Untuk kode R/Shiny, buat folder <code>public</code> di root folder. Anda bisa mempublikasikan dalam bentuk artikel (RMarkdown) atau App.</p>
+<ul>
+<li>Artikel: buat/unggah berkas RMarkdown, atau copy-paste notebook anda ke dalam file dengan ekstensi Rmd, dengan tambahan header khusus.</li>
+<li>App: pastikan ada <code>app.R</code> dengan kode yang memanggil <code>shinyApp()</code></li>
+</ul>
+<p>RMarkdown/Shiny akan tersedia di <a href="https://dashboard.bpk.go.id/NAMA-AKUN-BPK" class="uri">https://dashboard.bpk.go.id/NAMA-AKUN-BPK</a>, mis. <a href="https://dashboard.bpk.go.id/pingky" class="uri">https://dashboard.bpk.go.id/pingky</a>.</p>
+</div>
+<div id="python" class="section level3" number="2.1.2">
+<h3 number="2.1.2"><span class="header-section-number">2.1.2</span> Python</h3>
+<p>JupyterHub BPK mendukung publikasi python yang menggunakan <a href="https://plotly.com/dash/">Dash</a>. Caranya, buat folder <code>dash</code> dan unggah aplikasi Anda di folder tersebut.Aplikasi akan tersedia di <a href="https://NAMA-AKUN-BPK.dac.dashboard.bpk.go.id" class="uri">https://NAMA-AKUN-BPK.dac.dashboard.bpk.go.id</a>, mis. <a href="https://hafizhuddin-amin.dac.dashboard.bpk.go.id" class="uri">https://hafizhuddin-amin.dac.dashboard.bpk.go.id</a></p>
+<p>Selain di atas, Notebook dapat anda unduh dan diunggah ulang mis. di repositori publik Anda di GitHub untuk di-render di sana, atau diekspor sebagai PDF, HTML, dan Slide; keduanya lewat menu <code>File &gt; Download</code> atau <code>File &gt; Save and Export Notebook As</code>.</p>
+</div>
+</div>
+<div id="rpubs" class="section level2" number="2.2">
+<h2 number="2.2"><span class="header-section-number">2.2</span> RPubs</h2>
+<p>Layanan publikasi <a href="https://rpubs.com/">RPubs</a> terintegrasi dengan RStudio. Untuk mempublish tulisan kita, cukup dengan mengikuti langkah berikut:</p>
+<ul>
+<li><p>Registrasi di RPubs lalu login</p></li>
+<li><p>Buat file RMarkdown di RStudio</p></li>
+<li><p>Klik tombol <code>Knit to HTML</code> yang ada di toolbar lalu klik Publish di jendela yang muncul</p>
+<p><img src="00/rpub-03.png" /></p></li>
+<li><p>Pilih RPubs</p>
+<p><img src="00/rpub-04.png" /></p></li>
+</ul>
+</div>
+<div id="shinyapps.io" class="section level2" number="2.3">
+<h2 number="2.3"><span class="header-section-number">2.3</span> Shinyapps.io</h2>
+<p>Sama dengan RPubs, Shinyapps.io terintegrasi dengan RStudio.</p>
+<ul>
+<li>Registrasi dan login di <a href="https://shinyapps.io" class="uri">https://shinyapps.io</a></li>
+<li>Buka project di RStudio</li>
+<li>Klik tombol Run App di viewer, klik tombol Publish, lalu pilih ShinyApps</li>
+</ul>
+<p><img src="00/shiny-02.png" /></p>
+<p><img src="00/shiny-03.png" /></p>
+<ul>
+<li>Ikuti petunjuk yang diberikan untuk menghubungkan ShinyApps dan RStudio</li>
+</ul>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

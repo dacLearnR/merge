@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Tim Laboratorium Biro TI" />
+
+
+<title>Introduction Data</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Workshop Data Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="11-dplyr-select.html">Select</a>
+    </li>
+    <li>
+      <a href="12-dplyr-transform.html">Transform</a>
+    </li>
+    <li>
+      <a href="13-dplyr-filter.html">Filter</a>
+    </li>
+    <li>
+      <a href="14-dplyr-sum.html">Summarize</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="01-processing.html">Processing</a>
+</li>
+<li>
+  <a href="02-vaksin.html">GGPlot</a>
+</li>
+<li>
+  <a href="03-covid.html">Plotly</a>
+</li>
+<li>
+  <a href="04-maps.html">Maps</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Introduction Data</h1>
+<h3 class="subtitle">Select, Rename &amp; Reorder<br></h3>
+<h4 class="author">Tim Laboratorium Biro TI</h4>
+<h4 class="date">22 Desember, 2021<br></h4>
+
+</div>
+
+
+<p>This is a second post in a series of dplyr functions.</p>
+<ul>
+<li><p>[Part 1: Data Wrangling Part 1: Basic to Advanced Ways to Select Columns]</p></li>
+<li><p><a href="https://dashboard.bpk.go.id/workshop/12-dplyr-transform.Rmd/">Part 2: Transforming your columns into the right shape</a></p></li>
+</ul>
+<p>I went through the entire dplyr documentation for a talk last week about pipes, which resulted in a few “aha!” moments. I discovered and re-discovered a few useful functions, which I wanted to collect in a few blog posts so I can share them with others.<br />
+This first post will cover ordering, naming and selecting columns. The next post will be about recoding and transforming columns, and after that I will move on to row selection. I changed dataset versus the talk last week to one that is built-in to R so code can be copy pasted and experimented with easily.<br />
+<br> All code will be presented as part of pipe even though hardly any of them are a full pipe. I did add <code>glimpse()</code> statement to allow you to see the columns selected in the output tibble without printing all the data every time.</p>
+<p><strong>The dataset</strong></p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="co">#built-in R dataset </span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(msleep)</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 11
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater shor~
+## $ genus        &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Bra~
+## $ vore         &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carn~
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Art~
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~
+## $ sleep_total  &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5~
+## $ sleep_rem    &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, ~
+## $ sleep_cycle  &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, N~
+## $ awake        &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0, 1~
+## $ brainwt      &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0~
+## $ bodywt       &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.04~</code></pre>
+<p><br></p>
+<hr />
+<div id="selecting-columns" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> <strong>Selecting columns</strong></h1>
+<div id="selecting-columns-the-basics" class="section level2" number="1.1">
+<h2 number="1.1"><span class="header-section-number">1.1</span> <strong>Selecting columns: the basics</strong></h2>
+<p>To select a few columns just add their names in the select statement. The order in which you add them, will determine the order in which they appear in the output.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, genus, sleep_total, awake) <span class="sc">%&gt;%</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">glimpse</span>()</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 4
+## $ name        &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater short~
+## $ genus       &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Brad~
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5.~
+## $ awake       &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0, 18~</code></pre>
+<p><br></p>
+<p>If you want to add a lot of columns, it can save you some typing to have a good look at your data and see whether you can’t get to your selection by using chunks, deselecting or even deselect a column and re-add it straight after.</p>
+<p>To add a chunk of columns use the <code>start_col:end_col</code> syntax:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name<span class="sc">:</span>order, sleep_total<span class="sc">:</span>sleep_cycle) <span class="sc">%&gt;%</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 7
+## $ name        &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater short~
+## $ genus       &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Brad~
+## $ vore        &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carni~
+## $ order       &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Arti~
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5.~
+## $ sleep_rem   &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, 0~
+## $ sleep_cycle &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, NA~</code></pre>
+<p><br></p>
+<p>An alternative is to <strong>deselect columns</strong> by adding a minus sign in front of the column name. You can also deselect chunks of columns.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>conservation, <span class="sc">-</span>(sleep_total<span class="sc">:</span>awake)) <span class="sc">%&gt;%</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 6
+## $ name    &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater short-tai~
+## $ genus   &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Bradypus~
+## $ vore    &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carni&quot;, N~
+## $ order   &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Artiodac~
+## $ brainwt &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0.0982~
+## $ bodywt  &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.045, 14~</code></pre>
+<p><br></p>
+<p>It’s even possible to deselect a whole chunk, and then re-add a column again.<br />
+The below sample code deselects the whole chunk from ID to pledged, but re-adds the ‘name’, even though it was part of the deselected chunk. This only works if you re-add it in the same <code>select()</code> statement.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">-</span>(name<span class="sc">:</span>awake), conservation) <span class="sc">%&gt;%</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 3
+## $ brainwt      &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0~
+## $ bodywt       &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.04~
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~</code></pre>
+<p><br><br></p>
+</div>
+<div id="selecting-columns-based-on-partial-column-names" class="section level2" number="1.2">
+<h2 number="1.2"><span class="header-section-number">1.2</span> <strong>Selecting columns based on partial column names</strong></h2>
+<p>If you have a lot of columns with a similar structure you can use partial matching by adding <code>starts_with()</code>, <code>ends_with()</code> or <code>contains()</code> in your select statement depending on how you want to match columns.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, <span class="fu">starts_with</span>(<span class="st">&quot;sleep&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 4
+## $ name        &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater short~
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5.~
+## $ sleep_rem   &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, 0~
+## $ sleep_cycle &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, NA~</code></pre>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">contains</span>(<span class="st">&quot;eep&quot;</span>), <span class="fu">ends_with</span>(<span class="st">&quot;wt&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 5
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5.~
+## $ sleep_rem   &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, 0~
+## $ sleep_cycle &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, NA~
+## $ brainwt     &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0.~
+## $ bodywt      &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.045~</code></pre>
+<p><br><br></p>
+</div>
+<div id="selecting-columns-based-on-regex" class="section level2" number="1.3">
+<h2 number="1.3"><span class="header-section-number">1.3</span> <strong>Selecting columns based on regex</strong></h2>
+<p>The previous helper functions work with exact pattern matches. If you have similar patterns that are not entirely the same you can use any regular expression inside <code>matches()</code>.<br />
+The below example code will add any column that contains an ‘o’, followed by one or more other letters, and “er”.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co">#selecting based on regex</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="fu">matches</span>(<span class="st">&quot;o.+er&quot;</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 2
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Art~
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~</code></pre>
+<p><br><br></p>
+</div>
+<div id="selecting-columns-based-pre-identified-columns" class="section level2" number="1.4">
+<h2 number="1.4"><span class="header-section-number">1.4</span> <strong>Selecting columns based pre-identified columns</strong></h2>
+<p>There is another option which avoids the continuous retyping of columns names: <code>one_of()</code>. You can set up column names upfront, and then refer to them inside a <code>select()</code> statement by either wrapping them inside <code>one_of()</code> or by using the <code>!!</code> operator.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>classification <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;genus&quot;</span>, <span class="st">&quot;vore&quot;</span>, <span class="st">&quot;order&quot;</span>, <span class="st">&quot;conservation&quot;</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="sc">!!</span>classification)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["genus"],"name":[2],"type":["chr"],"align":["left"]},{"label":["vore"],"name":[3],"type":["chr"],"align":["left"]},{"label":["order"],"name":[4],"type":["chr"],"align":["left"]},{"label":["conservation"],"name":[5],"type":["chr"],"align":["left"]}],"data":[{"1":"Cheetah","2":"Acinonyx","3":"carni","4":"Carnivora","5":"lc"},{"1":"Owl monkey","2":"Aotus","3":"omni","4":"Primates","5":"NA"},{"1":"Mountain beaver","2":"Aplodontia","3":"herbi","4":"Rodentia","5":"nt"},{"1":"Greater short-tailed shrew","2":"Blarina","3":"omni","4":"Soricomorpha","5":"lc"},{"1":"Cow","2":"Bos","3":"herbi","4":"Artiodactyla","5":"domesticated"},{"1":"Three-toed sloth","2":"Bradypus","3":"herbi","4":"Pilosa","5":"NA"},{"1":"Northern fur seal","2":"Callorhinus","3":"carni","4":"Carnivora","5":"vu"},{"1":"Vesper mouse","2":"Calomys","3":"NA","4":"Rodentia","5":"NA"},{"1":"Dog","2":"Canis","3":"carni","4":"Carnivora","5":"domesticated"},{"1":"Roe deer","2":"Capreolus","3":"herbi","4":"Artiodactyla","5":"lc"},{"1":"Goat","2":"Capri","3":"herbi","4":"Artiodactyla","5":"lc"},{"1":"Guinea pig","2":"Cavis","3":"herbi","4":"Rodentia","5":"domesticated"},{"1":"Grivet","2":"Cercopithecus","3":"omni","4":"Primates","5":"lc"},{"1":"Chinchilla","2":"Chinchilla","3":"herbi","4":"Rodentia","5":"domesticated"},{"1":"Star-nosed mole","2":"Condylura","3":"omni","4":"Soricomorpha","5":"lc"},{"1":"African giant pouched rat","2":"Cricetomys","3":"omni","4":"Rodentia","5":"NA"},{"1":"Lesser short-tailed shrew","2":"Cryptotis","3":"omni","4":"Soricomorpha","5":"lc"},{"1":"Long-nosed armadillo","2":"Dasypus","3":"carni","4":"Cingulata","5":"lc"},{"1":"Tree hyrax","2":"Dendrohyrax","3":"herbi","4":"Hyracoidea","5":"lc"},{"1":"North American Opossum","2":"Didelphis","3":"omni","4":"Didelphimorphia","5":"lc"},{"1":"Asian elephant","2":"Elephas","3":"herbi","4":"Proboscidea","5":"en"},{"1":"Big brown bat","2":"Eptesicus","3":"insecti","4":"Chiroptera","5":"lc"},{"1":"Horse","2":"Equus","3":"herbi","4":"Perissodactyla","5":"domesticated"},{"1":"Donkey","2":"Equus","3":"herbi","4":"Perissodactyla","5":"domesticated"},{"1":"European hedgehog","2":"Erinaceus","3":"omni","4":"Erinaceomorpha","5":"lc"},{"1":"Patas monkey","2":"Erythrocebus","3":"omni","4":"Primates","5":"lc"},{"1":"Western american chipmunk","2":"Eutamias","3":"herbi","4":"Rodentia","5":"NA"},{"1":"Domestic cat","2":"Felis","3":"carni","4":"Carnivora","5":"domesticated"},{"1":"Galago","2":"Galago","3":"omni","4":"Primates","5":"NA"},{"1":"Giraffe","2":"Giraffa","3":"herbi","4":"Artiodactyla","5":"cd"},{"1":"Pilot whale","2":"Globicephalus","3":"carni","4":"Cetacea","5":"cd"},{"1":"Gray seal","2":"Haliochoerus","3":"carni","4":"Carnivora","5":"lc"},{"1":"Gray hyrax","2":"Heterohyrax","3":"herbi","4":"Hyracoidea","5":"lc"},{"1":"Human","2":"Homo","3":"omni","4":"Primates","5":"NA"},{"1":"Mongoose lemur","2":"Lemur","3":"herbi","4":"Primates","5":"vu"},{"1":"African elephant","2":"Loxodonta","3":"herbi","4":"Proboscidea","5":"vu"},{"1":"Thick-tailed opposum","2":"Lutreolina","3":"carni","4":"Didelphimorphia","5":"lc"},{"1":"Macaque","2":"Macaca","3":"omni","4":"Primates","5":"NA"},{"1":"Mongolian gerbil","2":"Meriones","3":"herbi","4":"Rodentia","5":"lc"},{"1":"Golden hamster","2":"Mesocricetus","3":"herbi","4":"Rodentia","5":"en"},{"1":"Vole","2":"Microtus","3":"herbi","4":"Rodentia","5":"NA"},{"1":"House mouse","2":"Mus","3":"herbi","4":"Rodentia","5":"nt"},{"1":"Little brown bat","2":"Myotis","3":"insecti","4":"Chiroptera","5":"NA"},{"1":"Round-tailed muskrat","2":"Neofiber","3":"herbi","4":"Rodentia","5":"nt"},{"1":"Slow loris","2":"Nyctibeus","3":"carni","4":"Primates","5":"NA"},{"1":"Degu","2":"Octodon","3":"herbi","4":"Rodentia","5":"lc"},{"1":"Northern grasshopper mouse","2":"Onychomys","3":"carni","4":"Rodentia","5":"lc"},{"1":"Rabbit","2":"Oryctolagus","3":"herbi","4":"Lagomorpha","5":"domesticated"},{"1":"Sheep","2":"Ovis","3":"herbi","4":"Artiodactyla","5":"domesticated"},{"1":"Chimpanzee","2":"Pan","3":"omni","4":"Primates","5":"NA"},{"1":"Tiger","2":"Panthera","3":"carni","4":"Carnivora","5":"en"},{"1":"Jaguar","2":"Panthera","3":"carni","4":"Carnivora","5":"nt"},{"1":"Lion","2":"Panthera","3":"carni","4":"Carnivora","5":"vu"},{"1":"Baboon","2":"Papio","3":"omni","4":"Primates","5":"NA"},{"1":"Desert hedgehog","2":"Paraechinus","3":"NA","4":"Erinaceomorpha","5":"lc"},{"1":"Potto","2":"Perodicticus","3":"omni","4":"Primates","5":"lc"},{"1":"Deer mouse","2":"Peromyscus","3":"NA","4":"Rodentia","5":"NA"},{"1":"Phalanger","2":"Phalanger","3":"NA","4":"Diprotodontia","5":"NA"},{"1":"Caspian seal","2":"Phoca","3":"carni","4":"Carnivora","5":"vu"},{"1":"Common porpoise","2":"Phocoena","3":"carni","4":"Cetacea","5":"vu"},{"1":"Potoroo","2":"Potorous","3":"herbi","4":"Diprotodontia","5":"NA"},{"1":"Giant armadillo","2":"Priodontes","3":"insecti","4":"Cingulata","5":"en"},{"1":"Rock hyrax","2":"Procavia","3":"NA","4":"Hyracoidea","5":"lc"},{"1":"Laboratory rat","2":"Rattus","3":"herbi","4":"Rodentia","5":"lc"},{"1":"African striped mouse","2":"Rhabdomys","3":"omni","4":"Rodentia","5":"NA"},{"1":"Squirrel monkey","2":"Saimiri","3":"omni","4":"Primates","5":"NA"},{"1":"Eastern american mole","2":"Scalopus","3":"insecti","4":"Soricomorpha","5":"lc"},{"1":"Cotton rat","2":"Sigmodon","3":"herbi","4":"Rodentia","5":"NA"},{"1":"Mole rat","2":"Spalax","3":"NA","4":"Rodentia","5":"NA"},{"1":"Arctic ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc"},{"1":"Thirteen-lined ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc"},{"1":"Golden-mantled ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc"},{"1":"Musk shrew","2":"Suncus","3":"NA","4":"Soricomorpha","5":"NA"},{"1":"Pig","2":"Sus","3":"omni","4":"Artiodactyla","5":"domesticated"},{"1":"Short-nosed echidna","2":"Tachyglossus","3":"insecti","4":"Monotremata","5":"NA"},{"1":"Eastern american chipmunk","2":"Tamias","3":"herbi","4":"Rodentia","5":"NA"},{"1":"Brazilian tapir","2":"Tapirus","3":"herbi","4":"Perissodactyla","5":"vu"},{"1":"Tenrec","2":"Tenrec","3":"omni","4":"Afrosoricida","5":"NA"},{"1":"Tree shrew","2":"Tupaia","3":"omni","4":"Scandentia","5":"NA"},{"1":"Bottle-nosed dolphin","2":"Tursiops","3":"carni","4":"Cetacea","5":"NA"},{"1":"Genet","2":"Genetta","3":"carni","4":"Carnivora","5":"NA"},{"1":"Arctic fox","2":"Vulpes","3":"carni","4":"Carnivora","5":"NA"},{"1":"Red fox","2":"Vulpes","3":"carni","4":"Carnivora","5":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>`</p>
+</div>
+<div id="selecting-columns-by-their-data-type" class="section level2" number="1.5">
+<h2 number="1.5"><span class="header-section-number">1.5</span> <strong>Selecting columns by their data type</strong></h2>
+<p>The <code>select_if</code> function allows you to pass functions which return logical statements. For instance you can select all the string columns by using <code>select_if(is.character)</code>. Similarly, you can add <code>is.numeric</code>, <code>is.integer</code>, <code>is.double</code>, <code>is.logical</code>, <code>is.factor</code>.<br />
+If you have data columns, you can load the <code>lubridate</code> package, and use <code>is.POSIXt</code> or <code>is.Date</code>.</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 6
+## $ sleep_total &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5.~
+## $ sleep_rem   &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, 0~
+## $ sleep_cycle &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, NA~
+## $ awake       &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0, 18~
+## $ brainwt     &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0.~
+## $ bodywt      &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.045~</code></pre>
+<p><br></p>
+<p>You can also select the negation but in this case you will need to add a tilde to ensure that you still pass a function to <code>select_if</code>.</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="sc">~!</span><span class="fu">is.numeric</span>(.)) <span class="sc">%&gt;%</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 5
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater shor~
+## $ genus        &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Bra~
+## $ vore         &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carn~
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Art~
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~</code></pre>
+<p><br><br></p>
+</div>
+<div id="selecting-columns-by-logical-expressions" class="section level2" number="1.6">
+<h2 number="1.6"><span class="header-section-number">1.6</span> <strong>Selecting columns by logical expressions</strong></h2>
+<p>In fact, <code>select_if</code> allows you to select based on any logical function, not just based on data type. It is possible to select all columns which average is above 500 for instance. To avoid errors you do have to also select numeric columns only, which you can do either upfront for easier syntax, or in the same line.<br />
+Similarly <code>mean &gt; 500</code> is not a function in itself, so you will need to add a tilde upfront to turn the statement into a function.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(is.numeric) <span class="sc">%&gt;%</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="sc">~</span><span class="fu">mean</span>(., <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div>
+<p><br> or shorter:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="sc">~</span><span class="fu">is.numeric</span>(.) <span class="sc">&amp;</span> <span class="fu">mean</span>(., <span class="at">na.rm=</span><span class="cn">TRUE</span>) <span class="sc">&gt;</span> <span class="dv">10</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["sleep_total"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["awake"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"12.1","2":"11.90","3":"50.000"},{"1":"17.0","2":"7.00","3":"0.480"},{"1":"14.4","2":"9.60","3":"1.350"},{"1":"14.9","2":"9.10","3":"0.019"},{"1":"4.0","2":"20.00","3":"600.000"},{"1":"14.4","2":"9.60","3":"3.850"},{"1":"8.7","2":"15.30","3":"20.490"},{"1":"7.0","2":"17.00","3":"0.045"},{"1":"10.1","2":"13.90","3":"14.000"},{"1":"3.0","2":"21.00","3":"14.800"},{"1":"5.3","2":"18.70","3":"33.500"},{"1":"9.4","2":"14.60","3":"0.728"},{"1":"10.0","2":"14.00","3":"4.750"},{"1":"12.5","2":"11.50","3":"0.420"},{"1":"10.3","2":"13.70","3":"0.060"},{"1":"8.3","2":"15.70","3":"1.000"},{"1":"9.1","2":"14.90","3":"0.005"},{"1":"17.4","2":"6.60","3":"3.500"},{"1":"5.3","2":"18.70","3":"2.950"},{"1":"18.0","2":"6.00","3":"1.700"},{"1":"3.9","2":"20.10","3":"2547.000"},{"1":"19.7","2":"4.30","3":"0.023"},{"1":"2.9","2":"21.10","3":"521.000"},{"1":"3.1","2":"20.90","3":"187.000"},{"1":"10.1","2":"13.90","3":"0.770"},{"1":"10.9","2":"13.10","3":"10.000"},{"1":"14.9","2":"9.10","3":"0.071"},{"1":"12.5","2":"11.50","3":"3.300"},{"1":"9.8","2":"14.20","3":"0.200"},{"1":"1.9","2":"22.10","3":"899.995"},{"1":"2.7","2":"21.35","3":"800.000"},{"1":"6.2","2":"17.80","3":"85.000"},{"1":"6.3","2":"17.70","3":"2.625"},{"1":"8.0","2":"16.00","3":"62.000"},{"1":"9.5","2":"14.50","3":"1.670"},{"1":"3.3","2":"20.70","3":"6654.000"},{"1":"19.4","2":"4.60","3":"0.370"},{"1":"10.1","2":"13.90","3":"6.800"},{"1":"14.2","2":"9.80","3":"0.053"},{"1":"14.3","2":"9.70","3":"0.120"},{"1":"12.8","2":"11.20","3":"0.035"},{"1":"12.5","2":"11.50","3":"0.022"},{"1":"19.9","2":"4.10","3":"0.010"},{"1":"14.6","2":"9.40","3":"0.266"},{"1":"11.0","2":"13.00","3":"1.400"},{"1":"7.7","2":"16.30","3":"0.210"},{"1":"14.5","2":"9.50","3":"0.028"},{"1":"8.4","2":"15.60","3":"2.500"},{"1":"3.8","2":"20.20","3":"55.500"},{"1":"9.7","2":"14.30","3":"52.200"},{"1":"15.8","2":"8.20","3":"162.564"},{"1":"10.4","2":"13.60","3":"100.000"},{"1":"13.5","2":"10.50","3":"161.499"},{"1":"9.4","2":"14.60","3":"25.235"},{"1":"10.3","2":"13.70","3":"0.550"},{"1":"11.0","2":"13.00","3":"1.100"},{"1":"11.5","2":"12.50","3":"0.021"},{"1":"13.7","2":"10.30","3":"1.620"},{"1":"3.5","2":"20.50","3":"86.000"},{"1":"5.6","2":"18.45","3":"53.180"},{"1":"11.1","2":"12.90","3":"1.100"},{"1":"18.1","2":"5.90","3":"60.000"},{"1":"5.4","2":"18.60","3":"3.600"},{"1":"13.0","2":"11.00","3":"0.320"},{"1":"8.7","2":"15.30","3":"0.044"},{"1":"9.6","2":"14.40","3":"0.743"},{"1":"8.4","2":"15.60","3":"0.075"},{"1":"11.3","2":"12.70","3":"0.148"},{"1":"10.6","2":"13.40","3":"0.122"},{"1":"16.6","2":"7.40","3":"0.920"},{"1":"13.8","2":"10.20","3":"0.101"},{"1":"15.9","2":"8.10","3":"0.205"},{"1":"12.8","2":"11.20","3":"0.048"},{"1":"9.1","2":"14.90","3":"86.250"},{"1":"8.6","2":"15.40","3":"4.500"},{"1":"15.8","2":"8.20","3":"0.112"},{"1":"4.4","2":"19.60","3":"207.501"},{"1":"15.6","2":"8.40","3":"0.900"},{"1":"8.9","2":"15.10","3":"0.104"},{"1":"5.2","2":"18.80","3":"173.330"},{"1":"6.3","2":"17.70","3":"2.000"},{"1":"12.5","2":"11.50","3":"3.380"},{"1":"9.8","2":"14.20","3":"4.230"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+<p>One of the useful functions for <code>select_if</code> is <code>n_distinct()</code>, which counts the amount of distinct values that can be found in a column.<br />
+To return the columns that have less than 20 distinct answers for instance you pass <code>~n_distinct(.) &lt; 20</code> within the select_if statement. Given that <code>n_distinct(.) &lt; 20</code> is not a function, you will need to put a tilde in front.</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_if</span>(<span class="sc">~</span><span class="fu">n_distinct</span>(.) <span class="sc">&lt;</span> <span class="dv">10</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["vore"],"name":[1],"type":["chr"],"align":["left"]},{"label":["conservation"],"name":[2],"type":["chr"],"align":["left"]}],"data":[{"1":"carni","2":"lc"},{"1":"omni","2":"NA"},{"1":"herbi","2":"nt"},{"1":"omni","2":"lc"},{"1":"herbi","2":"domesticated"},{"1":"herbi","2":"NA"},{"1":"carni","2":"vu"},{"1":"NA","2":"NA"},{"1":"carni","2":"domesticated"},{"1":"herbi","2":"lc"},{"1":"herbi","2":"lc"},{"1":"herbi","2":"domesticated"},{"1":"omni","2":"lc"},{"1":"herbi","2":"domesticated"},{"1":"omni","2":"lc"},{"1":"omni","2":"NA"},{"1":"omni","2":"lc"},{"1":"carni","2":"lc"},{"1":"herbi","2":"lc"},{"1":"omni","2":"lc"},{"1":"herbi","2":"en"},{"1":"insecti","2":"lc"},{"1":"herbi","2":"domesticated"},{"1":"herbi","2":"domesticated"},{"1":"omni","2":"lc"},{"1":"omni","2":"lc"},{"1":"herbi","2":"NA"},{"1":"carni","2":"domesticated"},{"1":"omni","2":"NA"},{"1":"herbi","2":"cd"},{"1":"carni","2":"cd"},{"1":"carni","2":"lc"},{"1":"herbi","2":"lc"},{"1":"omni","2":"NA"},{"1":"herbi","2":"vu"},{"1":"herbi","2":"vu"},{"1":"carni","2":"lc"},{"1":"omni","2":"NA"},{"1":"herbi","2":"lc"},{"1":"herbi","2":"en"},{"1":"herbi","2":"NA"},{"1":"herbi","2":"nt"},{"1":"insecti","2":"NA"},{"1":"herbi","2":"nt"},{"1":"carni","2":"NA"},{"1":"herbi","2":"lc"},{"1":"carni","2":"lc"},{"1":"herbi","2":"domesticated"},{"1":"herbi","2":"domesticated"},{"1":"omni","2":"NA"},{"1":"carni","2":"en"},{"1":"carni","2":"nt"},{"1":"carni","2":"vu"},{"1":"omni","2":"NA"},{"1":"NA","2":"lc"},{"1":"omni","2":"lc"},{"1":"NA","2":"NA"},{"1":"NA","2":"NA"},{"1":"carni","2":"vu"},{"1":"carni","2":"vu"},{"1":"herbi","2":"NA"},{"1":"insecti","2":"en"},{"1":"NA","2":"lc"},{"1":"herbi","2":"lc"},{"1":"omni","2":"NA"},{"1":"omni","2":"NA"},{"1":"insecti","2":"lc"},{"1":"herbi","2":"NA"},{"1":"NA","2":"NA"},{"1":"herbi","2":"lc"},{"1":"herbi","2":"lc"},{"1":"herbi","2":"lc"},{"1":"NA","2":"NA"},{"1":"omni","2":"domesticated"},{"1":"insecti","2":"NA"},{"1":"herbi","2":"NA"},{"1":"herbi","2":"vu"},{"1":"omni","2":"NA"},{"1":"omni","2":"NA"},{"1":"carni","2":"NA"},{"1":"carni","2":"NA"},{"1":"carni","2":"NA"},{"1":"carni","2":"NA"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+<hr />
+</div>
+</div>
+<div id="re-ordering-columns" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> <strong>Re-ordering columns</strong></h1>
+<p>You can use the <code>select()</code> function (see below) to re-order columns. The order in which you select them will determine the final order.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(conservation, sleep_total, name) <span class="sc">%&gt;%</span></span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 3
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~
+## $ sleep_total  &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5~
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater shor~</code></pre>
+<p><br></p>
+<p>If you are just moving a few columns to the front, you can use <code>everything()</code> afterwards which will add all the remaining columns and save a lot of typing.</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(conservation, sleep_total, <span class="fu">everything</span>()) <span class="sc">%&gt;%</span></span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 11
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~
+## $ sleep_total  &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5~
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater shor~
+## $ genus        &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Bra~
+## $ vore         &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carn~
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Art~
+## $ sleep_rem    &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, ~
+## $ sleep_cycle  &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, N~
+## $ awake        &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0, 1~
+## $ brainwt      &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0~
+## $ bodywt       &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.04~</code></pre>
+<p><br></p>
+<hr />
+</div>
+<div id="column-names" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> <strong>Column names</strong></h1>
+<p>Sometimes changes are necessary to column names in itself:</p>
+<div id="renaming-columns" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> <strong>Renaming columns</strong></h2>
+<p>If you will be using a <code>select()</code> statement, you can rename straight in the <code>select</code> function.</p>
+<div class="sourceCode" id="cb29"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(<span class="at">animal =</span> name, sleep_total, <span class="at">extinction_threat =</span> conservation) <span class="sc">%&gt;%</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 3
+## $ animal            &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater~
+## $ sleep_total       &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3~
+## $ extinction_threat &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, ~</code></pre>
+<p><br></p>
+<p>If you want to retain all columns and therefore have no <code>select()</code> statement, you can rename by adding a <code>rename()</code> statement.</p>
+<div class="sourceCode" id="cb31"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">animal =</span> name, <span class="at">extinction_threat =</span> conservation) <span class="sc">%&gt;%</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  glimpse</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 11
+## $ animal            &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater~
+## $ genus             &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;,~
+## $ vore              &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, ~
+## $ order             &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;,~
+## $ extinction_threat &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, ~
+## $ sleep_total       &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3~
+## $ sleep_rem         &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, ~
+## $ sleep_cycle       &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.38333~
+## $ awake             &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21~
+## $ brainwt           &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.070~
+## $ bodywt            &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490,~</code></pre>
+<p><br><br></p>
+</div>
+<div id="reformatting-all-column-names" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> <strong>Reformatting all column names</strong></h2>
+<p>The <code>select_all()</code> function allows changes to all columns, and takes a function as an argument.</p>
+<p>To get all column names in uppercase, you can use <code>toupper()</code>, similarly you could use <code>tolower()</code>.</p>
+<div class="sourceCode" id="cb33"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_all</span>(toupper)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["NAME"],"name":[1],"type":["chr"],"align":["left"]},{"label":["GENUS"],"name":[2],"type":["chr"],"align":["left"]},{"label":["VORE"],"name":[3],"type":["chr"],"align":["left"]},{"label":["ORDER"],"name":[4],"type":["chr"],"align":["left"]},{"label":["CONSERVATION"],"name":[5],"type":["chr"],"align":["left"]},{"label":["SLEEP_TOTAL"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["SLEEP_REM"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["SLEEP_CYCLE"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["AWAKE"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["BRAINWT"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["BODYWT"],"name":[11],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cheetah","2":"Acinonyx","3":"carni","4":"Carnivora","5":"lc","6":"12.1","7":"NA","8":"NA","9":"11.90","10":"NA","11":"50.000"},{"1":"Owl monkey","2":"Aotus","3":"omni","4":"Primates","5":"NA","6":"17.0","7":"1.8","8":"NA","9":"7.00","10":"0.01550","11":"0.480"},{"1":"Mountain beaver","2":"Aplodontia","3":"herbi","4":"Rodentia","5":"nt","6":"14.4","7":"2.4","8":"NA","9":"9.60","10":"NA","11":"1.350"},{"1":"Greater short-tailed shrew","2":"Blarina","3":"omni","4":"Soricomorpha","5":"lc","6":"14.9","7":"2.3","8":"0.1333333","9":"9.10","10":"0.00029","11":"0.019"},{"1":"Cow","2":"Bos","3":"herbi","4":"Artiodactyla","5":"domesticated","6":"4.0","7":"0.7","8":"0.6666667","9":"20.00","10":"0.42300","11":"600.000"},{"1":"Three-toed sloth","2":"Bradypus","3":"herbi","4":"Pilosa","5":"NA","6":"14.4","7":"2.2","8":"0.7666667","9":"9.60","10":"NA","11":"3.850"},{"1":"Northern fur seal","2":"Callorhinus","3":"carni","4":"Carnivora","5":"vu","6":"8.7","7":"1.4","8":"0.3833333","9":"15.30","10":"NA","11":"20.490"},{"1":"Vesper mouse","2":"Calomys","3":"NA","4":"Rodentia","5":"NA","6":"7.0","7":"NA","8":"NA","9":"17.00","10":"NA","11":"0.045"},{"1":"Dog","2":"Canis","3":"carni","4":"Carnivora","5":"domesticated","6":"10.1","7":"2.9","8":"0.3333333","9":"13.90","10":"0.07000","11":"14.000"},{"1":"Roe deer","2":"Capreolus","3":"herbi","4":"Artiodactyla","5":"lc","6":"3.0","7":"NA","8":"NA","9":"21.00","10":"0.09820","11":"14.800"},{"1":"Goat","2":"Capri","3":"herbi","4":"Artiodactyla","5":"lc","6":"5.3","7":"0.6","8":"NA","9":"18.70","10":"0.11500","11":"33.500"},{"1":"Guinea pig","2":"Cavis","3":"herbi","4":"Rodentia","5":"domesticated","6":"9.4","7":"0.8","8":"0.2166667","9":"14.60","10":"0.00550","11":"0.728"},{"1":"Grivet","2":"Cercopithecus","3":"omni","4":"Primates","5":"lc","6":"10.0","7":"0.7","8":"NA","9":"14.00","10":"NA","11":"4.750"},{"1":"Chinchilla","2":"Chinchilla","3":"herbi","4":"Rodentia","5":"domesticated","6":"12.5","7":"1.5","8":"0.1166667","9":"11.50","10":"0.00640","11":"0.420"},{"1":"Star-nosed mole","2":"Condylura","3":"omni","4":"Soricomorpha","5":"lc","6":"10.3","7":"2.2","8":"NA","9":"13.70","10":"0.00100","11":"0.060"},{"1":"African giant pouched rat","2":"Cricetomys","3":"omni","4":"Rodentia","5":"NA","6":"8.3","7":"2.0","8":"NA","9":"15.70","10":"0.00660","11":"1.000"},{"1":"Lesser short-tailed shrew","2":"Cryptotis","3":"omni","4":"Soricomorpha","5":"lc","6":"9.1","7":"1.4","8":"0.1500000","9":"14.90","10":"0.00014","11":"0.005"},{"1":"Long-nosed armadillo","2":"Dasypus","3":"carni","4":"Cingulata","5":"lc","6":"17.4","7":"3.1","8":"0.3833333","9":"6.60","10":"0.01080","11":"3.500"},{"1":"Tree hyrax","2":"Dendrohyrax","3":"herbi","4":"Hyracoidea","5":"lc","6":"5.3","7":"0.5","8":"NA","9":"18.70","10":"0.01230","11":"2.950"},{"1":"North American Opossum","2":"Didelphis","3":"omni","4":"Didelphimorphia","5":"lc","6":"18.0","7":"4.9","8":"0.3333333","9":"6.00","10":"0.00630","11":"1.700"},{"1":"Asian elephant","2":"Elephas","3":"herbi","4":"Proboscidea","5":"en","6":"3.9","7":"NA","8":"NA","9":"20.10","10":"4.60300","11":"2547.000"},{"1":"Big brown bat","2":"Eptesicus","3":"insecti","4":"Chiroptera","5":"lc","6":"19.7","7":"3.9","8":"0.1166667","9":"4.30","10":"0.00030","11":"0.023"},{"1":"Horse","2":"Equus","3":"herbi","4":"Perissodactyla","5":"domesticated","6":"2.9","7":"0.6","8":"1.0000000","9":"21.10","10":"0.65500","11":"521.000"},{"1":"Donkey","2":"Equus","3":"herbi","4":"Perissodactyla","5":"domesticated","6":"3.1","7":"0.4","8":"NA","9":"20.90","10":"0.41900","11":"187.000"},{"1":"European hedgehog","2":"Erinaceus","3":"omni","4":"Erinaceomorpha","5":"lc","6":"10.1","7":"3.5","8":"0.2833333","9":"13.90","10":"0.00350","11":"0.770"},{"1":"Patas monkey","2":"Erythrocebus","3":"omni","4":"Primates","5":"lc","6":"10.9","7":"1.1","8":"NA","9":"13.10","10":"0.11500","11":"10.000"},{"1":"Western american chipmunk","2":"Eutamias","3":"herbi","4":"Rodentia","5":"NA","6":"14.9","7":"NA","8":"NA","9":"9.10","10":"NA","11":"0.071"},{"1":"Domestic cat","2":"Felis","3":"carni","4":"Carnivora","5":"domesticated","6":"12.5","7":"3.2","8":"0.4166667","9":"11.50","10":"0.02560","11":"3.300"},{"1":"Galago","2":"Galago","3":"omni","4":"Primates","5":"NA","6":"9.8","7":"1.1","8":"0.5500000","9":"14.20","10":"0.00500","11":"0.200"},{"1":"Giraffe","2":"Giraffa","3":"herbi","4":"Artiodactyla","5":"cd","6":"1.9","7":"0.4","8":"NA","9":"22.10","10":"NA","11":"899.995"},{"1":"Pilot whale","2":"Globicephalus","3":"carni","4":"Cetacea","5":"cd","6":"2.7","7":"0.1","8":"NA","9":"21.35","10":"NA","11":"800.000"},{"1":"Gray seal","2":"Haliochoerus","3":"carni","4":"Carnivora","5":"lc","6":"6.2","7":"1.5","8":"NA","9":"17.80","10":"0.32500","11":"85.000"},{"1":"Gray hyrax","2":"Heterohyrax","3":"herbi","4":"Hyracoidea","5":"lc","6":"6.3","7":"0.6","8":"NA","9":"17.70","10":"0.01227","11":"2.625"},{"1":"Human","2":"Homo","3":"omni","4":"Primates","5":"NA","6":"8.0","7":"1.9","8":"1.5000000","9":"16.00","10":"1.32000","11":"62.000"},{"1":"Mongoose lemur","2":"Lemur","3":"herbi","4":"Primates","5":"vu","6":"9.5","7":"0.9","8":"NA","9":"14.50","10":"NA","11":"1.670"},{"1":"African elephant","2":"Loxodonta","3":"herbi","4":"Proboscidea","5":"vu","6":"3.3","7":"NA","8":"NA","9":"20.70","10":"5.71200","11":"6654.000"},{"1":"Thick-tailed opposum","2":"Lutreolina","3":"carni","4":"Didelphimorphia","5":"lc","6":"19.4","7":"6.6","8":"NA","9":"4.60","10":"NA","11":"0.370"},{"1":"Macaque","2":"Macaca","3":"omni","4":"Primates","5":"NA","6":"10.1","7":"1.2","8":"0.7500000","9":"13.90","10":"0.17900","11":"6.800"},{"1":"Mongolian gerbil","2":"Meriones","3":"herbi","4":"Rodentia","5":"lc","6":"14.2","7":"1.9","8":"NA","9":"9.80","10":"NA","11":"0.053"},{"1":"Golden hamster","2":"Mesocricetus","3":"herbi","4":"Rodentia","5":"en","6":"14.3","7":"3.1","8":"0.2000000","9":"9.70","10":"0.00100","11":"0.120"},{"1":"Vole","2":"Microtus","3":"herbi","4":"Rodentia","5":"NA","6":"12.8","7":"NA","8":"NA","9":"11.20","10":"NA","11":"0.035"},{"1":"House mouse","2":"Mus","3":"herbi","4":"Rodentia","5":"nt","6":"12.5","7":"1.4","8":"0.1833333","9":"11.50","10":"0.00040","11":"0.022"},{"1":"Little brown bat","2":"Myotis","3":"insecti","4":"Chiroptera","5":"NA","6":"19.9","7":"2.0","8":"0.2000000","9":"4.10","10":"0.00025","11":"0.010"},{"1":"Round-tailed muskrat","2":"Neofiber","3":"herbi","4":"Rodentia","5":"nt","6":"14.6","7":"NA","8":"NA","9":"9.40","10":"NA","11":"0.266"},{"1":"Slow loris","2":"Nyctibeus","3":"carni","4":"Primates","5":"NA","6":"11.0","7":"NA","8":"NA","9":"13.00","10":"0.01250","11":"1.400"},{"1":"Degu","2":"Octodon","3":"herbi","4":"Rodentia","5":"lc","6":"7.7","7":"0.9","8":"NA","9":"16.30","10":"NA","11":"0.210"},{"1":"Northern grasshopper mouse","2":"Onychomys","3":"carni","4":"Rodentia","5":"lc","6":"14.5","7":"NA","8":"NA","9":"9.50","10":"NA","11":"0.028"},{"1":"Rabbit","2":"Oryctolagus","3":"herbi","4":"Lagomorpha","5":"domesticated","6":"8.4","7":"0.9","8":"0.4166667","9":"15.60","10":"0.01210","11":"2.500"},{"1":"Sheep","2":"Ovis","3":"herbi","4":"Artiodactyla","5":"domesticated","6":"3.8","7":"0.6","8":"NA","9":"20.20","10":"0.17500","11":"55.500"},{"1":"Chimpanzee","2":"Pan","3":"omni","4":"Primates","5":"NA","6":"9.7","7":"1.4","8":"1.4166667","9":"14.30","10":"0.44000","11":"52.200"},{"1":"Tiger","2":"Panthera","3":"carni","4":"Carnivora","5":"en","6":"15.8","7":"NA","8":"NA","9":"8.20","10":"NA","11":"162.564"},{"1":"Jaguar","2":"Panthera","3":"carni","4":"Carnivora","5":"nt","6":"10.4","7":"NA","8":"NA","9":"13.60","10":"0.15700","11":"100.000"},{"1":"Lion","2":"Panthera","3":"carni","4":"Carnivora","5":"vu","6":"13.5","7":"NA","8":"NA","9":"10.50","10":"NA","11":"161.499"},{"1":"Baboon","2":"Papio","3":"omni","4":"Primates","5":"NA","6":"9.4","7":"1.0","8":"0.6666667","9":"14.60","10":"0.18000","11":"25.235"},{"1":"Desert hedgehog","2":"Paraechinus","3":"NA","4":"Erinaceomorpha","5":"lc","6":"10.3","7":"2.7","8":"NA","9":"13.70","10":"0.00240","11":"0.550"},{"1":"Potto","2":"Perodicticus","3":"omni","4":"Primates","5":"lc","6":"11.0","7":"NA","8":"NA","9":"13.00","10":"NA","11":"1.100"},{"1":"Deer mouse","2":"Peromyscus","3":"NA","4":"Rodentia","5":"NA","6":"11.5","7":"NA","8":"NA","9":"12.50","10":"NA","11":"0.021"},{"1":"Phalanger","2":"Phalanger","3":"NA","4":"Diprotodontia","5":"NA","6":"13.7","7":"1.8","8":"NA","9":"10.30","10":"0.01140","11":"1.620"},{"1":"Caspian seal","2":"Phoca","3":"carni","4":"Carnivora","5":"vu","6":"3.5","7":"0.4","8":"NA","9":"20.50","10":"NA","11":"86.000"},{"1":"Common porpoise","2":"Phocoena","3":"carni","4":"Cetacea","5":"vu","6":"5.6","7":"NA","8":"NA","9":"18.45","10":"NA","11":"53.180"},{"1":"Potoroo","2":"Potorous","3":"herbi","4":"Diprotodontia","5":"NA","6":"11.1","7":"1.5","8":"NA","9":"12.90","10":"NA","11":"1.100"},{"1":"Giant armadillo","2":"Priodontes","3":"insecti","4":"Cingulata","5":"en","6":"18.1","7":"6.1","8":"NA","9":"5.90","10":"0.08100","11":"60.000"},{"1":"Rock hyrax","2":"Procavia","3":"NA","4":"Hyracoidea","5":"lc","6":"5.4","7":"0.5","8":"NA","9":"18.60","10":"0.02100","11":"3.600"},{"1":"Laboratory rat","2":"Rattus","3":"herbi","4":"Rodentia","5":"lc","6":"13.0","7":"2.4","8":"0.1833333","9":"11.00","10":"0.00190","11":"0.320"},{"1":"African striped mouse","2":"Rhabdomys","3":"omni","4":"Rodentia","5":"NA","6":"8.7","7":"NA","8":"NA","9":"15.30","10":"NA","11":"0.044"},{"1":"Squirrel monkey","2":"Saimiri","3":"omni","4":"Primates","5":"NA","6":"9.6","7":"1.4","8":"NA","9":"14.40","10":"0.02000","11":"0.743"},{"1":"Eastern american mole","2":"Scalopus","3":"insecti","4":"Soricomorpha","5":"lc","6":"8.4","7":"2.1","8":"0.1666667","9":"15.60","10":"0.00120","11":"0.075"},{"1":"Cotton rat","2":"Sigmodon","3":"herbi","4":"Rodentia","5":"NA","6":"11.3","7":"1.1","8":"0.1500000","9":"12.70","10":"0.00118","11":"0.148"},{"1":"Mole rat","2":"Spalax","3":"NA","4":"Rodentia","5":"NA","6":"10.6","7":"2.4","8":"NA","9":"13.40","10":"0.00300","11":"0.122"},{"1":"Arctic ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc","6":"16.6","7":"NA","8":"NA","9":"7.40","10":"0.00570","11":"0.920"},{"1":"Thirteen-lined ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc","6":"13.8","7":"3.4","8":"0.2166667","9":"10.20","10":"0.00400","11":"0.101"},{"1":"Golden-mantled ground squirrel","2":"Spermophilus","3":"herbi","4":"Rodentia","5":"lc","6":"15.9","7":"3.0","8":"NA","9":"8.10","10":"NA","11":"0.205"},{"1":"Musk shrew","2":"Suncus","3":"NA","4":"Soricomorpha","5":"NA","6":"12.8","7":"2.0","8":"0.1833333","9":"11.20","10":"0.00033","11":"0.048"},{"1":"Pig","2":"Sus","3":"omni","4":"Artiodactyla","5":"domesticated","6":"9.1","7":"2.4","8":"0.5000000","9":"14.90","10":"0.18000","11":"86.250"},{"1":"Short-nosed echidna","2":"Tachyglossus","3":"insecti","4":"Monotremata","5":"NA","6":"8.6","7":"NA","8":"NA","9":"15.40","10":"0.02500","11":"4.500"},{"1":"Eastern american chipmunk","2":"Tamias","3":"herbi","4":"Rodentia","5":"NA","6":"15.8","7":"NA","8":"NA","9":"8.20","10":"NA","11":"0.112"},{"1":"Brazilian tapir","2":"Tapirus","3":"herbi","4":"Perissodactyla","5":"vu","6":"4.4","7":"1.0","8":"0.9000000","9":"19.60","10":"0.16900","11":"207.501"},{"1":"Tenrec","2":"Tenrec","3":"omni","4":"Afrosoricida","5":"NA","6":"15.6","7":"2.3","8":"NA","9":"8.40","10":"0.00260","11":"0.900"},{"1":"Tree shrew","2":"Tupaia","3":"omni","4":"Scandentia","5":"NA","6":"8.9","7":"2.6","8":"0.2333333","9":"15.10","10":"0.00250","11":"0.104"},{"1":"Bottle-nosed dolphin","2":"Tursiops","3":"carni","4":"Cetacea","5":"NA","6":"5.2","7":"NA","8":"NA","9":"18.80","10":"NA","11":"173.330"},{"1":"Genet","2":"Genetta","3":"carni","4":"Carnivora","5":"NA","6":"6.3","7":"1.3","8":"NA","9":"17.70","10":"0.01750","11":"2.000"},{"1":"Arctic fox","2":"Vulpes","3":"carni","4":"Carnivora","5":"NA","6":"12.5","7":"NA","8":"NA","9":"11.50","10":"0.04450","11":"3.380"},{"1":"Red fox","2":"Vulpes","3":"carni","4":"Carnivora","5":"NA","6":"9.8","7":"2.4","8":"0.3500000","9":"14.20","10":"0.05040","11":"4.230"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+<p>You can go further than that by creating functions on the fly: if you have messy column names coming from excel for instance you can replace all white spaces with an underscore.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co">#making an unclean database:</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>msleep2 <span class="ot">&lt;-</span> <span class="fu">select</span>(msleep, name, sleep_total, brainwt)</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(msleep2) <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;name&quot;</span>, <span class="st">&quot;sleep total&quot;</span>, <span class="st">&quot;brain weight&quot;</span>)</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>msleep2 <span class="sc">%&gt;%</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select_all</span>(<span class="sc">~</span><span class="fu">str_replace</span>(., <span class="st">&quot; &quot;</span>, <span class="st">&quot;_&quot;</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["brain_weight"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cheetah","2":"12.1","3":"NA"},{"1":"Owl monkey","2":"17.0","3":"0.01550"},{"1":"Mountain beaver","2":"14.4","3":"NA"},{"1":"Greater short-tailed shrew","2":"14.9","3":"0.00029"},{"1":"Cow","2":"4.0","3":"0.42300"},{"1":"Three-toed sloth","2":"14.4","3":"NA"},{"1":"Northern fur seal","2":"8.7","3":"NA"},{"1":"Vesper mouse","2":"7.0","3":"NA"},{"1":"Dog","2":"10.1","3":"0.07000"},{"1":"Roe deer","2":"3.0","3":"0.09820"},{"1":"Goat","2":"5.3","3":"0.11500"},{"1":"Guinea pig","2":"9.4","3":"0.00550"},{"1":"Grivet","2":"10.0","3":"NA"},{"1":"Chinchilla","2":"12.5","3":"0.00640"},{"1":"Star-nosed mole","2":"10.3","3":"0.00100"},{"1":"African giant pouched rat","2":"8.3","3":"0.00660"},{"1":"Lesser short-tailed shrew","2":"9.1","3":"0.00014"},{"1":"Long-nosed armadillo","2":"17.4","3":"0.01080"},{"1":"Tree hyrax","2":"5.3","3":"0.01230"},{"1":"North American Opossum","2":"18.0","3":"0.00630"},{"1":"Asian elephant","2":"3.9","3":"4.60300"},{"1":"Big brown bat","2":"19.7","3":"0.00030"},{"1":"Horse","2":"2.9","3":"0.65500"},{"1":"Donkey","2":"3.1","3":"0.41900"},{"1":"European hedgehog","2":"10.1","3":"0.00350"},{"1":"Patas monkey","2":"10.9","3":"0.11500"},{"1":"Western american chipmunk","2":"14.9","3":"NA"},{"1":"Domestic cat","2":"12.5","3":"0.02560"},{"1":"Galago","2":"9.8","3":"0.00500"},{"1":"Giraffe","2":"1.9","3":"NA"},{"1":"Pilot whale","2":"2.7","3":"NA"},{"1":"Gray seal","2":"6.2","3":"0.32500"},{"1":"Gray hyrax","2":"6.3","3":"0.01227"},{"1":"Human","2":"8.0","3":"1.32000"},{"1":"Mongoose lemur","2":"9.5","3":"NA"},{"1":"African elephant","2":"3.3","3":"5.71200"},{"1":"Thick-tailed opposum","2":"19.4","3":"NA"},{"1":"Macaque","2":"10.1","3":"0.17900"},{"1":"Mongolian gerbil","2":"14.2","3":"NA"},{"1":"Golden hamster","2":"14.3","3":"0.00100"},{"1":"Vole","2":"12.8","3":"NA"},{"1":"House mouse","2":"12.5","3":"0.00040"},{"1":"Little brown bat","2":"19.9","3":"0.00025"},{"1":"Round-tailed muskrat","2":"14.6","3":"NA"},{"1":"Slow loris","2":"11.0","3":"0.01250"},{"1":"Degu","2":"7.7","3":"NA"},{"1":"Northern grasshopper mouse","2":"14.5","3":"NA"},{"1":"Rabbit","2":"8.4","3":"0.01210"},{"1":"Sheep","2":"3.8","3":"0.17500"},{"1":"Chimpanzee","2":"9.7","3":"0.44000"},{"1":"Tiger","2":"15.8","3":"NA"},{"1":"Jaguar","2":"10.4","3":"0.15700"},{"1":"Lion","2":"13.5","3":"NA"},{"1":"Baboon","2":"9.4","3":"0.18000"},{"1":"Desert hedgehog","2":"10.3","3":"0.00240"},{"1":"Potto","2":"11.0","3":"NA"},{"1":"Deer mouse","2":"11.5","3":"NA"},{"1":"Phalanger","2":"13.7","3":"0.01140"},{"1":"Caspian seal","2":"3.5","3":"NA"},{"1":"Common porpoise","2":"5.6","3":"NA"},{"1":"Potoroo","2":"11.1","3":"NA"},{"1":"Giant armadillo","2":"18.1","3":"0.08100"},{"1":"Rock hyrax","2":"5.4","3":"0.02100"},{"1":"Laboratory rat","2":"13.0","3":"0.00190"},{"1":"African striped mouse","2":"8.7","3":"NA"},{"1":"Squirrel monkey","2":"9.6","3":"0.02000"},{"1":"Eastern american mole","2":"8.4","3":"0.00120"},{"1":"Cotton rat","2":"11.3","3":"0.00118"},{"1":"Mole rat","2":"10.6","3":"0.00300"},{"1":"Arctic ground squirrel","2":"16.6","3":"0.00570"},{"1":"Thirteen-lined ground squirrel","2":"13.8","3":"0.00400"},{"1":"Golden-mantled ground squirrel","2":"15.9","3":"NA"},{"1":"Musk shrew","2":"12.8","3":"0.00033"},{"1":"Pig","2":"9.1","3":"0.18000"},{"1":"Short-nosed echidna","2":"8.6","3":"0.02500"},{"1":"Eastern american chipmunk","2":"15.8","3":"NA"},{"1":"Brazilian tapir","2":"4.4","3":"0.16900"},{"1":"Tenrec","2":"15.6","3":"0.00260"},{"1":"Tree shrew","2":"8.9","3":"0.00250"},{"1":"Bottle-nosed dolphin","2":"5.2","3":"NA"},{"1":"Genet","2":"6.3","3":"0.01750"},{"1":"Arctic fox","2":"12.5","3":"0.04450"},{"1":"Red fox","2":"9.8","3":"0.05040"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br><br></p>
+</div>
+<div id="row-names-to-column" class="section level2" number="3.3">
+<h2 number="3.3"><span class="header-section-number">3.3</span> <strong>Row names to column</strong></h2>
+<p>Some dataframes have rownames that are not actually a column in itself, like the mtcars dataset:</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a> mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>   head</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["mpg"],"name":[1],"type":["dbl"],"align":["right"]},{"label":["cyl"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["disp"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["hp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["drat"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["wt"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["qsec"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["vs"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["am"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["gear"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["carb"],"name":[11],"type":["dbl"],"align":["right"]}],"data":[{"1":"21.0","2":"6","3":"160","4":"110","5":"3.90","6":"2.620","7":"16.46","8":"0","9":"1","10":"4","11":"4","_rn_":"Mazda RX4"},{"1":"21.0","2":"6","3":"160","4":"110","5":"3.90","6":"2.875","7":"17.02","8":"0","9":"1","10":"4","11":"4","_rn_":"Mazda RX4 Wag"},{"1":"22.8","2":"4","3":"108","4":"93","5":"3.85","6":"2.320","7":"18.61","8":"1","9":"1","10":"4","11":"1","_rn_":"Datsun 710"},{"1":"21.4","2":"6","3":"258","4":"110","5":"3.08","6":"3.215","7":"19.44","8":"1","9":"0","10":"3","11":"1","_rn_":"Hornet 4 Drive"},{"1":"18.7","2":"8","3":"360","4":"175","5":"3.15","6":"3.440","7":"17.02","8":"0","9":"0","10":"3","11":"2","_rn_":"Hornet Sportabout"},{"1":"18.1","2":"6","3":"225","4":"105","5":"2.76","6":"3.460","7":"20.22","8":"1","9":"0","10":"3","11":"1","_rn_":"Valiant"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+<p>If you want this column to be an actual column, you can use the <code>rownames_to_column()</code> function, and specify a new column name.</p>
+<div class="sourceCode" id="cb36"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a> mtcars <span class="sc">%&gt;%</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>   <span class="fu">rownames_to_column</span>(<span class="st">&quot;car_model&quot;</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>   head</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["car_model"],"name":[1],"type":["chr"],"align":["left"]},{"label":["mpg"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["cyl"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["disp"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["hp"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["drat"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["wt"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["qsec"],"name":[8],"type":["dbl"],"align":["right"]},{"label":["vs"],"name":[9],"type":["dbl"],"align":["right"]},{"label":["am"],"name":[10],"type":["dbl"],"align":["right"]},{"label":["gear"],"name":[11],"type":["dbl"],"align":["right"]},{"label":["carb"],"name":[12],"type":["dbl"],"align":["right"]}],"data":[{"1":"Mazda RX4","2":"21.0","3":"6","4":"160","5":"110","6":"3.90","7":"2.620","8":"16.46","9":"0","10":"1","11":"4","12":"4","_rn_":"1"},{"1":"Mazda RX4 Wag","2":"21.0","3":"6","4":"160","5":"110","6":"3.90","7":"2.875","8":"17.02","9":"0","10":"1","11":"4","12":"4","_rn_":"2"},{"1":"Datsun 710","2":"22.8","3":"4","4":"108","5":"93","6":"3.85","7":"2.320","8":"18.61","9":"1","10":"1","11":"4","12":"1","_rn_":"3"},{"1":"Hornet 4 Drive","2":"21.4","3":"6","4":"258","5":"110","6":"3.08","7":"3.215","8":"19.44","9":"1","10":"0","11":"3","12":"1","_rn_":"4"},{"1":"Hornet Sportabout","2":"18.7","3":"8","4":"360","5":"175","6":"3.15","7":"3.440","8":"17.02","9":"0","10":"0","11":"3","12":"2","_rn_":"5"},{"1":"Valiant","2":"18.1","3":"6","4":"225","5":"105","6":"2.76","7":"3.460","8":"20.22","9":"1","10":"0","11":"3","12":"1","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

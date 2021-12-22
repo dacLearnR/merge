@@ -1,0 +1,337 @@
+---
+title: Pengolahan Data
+author: Team Laboratorium Biro TI
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  html_document:
+    toc: true
+    toc_depth: 4
+    toc_float:
+      collapsed: false
+      smooth_scroll: true
+    number_sections: true
+    theme: united
+    highlight: espresso
+    fig_width: 8
+    fig_height: 4
+    df_print: paged
+    #code_folding: show
+    #mathjax: null
+    css: style.css
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = TRUE,
+  message = FALSE,
+  warning = FALSE,
+  fig.align = "center"
+)
+
+options(scipen = 9999)
+
+
+library(tidyverse)
+```
+
+# Import Data
+
+## Clipboard
+
+```{r}
+library(clipr)
+```
+
+```{r, eval=FALSE}
+data <- clipr::read_clip_tbl()
+
+write.csv(data, "./data/daftar_entitas.csv")
+```
+
+## Load From CSV
+```{r}
+data <- read.csv("./data/daftar_entitas.csv", row.names = NULL)
+
+head(data)
+```
+
+### Select Data
+
+```{r}
+# 15 Row
+data[1:15,]
+
+# Column
+data %>% select(kode_kota, nama_kota)
+```
+
+### Change Column Name
+```{r}
+data <- data %>% rename(no = X)
+data
+```
+
+
+### Change Column Data
+
+```{r}
+# Huruf Kecil
+data %>% mutate(
+  nama_provinsi_lower = str_to_lower(nama_provinsi),
+  nama_kota_title = str_to_title(nama_kota)
+  )
+```
+
+# Make Random Data
+
+## Simple
+
+```{r}
+expand.grid(gender=c("M","F"), 
+            education=c("HS","College","Advanced"), 
+            status=c("Single","Married","Divorced","Widowed"))
+```
+
+## Mixed
+
+```{r}
+library(stringi)
+sprintf("%s%s%s", stri_rand_strings(15, 5, '[A-Z]'),
+      stri_rand_strings(5, 4, '[0-9]'), stri_rand_strings(5, 1, '[A-Z]'))
+```
+
+
+
+# Latihan 01
+
+## Init Data
+
+\
+**3.1.1 Generate Data Transaksi **
+
+```{r, eval=FALSE}
+rnd_pemda <- paste("Pemda",LETTERS[1:5], sep = " ")
+rnd_tahun <- 2017:2020
+
+## Rupiah
+rnd_custom <- expand.grid(
+  pemda = rnd_pemda, 
+  tahun = rnd_tahun)
+
+df_transaksi <- 
+  rnd_custom %>%
+  mutate(keterangan = paste0(floor(runif(tahun, 50000, 100000)), " Rp")) %>% 
+  rbind(
+    rnd_custom %>%
+      mutate(keterangan = paste0(floor(runif(tahun, 500, 750)), " USD"))
+  ) %>% 
+  rbind(
+    rnd_custom %>%
+      mutate(keterangan = paste0(floor(runif(tahun, 2000, 5000)), " Yen"))
+  ) %>% 
+  rbind(
+    rnd_custom %>%
+      mutate(keterangan = paste0(floor(runif(tahun, 100, 150)), " Pound"))
+  )
+
+df_transaksi
+```
+
+
+\
+**3.1.2 Generate Data Kurs **
+
+```{r, eval=FALSE}
+df_kurs <- data.frame(mata_uang = c("Rp","USD","Yen","Pound"), tanda = c("Rp","$","¥","£"), kurs_rp=c(1L,14385L,126L,16166L))
+df_kurs
+```
+
+
+```{r, eval=FALSE}
+write.csv(df_transaksi, "./data/df_transaksi.csv", row.names = FALSE)
+write.csv(df_kurs, "./data/df_kurs.csv", row.names = FALSE)
+```
+
+```{r}
+df_transaksi <- read.csv("./data/df_transaksi.csv")
+df_kurs <-read.csv("./data/df_kurs.csv")
+```
+
+## Tampilkan
+
+- Buat Laporan Rekapitulasi Per Pemda
+- Buat Laporan Rekapitulasi Per Tahun Urutkan Terbesar
+- Buat Laporan Rekapitulasi Per Pemda dan Tahun
+- Tampilkan 2 Nilai Terbesar dari Setiap Pemda
+
+
+## Langkah - Langkah
+
+### Deskripsi Data
+
+```{r}
+glimpse(df_kurs)
+glimpse(df_transaksi)
+
+head(df_kurs)
+df_transaksi
+
+summary(df_transaksi)
+```
+
+### Pisahkan Nilai dan Mata Uang
+```{r}
+## Separate
+
+df_transaksi_split <- df_transaksi %>% 
+  separate(keterangan, c("nilai", "mata_uang"), sep = " ", remove = F)
+
+df_transaksi_split
+```
+
+```{r}
+##Extract
+
+df_transaksi_split <- df_transaksi %>% 
+  mutate(nilai = str_extract(keterangan, "[:digit:]+")) %>% 
+  mutate(mata_uang = str_extract(keterangan, "[:alpha:]+"))
+
+df_transaksi_split
+```
+
+
+### Join Table
+
+```{r}
+glimpse(df_kurs)
+glimpse(df_transaksi_split)
+```
+
+```{r}
+df_transaksi_split$nilai <- as.numeric(df_transaksi_split$nilai)
+```
+
+```{r}
+df_transaksi_join <- df_transaksi_split %>% 
+  inner_join(df_kurs, by = "mata_uang") %>% 
+  rename(nilai_kurs = kurs_rp) %>%
+  mutate(total = nilai * nilai_kurs) %>% 
+  select(-c(keterangan, tanda))
+
+df_transaksi_join
+```
+
+
+### Rekap Per Pemda
+
+```{r}
+df_transaksi_join %>% 
+  group_by(pemda) %>% 
+  summarise(total_nilai = sum(total))
+```
+
+
+### Rekap Per Tahun (Sort)
+
+```{r}
+df_transaksi_join %>% 
+  group_by(tahun) %>% 
+  summarise(total_nilai = sum(total)) %>% 
+  arrange(desc(total_nilai))
+```
+
+
+### Rekap Per Pemda & Tahun
+
+#### Cara 01
+
+**Buat Rekap**
+
+```{r}
+df_transaksi_rekap <- df_transaksi_join %>% 
+  pivot_wider(
+    id_cols = pemda, 
+    names_from = tahun, 
+    values_from = total, 
+    values_fn = sum, 
+    names_prefix = "tahun_")
+
+df_transaksi_rekap
+```
+
+\
+**Buat Rekap Nilai Samping**
+
+```{r}
+df_transaksi_rekap_samping <- df_transaksi_rekap %>%
+  rowwise() %>% 
+  mutate(total_nilai = sum(tahun_2017 + tahun_2018 + tahun_2019 + tahun_2020))
+
+df_transaksi_rekap_samping
+```
+\
+**Buat Rekap Nilai Bawah**
+
+```{r}
+df_transaksi_rekap_bawah <- df_transaksi_rekap %>%
+  summarise(
+    tahun_2017 = sum(tahun_2017),
+    tahun_2018 = sum(tahun_2018),
+    tahun_2019 = sum(tahun_2019),
+    tahun_2020 = sum(tahun_2020),
+    total_nilai = sum(tahun_2017 + tahun_2018 + tahun_2019 + tahun_2020)
+  )
+
+
+df_transaksi_rekap_bawah$pemda <- "Total"
+df_transaksi_rekap_bawah <- relocate(df_transaksi_rekap_bawah, pemda, .before = tahun_2017)
+df_transaksi_rekap_bawah
+```
+
+\
+**Buat Rekap Nilai Gabung**
+
+```{r}
+#glimpse(df_transaksi_rekap_samping)
+#glimpse(df_transaksi_rekap_bawah)
+df_transaksi_rekap_merge <- rbind(df_transaksi_rekap_samping, df_transaksi_rekap_bawah)
+df_transaksi_rekap_merge
+```
+
+
+#### Cara 02
+
+```{r}
+library(janitor)
+df_transaksi_join %>% 
+  pivot_wider(id_cols = pemda, names_from = tahun, values_from = total, values_fn = sum, names_prefix = "tahun_") %>%
+adorn_totals(where = c("row","col"))
+```
+
+
+### 2 Nilai Terbesar Tiap Pemda
+
+**Hasil**
+
+```{r}
+df_transaksi_join %>% 
+  group_by(pemda) %>% 
+  top_n(2) %>% 
+  arrange(pemda, desc(total))
+```
+
+\
+**Cek Pemda A**
+```{r}
+df_transaksi_join %>% 
+  filter(pemda == "Pemda A") %>% 
+  arrange(desc(total))
+```
+
+\
+**Cek Pemda D**
+```{r}
+df_transaksi_join %>% 
+  filter(pemda == "Pemda D") %>% 
+  arrange(desc(total))
+```
