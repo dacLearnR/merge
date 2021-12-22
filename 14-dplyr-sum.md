@@ -528,14 +528,14 @@ fraction of rows (here 10%).
     ## # A tibble: 8 x 11
     ##   name    genus vore  order conservation sleep_total sleep_rem sleep_cycle awake
     ##   <chr>   <chr> <chr> <chr> <chr>              <dbl>     <dbl>       <dbl> <dbl>
-    ## 1 Wester~ Euta~ herbi Rode~ <NA>                14.9      NA        NA       9.1
-    ## 2 Owl mo~ Aotus omni  Prim~ <NA>                17         1.8      NA       7  
-    ## 3 Tree h~ Dend~ herbi Hyra~ lc                   5.3       0.5      NA      18.7
-    ## 4 Africa~ Cric~ omni  Rode~ <NA>                 8.3       2        NA      15.7
-    ## 5 Chinch~ Chin~ herbi Rode~ domesticated        12.5       1.5       0.117  11.5
-    ## 6 Pilot ~ Glob~ carni Ceta~ cd                   2.7       0.1      NA      21.4
-    ## 7 Mounta~ Aplo~ herbi Rode~ nt                  14.4       2.4      NA       9.6
-    ## 8 Grivet  Cerc~ omni  Prim~ lc                  10         0.7      NA      14  
+    ## 1 Jaguar  Pant~ carni Carn~ nt                  10.4      NA        NA      13.6
+    ## 2 Guinea~ Cavis herbi Rode~ domesticated         9.4       0.8       0.217  14.6
+    ## 3 Labora~ Ratt~ herbi Rode~ lc                  13         2.4       0.183  11  
+    ## 4 Africa~ Rhab~ omni  Rode~ <NA>                 8.7      NA        NA      15.3
+    ## 5 Mole r~ Spal~ <NA>  Rode~ <NA>                10.6       2.4      NA      13.4
+    ## 6 Tree h~ Dend~ herbi Hyra~ lc                   5.3       0.5      NA      18.7
+    ## 7 Chimpa~ Pan   omni  Prim~ <NA>                 9.7       1.4       1.42   14.3
+    ## 8 House ~ Mus   herbi Rode~ nt                  12.5       1.4       0.183  11.5
     ## # ... with 2 more variables: brainwt <dbl>, bodywt <dbl>
 
 ### A user-defined slice of rows

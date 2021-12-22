@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Tim Laboratorium Biro TI" />
+
+
+<title>Filtering Data</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Workshop Data Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="11-dplyr-select.html">Select</a>
+    </li>
+    <li>
+      <a href="12-dplyr-transform.html">Transform</a>
+    </li>
+    <li>
+      <a href="13-dplyr-filter.html">Filter</a>
+    </li>
+    <li>
+      <a href="14-dplyr-sum.html">Summarize</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="01-processing.html">Processing</a>
+</li>
+<li>
+  <a href="02-vaksin.html">GGPlot</a>
+</li>
+<li>
+  <a href="03-covid.html">Plotly</a>
+</li>
+<li>
+  <a href="04-maps.html">Maps</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Filtering Data</h1>
+<h3 class="subtitle">Advanced Filter Data<br></h3>
+<h4 class="author">Tim Laboratorium Biro TI</h4>
+<h4 class="date">22 Desember, 2021<br></h4>
+
+</div>
+
+
+<p>This is the third blog post in a series of dplyr tutorials:</p>
+<ul>
+<li><a href="https://suzanbaert.netlify.com/2018/01/dplyr-tutorial-1/">Part 1: Basic to Advanced Ways to Select Columns</a></li>
+<li><a href="https://suzan.rbind.io/2018/02/dplyr-tutorial-2/">Part 2: Transforming your columns into the right shape</a></li>
+</ul>
+<p>Content:</p>
+<p>Part 3 : Filtering data</p>
+<p><strong>The data</strong><br />
+As per previous blog posts, many of these functions truly shine when you have a lot of columns, but to make it easy on people to copy paste code and experiment, I’m using a built-in dataset. This dataset is built into ggplot2, so if you load tidyverse you will get it. Otherwise, just add once <code>msleep &lt;- ggplot2::msleep</code> argument to have the dataset available.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>msleep <span class="ot">&lt;-</span> ggplot2<span class="sc">::</span>msleep</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(msleep)</span></code></pre></div>
+<pre><code>## Rows: 83
+## Columns: 11
+## $ name         &lt;chr&gt; &quot;Cheetah&quot;, &quot;Owl monkey&quot;, &quot;Mountain beaver&quot;, &quot;Greater shor~
+## $ genus        &lt;chr&gt; &quot;Acinonyx&quot;, &quot;Aotus&quot;, &quot;Aplodontia&quot;, &quot;Blarina&quot;, &quot;Bos&quot;, &quot;Bra~
+## $ vore         &lt;chr&gt; &quot;carni&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;omni&quot;, &quot;herbi&quot;, &quot;herbi&quot;, &quot;carn~
+## $ order        &lt;chr&gt; &quot;Carnivora&quot;, &quot;Primates&quot;, &quot;Rodentia&quot;, &quot;Soricomorpha&quot;, &quot;Art~
+## $ conservation &lt;chr&gt; &quot;lc&quot;, NA, &quot;nt&quot;, &quot;lc&quot;, &quot;domesticated&quot;, NA, &quot;vu&quot;, NA, &quot;dome~
+## $ sleep_total  &lt;dbl&gt; 12.1, 17.0, 14.4, 14.9, 4.0, 14.4, 8.7, 7.0, 10.1, 3.0, 5~
+## $ sleep_rem    &lt;dbl&gt; NA, 1.8, 2.4, 2.3, 0.7, 2.2, 1.4, NA, 2.9, NA, 0.6, 0.8, ~
+## $ sleep_cycle  &lt;dbl&gt; NA, NA, NA, 0.1333333, 0.6666667, 0.7666667, 0.3833333, N~
+## $ awake        &lt;dbl&gt; 11.9, 7.0, 9.6, 9.1, 20.0, 9.6, 15.3, 17.0, 13.9, 21.0, 1~
+## $ brainwt      &lt;dbl&gt; NA, 0.01550, NA, 0.00029, 0.42300, NA, NA, NA, 0.07000, 0~
+## $ bodywt       &lt;dbl&gt; 50.000, 0.480, 1.350, 0.019, 600.000, 3.850, 20.490, 0.04~</code></pre>
+<p><br></p>
+<div id="basic-row-filters" class="section level2" number="0.1">
+<h2 number="0.1"><span class="header-section-number">0.1</span> <strong>Basic row filters</strong></h2>
+<p>In many cases you don’t want to include all rows in your analysis but only a selection of rows. The function to use only specific rows is called <code>filter()</code> in dplyr. The general syntax of filter is: <code>filter(dataset, condition)</code>. In case you filter inside a pipeline, you will only see the condition argument as the dataset is piped into the function.</p>
+<div id="filtering-rows-based-on-a-numeric-variable" class="section level3" number="0.1.1">
+<h3 number="0.1.1"><span class="header-section-number">0.1.1</span> <strong>Filtering rows based on a numeric variable</strong></h3>
+<p>You can filter numeric variables based on their values. The most used operators for this are <code>&gt;</code>, <code>&gt;=</code>, <code>&lt;</code>, <code>&lt;=</code>, <code>==</code> and <code>!=</code>.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(sleep_total <span class="sc">&gt;</span> <span class="dv">18</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Big brown bat","2":"19.7"},{"1":"Thick-tailed opposum","2":"19.4"},{"1":"Little brown bat","2":"19.9"},{"1":"Giant armadillo","2":"18.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>If you want to select a range of values you can use two logical requirements. For instance to select all animals with a total sleep time between 15 and 18 hours, I could use: <code>filter(sleep_total &gt;= 16, sleep_total &lt;= 18)</code>, but there is a slightly shorter way by using the <code>between()</code> function.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">between</span>(sleep_total, <span class="dv">16</span>, <span class="dv">18</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Owl monkey","2":"17.0"},{"1":"Long-nosed armadillo","2":"17.4"},{"1":"North American Opossum","2":"18.0"},{"1":"Arctic ground squirrel","2":"16.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Another function that can come in handy is <code>near()</code>, which will select all code that is nearly a given value. You have to specify a tolerance <code>tol</code> to indicate how far the values can be. You can add a specific number: <code>filter(near(sleep_total, 17, tol = 0.5))</code> for instance will return any rows where <code>sleep_total</code> is between 16.5 and 17.5, or you can add a formula.<br />
+The sample code will return all rows that are within one standard deviation of 17.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">near</span>(sleep_total, <span class="dv">17</span>, <span class="at">tol =</span> <span class="fu">sd</span>(sleep_total)))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Owl monkey","2":"17.0"},{"1":"Mountain beaver","2":"14.4"},{"1":"Greater short-tailed shrew","2":"14.9"},{"1":"Three-toed sloth","2":"14.4"},{"1":"Long-nosed armadillo","2":"17.4"},{"1":"North American Opossum","2":"18.0"},{"1":"Big brown bat","2":"19.7"},{"1":"Western american chipmunk","2":"14.9"},{"1":"Thick-tailed opposum","2":"19.4"},{"1":"Mongolian gerbil","2":"14.2"},{"1":"Golden hamster","2":"14.3"},{"1":"Vole","2":"12.8"},{"1":"Little brown bat","2":"19.9"},{"1":"Round-tailed muskrat","2":"14.6"},{"1":"Northern grasshopper mouse","2":"14.5"},{"1":"Tiger","2":"15.8"},{"1":"Lion","2":"13.5"},{"1":"Phalanger","2":"13.7"},{"1":"Giant armadillo","2":"18.1"},{"1":"Laboratory rat","2":"13.0"},{"1":"Arctic ground squirrel","2":"16.6"},{"1":"Thirteen-lined ground squirrel","2":"13.8"},{"1":"Golden-mantled ground squirrel","2":"15.9"},{"1":"Musk shrew","2":"12.8"},{"1":"Eastern american chipmunk","2":"15.8"},{"1":"Tenrec","2":"15.6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+</div>
+<div id="filtering-based-on-a-exact-character-variable-matches" class="section level3" number="0.1.2">
+<h3 number="0.1.2"><span class="header-section-number">0.1.2</span> <strong>Filtering based on a exact character variable matches</strong></h3>
+<p>If you want to select a specific group of animals for instance you can use the <code>==</code> comparison operator:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(order, name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(order <span class="sc">==</span> <span class="st">&quot;Didelphimorphia&quot;</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["order"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Didelphimorphia","2":"North American Opossum","3":"18.0"},{"1":"Didelphimorphia","2":"Thick-tailed opposum","3":"19.4"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Simarly you can use the other operators:</p>
+<ul>
+<li><code>filter(order != "Rodentia")</code> will select everything except the Rodentia rows.<br />
+</li>
+<li><code>filter(name &gt; "v")</code> will just select the rows with a name in the alphabet after the letter v.</li>
+</ul>
+<p>If you want to select more than one animal you can use the <code>%in%</code> operator. The following code will just select the rows with animals belonging to the order of Didelphimorphia and Diprotodontia.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(order, name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(order <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">&quot;Didelphimorphia&quot;</span>, <span class="st">&quot;Diprotodontia&quot;</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["order"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Didelphimorphia","2":"North American Opossum","3":"18.0"},{"1":"Didelphimorphia","2":"Thick-tailed opposum","3":"19.4"},{"1":"Diprotodontia","2":"Phalanger","3":"13.7"},{"1":"Diprotodontia","2":"Potoroo","3":"11.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>You can use the <code>%in%</code> operator to deselect certain groups as well, in this case you have to negate by adding an exclamation mark at the beginning of your <code>filter</code>. Making a <code>!%in%</code> might seem logic but it won’t work.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>remove <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">&quot;Rodentia&quot;</span>, <span class="st">&quot;Carnivora&quot;</span>, <span class="st">&quot;Primates&quot;</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(order, name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>order <span class="sc">%in%</span> remove)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["order"],"name":[1],"type":["chr"],"align":["left"]},{"label":["name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Soricomorpha","2":"Greater short-tailed shrew","3":"14.9"},{"1":"Artiodactyla","2":"Cow","3":"4.0"},{"1":"Pilosa","2":"Three-toed sloth","3":"14.4"},{"1":"Artiodactyla","2":"Roe deer","3":"3.0"},{"1":"Artiodactyla","2":"Goat","3":"5.3"},{"1":"Soricomorpha","2":"Star-nosed mole","3":"10.3"},{"1":"Soricomorpha","2":"Lesser short-tailed shrew","3":"9.1"},{"1":"Cingulata","2":"Long-nosed armadillo","3":"17.4"},{"1":"Hyracoidea","2":"Tree hyrax","3":"5.3"},{"1":"Didelphimorphia","2":"North American Opossum","3":"18.0"},{"1":"Proboscidea","2":"Asian elephant","3":"3.9"},{"1":"Chiroptera","2":"Big brown bat","3":"19.7"},{"1":"Perissodactyla","2":"Horse","3":"2.9"},{"1":"Perissodactyla","2":"Donkey","3":"3.1"},{"1":"Erinaceomorpha","2":"European hedgehog","3":"10.1"},{"1":"Artiodactyla","2":"Giraffe","3":"1.9"},{"1":"Cetacea","2":"Pilot whale","3":"2.7"},{"1":"Hyracoidea","2":"Gray hyrax","3":"6.3"},{"1":"Proboscidea","2":"African elephant","3":"3.3"},{"1":"Didelphimorphia","2":"Thick-tailed opposum","3":"19.4"},{"1":"Chiroptera","2":"Little brown bat","3":"19.9"},{"1":"Lagomorpha","2":"Rabbit","3":"8.4"},{"1":"Artiodactyla","2":"Sheep","3":"3.8"},{"1":"Erinaceomorpha","2":"Desert hedgehog","3":"10.3"},{"1":"Diprotodontia","2":"Phalanger","3":"13.7"},{"1":"Cetacea","2":"Common porpoise","3":"5.6"},{"1":"Diprotodontia","2":"Potoroo","3":"11.1"},{"1":"Cingulata","2":"Giant armadillo","3":"18.1"},{"1":"Hyracoidea","2":"Rock hyrax","3":"5.4"},{"1":"Soricomorpha","2":"Eastern american mole","3":"8.4"},{"1":"Soricomorpha","2":"Musk shrew","3":"12.8"},{"1":"Artiodactyla","2":"Pig","3":"9.1"},{"1":"Monotremata","2":"Short-nosed echidna","3":"8.6"},{"1":"Perissodactyla","2":"Brazilian tapir","3":"4.4"},{"1":"Afrosoricida","2":"Tenrec","3":"15.6"},{"1":"Scandentia","2":"Tree shrew","3":"8.9"},{"1":"Cetacea","2":"Bottle-nosed dolphin","3":"5.2"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+</div>
+<div id="filtering-rows-based-on-regex" class="section level3" number="0.1.3">
+<h3 number="0.1.3"><span class="header-section-number">0.1.3</span> <strong>Filtering rows based on regex</strong></h3>
+<p>The above options will only work if you can use the full variable content. In some cases though it will be needed to filter based on partial matches. In this case, we need a function that will evaluate regular expressions on strings and return boolean values. Whenever the statement is <code>TRUE</code> the row will be filtered.<br />
+There are two main options for this: base R’s <code>grepl()</code> function, or <code>str_detect()</code> from the <code>stringr</code> package.</p>
+<p>Whenever you are looking for partial matches, it is important to remember that R is case sensitive. By just using <code>filter(str_detect(name, pattern="mouse"))</code> we would leave out any row called Mouse. In this case it does not make a difference, but it’s a good habit to create.</p>
+<p>I used <code>str_detect()</code> below as it is easier to understand. For those interested, the alternative would be: <code>filter(grepl(pattern="mouse", tolower(name)))</code>.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total) <span class="sc">%&gt;%</span> </span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">str_detect</span>(<span class="fu">tolower</span>(name), <span class="at">pattern =</span> <span class="st">&quot;mouse&quot;</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]}],"data":[{"1":"Vesper mouse","2":"7.0"},{"1":"House mouse","2":"12.5"},{"1":"Northern grasshopper mouse","2":"14.5"},{"1":"Deer mouse","2":"11.5"},{"1":"African striped mouse","2":"8.7"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+</div>
+<div id="filtering-based-on-multiple-conditions" class="section level3" number="0.1.4">
+<h3 number="0.1.4"><span class="header-section-number">0.1.4</span> <strong>Filtering based on multiple conditions</strong></h3>
+<p>The above examples return rows based on a single condition, but the filter option allows also AND and OR style filters:</p>
+<ul>
+<li><code>filter(condition1, condition2)</code> will return rows where both conditions are met.<br />
+</li>
+<li><code>filter(condition1, !condition2)</code> will return all rows where condition one is true but condition 2 is not.<br />
+</li>
+<li><code>filter(condition1 | condition2)</code> will return rows where condition 1 and/or condition 2 is met.<br />
+</li>
+<li><code>filter(xor(condition1, condition2)</code> will return all rows where only one of the conditions is met, and not when both conditions are met.</li>
+</ul>
+<p>Multiple AND, OR and NOT conditions can be combined. The sample code will return all rows with a bodywt above 100 and either have a sleep_total above 15 or are not part of the Carnivora order.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, order, sleep_total<span class="sc">:</span>bodywt) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(bodywt <span class="sc">&gt;</span> <span class="dv">100</span>, (sleep_total <span class="sc">&gt;</span> <span class="dv">15</span> <span class="sc">|</span> order <span class="sc">!=</span> <span class="st">&quot;Carnivora&quot;</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["order"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["sleep_cycle"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["awake"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[7],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[8],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cow","2":"Artiodactyla","3":"4.0","4":"0.7","5":"0.6666667","6":"20.00","7":"0.423","8":"600.000"},{"1":"Asian elephant","2":"Proboscidea","3":"3.9","4":"NA","5":"NA","6":"20.10","7":"4.603","8":"2547.000"},{"1":"Horse","2":"Perissodactyla","3":"2.9","4":"0.6","5":"1.0000000","6":"21.10","7":"0.655","8":"521.000"},{"1":"Donkey","2":"Perissodactyla","3":"3.1","4":"0.4","5":"NA","6":"20.90","7":"0.419","8":"187.000"},{"1":"Giraffe","2":"Artiodactyla","3":"1.9","4":"0.4","5":"NA","6":"22.10","7":"NA","8":"899.995"},{"1":"Pilot whale","2":"Cetacea","3":"2.7","4":"0.1","5":"NA","6":"21.35","7":"NA","8":"800.000"},{"1":"African elephant","2":"Proboscidea","3":"3.3","4":"NA","5":"NA","6":"20.70","7":"5.712","8":"6654.000"},{"1":"Tiger","2":"Carnivora","3":"15.8","4":"NA","5":"NA","6":"8.20","7":"NA","8":"162.564"},{"1":"Brazilian tapir","2":"Perissodactyla","3":"4.4","4":"1.0","5":"0.9000000","6":"19.60","7":"0.169","8":"207.501"},{"1":"Bottle-nosed dolphin","2":"Cetacea","3":"5.2","4":"NA","5":"NA","6":"18.80","7":"NA","8":"173.330"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Example with <code>xor()</code></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, bodywt<span class="sc">:</span>brainwt) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="fu">xor</span>(bodywt <span class="sc">&gt;</span> <span class="dv">100</span>, brainwt <span class="sc">&gt;</span> <span class="dv">1</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["bodywt"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[3],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cow","2":"600.000","3":"0.423"},{"1":"Horse","2":"521.000","3":"0.655"},{"1":"Donkey","2":"187.000","3":"0.419"},{"1":"Human","2":"62.000","3":"1.320"},{"1":"Brazilian tapir","2":"207.501","3":"0.169"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Example with <code>!</code>:<br />
+The sample code will select all rows where <code>brainwt</code> is larger than 1, but <code>bodywt</code> does not exceed 100.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total, brainwt, bodywt) <span class="sc">%&gt;%</span> </span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(brainwt <span class="sc">&gt;</span> <span class="dv">1</span>, <span class="sc">!</span>bodywt <span class="sc">&gt;</span> <span class="dv">100</span>)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Human","2":"8","3":"1.32","4":"62"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+</div>
+<div id="filtering-out-empty-rows" class="section level3" number="0.1.5">
+<h3 number="0.1.5"><span class="header-section-number">0.1.5</span> <strong>Filtering out empty rows</strong></h3>
+<p>To filter out empty rows, you negate the <code>is.na()</code> function inside a filter:<br />
+The sample code will remove any rows where <code>conservation</code> is <code>NA</code>.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, conservation<span class="sc">:</span>sleep_cycle) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(conservation))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["conservation"],"name":[2],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["sleep_cycle"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cheetah","2":"lc","3":"12.1","4":"NA","5":"NA"},{"1":"Mountain beaver","2":"nt","3":"14.4","4":"2.4","5":"NA"},{"1":"Greater short-tailed shrew","2":"lc","3":"14.9","4":"2.3","5":"0.1333333"},{"1":"Cow","2":"domesticated","3":"4.0","4":"0.7","5":"0.6666667"},{"1":"Northern fur seal","2":"vu","3":"8.7","4":"1.4","5":"0.3833333"},{"1":"Dog","2":"domesticated","3":"10.1","4":"2.9","5":"0.3333333"},{"1":"Roe deer","2":"lc","3":"3.0","4":"NA","5":"NA"},{"1":"Goat","2":"lc","3":"5.3","4":"0.6","5":"NA"},{"1":"Guinea pig","2":"domesticated","3":"9.4","4":"0.8","5":"0.2166667"},{"1":"Grivet","2":"lc","3":"10.0","4":"0.7","5":"NA"},{"1":"Chinchilla","2":"domesticated","3":"12.5","4":"1.5","5":"0.1166667"},{"1":"Star-nosed mole","2":"lc","3":"10.3","4":"2.2","5":"NA"},{"1":"Lesser short-tailed shrew","2":"lc","3":"9.1","4":"1.4","5":"0.1500000"},{"1":"Long-nosed armadillo","2":"lc","3":"17.4","4":"3.1","5":"0.3833333"},{"1":"Tree hyrax","2":"lc","3":"5.3","4":"0.5","5":"NA"},{"1":"North American Opossum","2":"lc","3":"18.0","4":"4.9","5":"0.3333333"},{"1":"Asian elephant","2":"en","3":"3.9","4":"NA","5":"NA"},{"1":"Big brown bat","2":"lc","3":"19.7","4":"3.9","5":"0.1166667"},{"1":"Horse","2":"domesticated","3":"2.9","4":"0.6","5":"1.0000000"},{"1":"Donkey","2":"domesticated","3":"3.1","4":"0.4","5":"NA"},{"1":"European hedgehog","2":"lc","3":"10.1","4":"3.5","5":"0.2833333"},{"1":"Patas monkey","2":"lc","3":"10.9","4":"1.1","5":"NA"},{"1":"Domestic cat","2":"domesticated","3":"12.5","4":"3.2","5":"0.4166667"},{"1":"Giraffe","2":"cd","3":"1.9","4":"0.4","5":"NA"},{"1":"Pilot whale","2":"cd","3":"2.7","4":"0.1","5":"NA"},{"1":"Gray seal","2":"lc","3":"6.2","4":"1.5","5":"NA"},{"1":"Gray hyrax","2":"lc","3":"6.3","4":"0.6","5":"NA"},{"1":"Mongoose lemur","2":"vu","3":"9.5","4":"0.9","5":"NA"},{"1":"African elephant","2":"vu","3":"3.3","4":"NA","5":"NA"},{"1":"Thick-tailed opposum","2":"lc","3":"19.4","4":"6.6","5":"NA"},{"1":"Mongolian gerbil","2":"lc","3":"14.2","4":"1.9","5":"NA"},{"1":"Golden hamster","2":"en","3":"14.3","4":"3.1","5":"0.2000000"},{"1":"House mouse","2":"nt","3":"12.5","4":"1.4","5":"0.1833333"},{"1":"Round-tailed muskrat","2":"nt","3":"14.6","4":"NA","5":"NA"},{"1":"Degu","2":"lc","3":"7.7","4":"0.9","5":"NA"},{"1":"Northern grasshopper mouse","2":"lc","3":"14.5","4":"NA","5":"NA"},{"1":"Rabbit","2":"domesticated","3":"8.4","4":"0.9","5":"0.4166667"},{"1":"Sheep","2":"domesticated","3":"3.8","4":"0.6","5":"NA"},{"1":"Tiger","2":"en","3":"15.8","4":"NA","5":"NA"},{"1":"Jaguar","2":"nt","3":"10.4","4":"NA","5":"NA"},{"1":"Lion","2":"vu","3":"13.5","4":"NA","5":"NA"},{"1":"Desert hedgehog","2":"lc","3":"10.3","4":"2.7","5":"NA"},{"1":"Potto","2":"lc","3":"11.0","4":"NA","5":"NA"},{"1":"Caspian seal","2":"vu","3":"3.5","4":"0.4","5":"NA"},{"1":"Common porpoise","2":"vu","3":"5.6","4":"NA","5":"NA"},{"1":"Giant armadillo","2":"en","3":"18.1","4":"6.1","5":"NA"},{"1":"Rock hyrax","2":"lc","3":"5.4","4":"0.5","5":"NA"},{"1":"Laboratory rat","2":"lc","3":"13.0","4":"2.4","5":"0.1833333"},{"1":"Eastern american mole","2":"lc","3":"8.4","4":"2.1","5":"0.1666667"},{"1":"Arctic ground squirrel","2":"lc","3":"16.6","4":"NA","5":"NA"},{"1":"Thirteen-lined ground squirrel","2":"lc","3":"13.8","4":"3.4","5":"0.2166667"},{"1":"Golden-mantled ground squirrel","2":"lc","3":"15.9","4":"3.0","5":"NA"},{"1":"Pig","2":"domesticated","3":"9.1","4":"2.4","5":"0.5000000"},{"1":"Brazilian tapir","2":"vu","3":"4.4","4":"1.0","5":"0.9000000"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<br><br>
+<hr>
+<p><br></p>
+</div>
+</div>
+<div id="filtering-across-multiple-columns" class="section level2" number="0.2">
+<h2 number="0.2"><span class="header-section-number">0.2</span> <strong>Filtering across multiple columns</strong></h2>
+<p>The <code>dplyr</code> package has a few powerful variants to filter across multiple columns in one go:</p>
+<ul>
+<li><code>Filter_all</code> to filter across all columns<br />
+</li>
+<li><code>Filter_if</code> and <code>filter_at</code> to filter across a few specified columns.</li>
+</ul>
+<p>In these cases, there is a general syntax: first you specify which columns, then you mention the condition for the filter. In many cases you will need a <code>.</code> operator within the condition which refers to the values we are looking at.</p>
+<div id="filter_all" class="section level3" number="0.2.1">
+<h3 number="0.2.1"><span class="header-section-number">0.2.1</span> <strong>Filter_all</strong></h3>
+<p>Admittedly, <code>msleep</code> is not the best database to showcase this power, but imagine you have a database with a few columns and you want to select all rows that have a certain word in either column. Take a financial dataframe for instance and you want to select all rows with ‘food’, whether food is mentioned in the main category column, the subcategory column, the comments column or the place you’ve spent it.<br />
+You could make a long filter statement with 4 different conditions wrapped inside OR statements. Or you just filter across all columns for the string “food”.</p>
+<p>In the sample code below I’m searching for the string “Ca” across all columns. I want to keep rows where the string “Ca” is present in ANY of the variables, so I will wrap the condition in <code>any_vars()</code>.<br />
+The below code basically asks to retain any rows where any of the variables has the pattern “Ca” inside.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name<span class="sc">:</span>order, sleep_total, <span class="sc">-</span>vore) <span class="sc">%&gt;%</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_all</span>(<span class="fu">any_vars</span>(<span class="fu">str_detect</span>(., <span class="at">pattern =</span> <span class="st">&quot;Ca&quot;</span>)))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["genus"],"name":[2],"type":["chr"],"align":["left"]},{"label":["order"],"name":[3],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"Cheetah","2":"Acinonyx","3":"Carnivora","4":"12.1"},{"1":"Northern fur seal","2":"Callorhinus","3":"Carnivora","4":"8.7"},{"1":"Vesper mouse","2":"Calomys","3":"Rodentia","4":"7.0"},{"1":"Dog","2":"Canis","3":"Carnivora","4":"10.1"},{"1":"Roe deer","2":"Capreolus","3":"Artiodactyla","4":"3.0"},{"1":"Goat","2":"Capri","3":"Artiodactyla","4":"5.3"},{"1":"Guinea pig","2":"Cavis","3":"Rodentia","4":"9.4"},{"1":"Domestic cat","2":"Felis","3":"Carnivora","4":"12.5"},{"1":"Gray seal","2":"Haliochoerus","3":"Carnivora","4":"6.2"},{"1":"Tiger","2":"Panthera","3":"Carnivora","4":"15.8"},{"1":"Jaguar","2":"Panthera","3":"Carnivora","4":"10.4"},{"1":"Lion","2":"Panthera","3":"Carnivora","4":"13.5"},{"1":"Caspian seal","2":"Phoca","3":"Carnivora","4":"3.5"},{"1":"Genet","2":"Genetta","3":"Carnivora","4":"6.3"},{"1":"Arctic fox","2":"Vulpes","3":"Carnivora","4":"12.5"},{"1":"Red fox","2":"Vulpes","3":"Carnivora","4":"9.8"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The same can be done for numerical values: This code will retain any rows that has any value below 0.1:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span>  </span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total<span class="sc">:</span>bodywt) <span class="sc">%&gt;%</span> </span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_all</span>(<span class="fu">any_vars</span>(. <span class="sc">&lt;</span> <span class="fl">0.1</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sleep_cycle"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["awake"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[6],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[7],"type":["dbl"],"align":["right"]}],"data":[{"1":"Owl monkey","2":"17.0","3":"1.8","4":"NA","5":"7.0","6":"0.01550","7":"0.480"},{"1":"Greater short-tailed shrew","2":"14.9","3":"2.3","4":"0.1333333","5":"9.1","6":"0.00029","7":"0.019"},{"1":"Vesper mouse","2":"7.0","3":"NA","4":"NA","5":"17.0","6":"NA","7":"0.045"},{"1":"Dog","2":"10.1","3":"2.9","4":"0.3333333","5":"13.9","6":"0.07000","7":"14.000"},{"1":"Roe deer","2":"3.0","3":"NA","4":"NA","5":"21.0","6":"0.09820","7":"14.800"},{"1":"Guinea pig","2":"9.4","3":"0.8","4":"0.2166667","5":"14.6","6":"0.00550","7":"0.728"},{"1":"Chinchilla","2":"12.5","3":"1.5","4":"0.1166667","5":"11.5","6":"0.00640","7":"0.420"},{"1":"Star-nosed mole","2":"10.3","3":"2.2","4":"NA","5":"13.7","6":"0.00100","7":"0.060"},{"1":"African giant pouched rat","2":"8.3","3":"2.0","4":"NA","5":"15.7","6":"0.00660","7":"1.000"},{"1":"Lesser short-tailed shrew","2":"9.1","3":"1.4","4":"0.1500000","5":"14.9","6":"0.00014","7":"0.005"},{"1":"Long-nosed armadillo","2":"17.4","3":"3.1","4":"0.3833333","5":"6.6","6":"0.01080","7":"3.500"},{"1":"Tree hyrax","2":"5.3","3":"0.5","4":"NA","5":"18.7","6":"0.01230","7":"2.950"},{"1":"North American Opossum","2":"18.0","3":"4.9","4":"0.3333333","5":"6.0","6":"0.00630","7":"1.700"},{"1":"Big brown bat","2":"19.7","3":"3.9","4":"0.1166667","5":"4.3","6":"0.00030","7":"0.023"},{"1":"European hedgehog","2":"10.1","3":"3.5","4":"0.2833333","5":"13.9","6":"0.00350","7":"0.770"},{"1":"Western american chipmunk","2":"14.9","3":"NA","4":"NA","5":"9.1","6":"NA","7":"0.071"},{"1":"Domestic cat","2":"12.5","3":"3.2","4":"0.4166667","5":"11.5","6":"0.02560","7":"3.300"},{"1":"Galago","2":"9.8","3":"1.1","4":"0.5500000","5":"14.2","6":"0.00500","7":"0.200"},{"1":"Gray hyrax","2":"6.3","3":"0.6","4":"NA","5":"17.7","6":"0.01227","7":"2.625"},{"1":"Mongolian gerbil","2":"14.2","3":"1.9","4":"NA","5":"9.8","6":"NA","7":"0.053"},{"1":"Golden hamster","2":"14.3","3":"3.1","4":"0.2000000","5":"9.7","6":"0.00100","7":"0.120"},{"1":"Vole","2":"12.8","3":"NA","4":"NA","5":"11.2","6":"NA","7":"0.035"},{"1":"House mouse","2":"12.5","3":"1.4","4":"0.1833333","5":"11.5","6":"0.00040","7":"0.022"},{"1":"Little brown bat","2":"19.9","3":"2.0","4":"0.2000000","5":"4.1","6":"0.00025","7":"0.010"},{"1":"Slow loris","2":"11.0","3":"NA","4":"NA","5":"13.0","6":"0.01250","7":"1.400"},{"1":"Northern grasshopper mouse","2":"14.5","3":"NA","4":"NA","5":"9.5","6":"NA","7":"0.028"},{"1":"Rabbit","2":"8.4","3":"0.9","4":"0.4166667","5":"15.6","6":"0.01210","7":"2.500"},{"1":"Desert hedgehog","2":"10.3","3":"2.7","4":"NA","5":"13.7","6":"0.00240","7":"0.550"},{"1":"Deer mouse","2":"11.5","3":"NA","4":"NA","5":"12.5","6":"NA","7":"0.021"},{"1":"Phalanger","2":"13.7","3":"1.8","4":"NA","5":"10.3","6":"0.01140","7":"1.620"},{"1":"Giant armadillo","2":"18.1","3":"6.1","4":"NA","5":"5.9","6":"0.08100","7":"60.000"},{"1":"Rock hyrax","2":"5.4","3":"0.5","4":"NA","5":"18.6","6":"0.02100","7":"3.600"},{"1":"Laboratory rat","2":"13.0","3":"2.4","4":"0.1833333","5":"11.0","6":"0.00190","7":"0.320"},{"1":"African striped mouse","2":"8.7","3":"NA","4":"NA","5":"15.3","6":"NA","7":"0.044"},{"1":"Squirrel monkey","2":"9.6","3":"1.4","4":"NA","5":"14.4","6":"0.02000","7":"0.743"},{"1":"Eastern american mole","2":"8.4","3":"2.1","4":"0.1666667","5":"15.6","6":"0.00120","7":"0.075"},{"1":"Cotton rat","2":"11.3","3":"1.1","4":"0.1500000","5":"12.7","6":"0.00118","7":"0.148"},{"1":"Mole rat","2":"10.6","3":"2.4","4":"NA","5":"13.4","6":"0.00300","7":"0.122"},{"1":"Arctic ground squirrel","2":"16.6","3":"NA","4":"NA","5":"7.4","6":"0.00570","7":"0.920"},{"1":"Thirteen-lined ground squirrel","2":"13.8","3":"3.4","4":"0.2166667","5":"10.2","6":"0.00400","7":"0.101"},{"1":"Musk shrew","2":"12.8","3":"2.0","4":"0.1833333","5":"11.2","6":"0.00033","7":"0.048"},{"1":"Short-nosed echidna","2":"8.6","3":"NA","4":"NA","5":"15.4","6":"0.02500","7":"4.500"},{"1":"Tenrec","2":"15.6","3":"2.3","4":"NA","5":"8.4","6":"0.00260","7":"0.900"},{"1":"Tree shrew","2":"8.9","3":"2.6","4":"0.2333333","5":"15.1","6":"0.00250","7":"0.104"},{"1":"Genet","2":"6.3","3":"1.3","4":"NA","5":"17.7","6":"0.01750","7":"2.000"},{"1":"Arctic fox","2":"12.5","3":"NA","4":"NA","5":"11.5","6":"0.04450","7":"3.380"},{"1":"Red fox","2":"9.8","3":"2.4","4":"0.3500000","5":"14.2","6":"0.05040","7":"4.230"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>The <code>any_vars()</code> statement is equivalent to OR, so of course there is an equivalent for AND statements as well:<code>all_vars()</code>. The below code will retain any rows where all values are above 1.</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span>  </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total<span class="sc">:</span>bodywt, <span class="sc">-</span>awake) <span class="sc">%&gt;%</span> </span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_all</span>(<span class="fu">all_vars</span>(. <span class="sc">&gt;</span> <span class="dv">1</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["sleep_cycle"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Human","2":"8","3":"1.9","4":"1.5","5":"1.32","6":"62"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><br></p>
+</div>
+<div id="filter_if" class="section level3" number="0.2.2">
+<h3 number="0.2.2"><span class="header-section-number">0.2.2</span> <strong>Filter_if</strong></h3>
+<p>The <code>filter_all()</code> function can sometimes go a bit wild. The <code>msleep</code> dataset has a set of sleep and weight measurements where some data is missing - there is nothing I can do to add data there. But the first few set of columns just contain info on animals. The vore of Vesper Mouse is missing, but that is info I can still dig up and add to the dataframe if I wanted.<br />
+So imagine I want to find out all data rows where we NA in the first few columns. <code>filter_all(any_vars(is.na(.)))</code> will be quite useless because it would return 27 rows, many of which are missing data in the measurement section.</p>
+<p>In this case: <code>filter_if()</code> comes in handy. The describing columns are all character columns, while the measurement data is numeric. So using <code>filter_if()</code> I can specify that I want to just filter on character variables. In this case I only get 7 rows.</p>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name<span class="sc">:</span>order, sleep_total<span class="sc">:</span>sleep_rem) <span class="sc">%&gt;%</span> </span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_if</span>(is.character, <span class="fu">any_vars</span>(<span class="fu">is.na</span>(.)))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["genus"],"name":[2],"type":["chr"],"align":["left"]},{"label":["vore"],"name":[3],"type":["chr"],"align":["left"]},{"label":["order"],"name":[4],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"Vesper mouse","2":"Calomys","3":"NA","4":"Rodentia","5":"7.0","6":"NA"},{"1":"Desert hedgehog","2":"Paraechinus","3":"NA","4":"Erinaceomorpha","5":"10.3","6":"2.7"},{"1":"Deer mouse","2":"Peromyscus","3":"NA","4":"Rodentia","5":"11.5","6":"NA"},{"1":"Phalanger","2":"Phalanger","3":"NA","4":"Diprotodontia","5":"13.7","6":"1.8"},{"1":"Rock hyrax","2":"Procavia","3":"NA","4":"Hyracoidea","5":"5.4","6":"0.5"},{"1":"Mole rat","2":"Spalax","3":"NA","4":"Rodentia","5":"10.6","6":"2.4"},{"1":"Musk shrew","2":"Suncus","3":"NA","4":"Soricomorpha","5":"12.8","6":"2.0"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Similarly, you can add <code>is.numeric</code>, <code>is.integer</code>, <code>is.double</code>, <code>is.logical</code>, <code>is.factor</code>. If you have data columns, you can load the lubridate package, and use <code>is.POSIXt</code> or <code>is.Date</code>.</p>
+<p><br></p>
+</div>
+<div id="filter_at" class="section level3" number="0.2.3">
+<h3 number="0.2.3"><span class="header-section-number">0.2.3</span> <strong>Filter_at</strong></h3>
+<p>One of the more powerful functions is <code>filter_at()</code>: it does not filter all columns, nor does it need you to specify the type of column, you can just select columns to which the change should happen via the <code>vars()</code> argument. This argument allows anything that can be done within a select statement: so you can refer to them by name, but also by logical numerical functions, regex, etc (See my first blog post for select options).</p>
+<p>The second argument is the condition for selection. Similar to the examples above, you can use <code>all_vars()</code> if all columns need to return TRUE (AND equivalent), or <code>any_vars()</code> in case just one variable needs to return TRUE (OR equivalent).</p>
+<p>Example: refer to columns by their name:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total<span class="sc">:</span>sleep_rem, brainwt<span class="sc">:</span>bodywt) <span class="sc">%&gt;%</span> </span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_at</span>(<span class="fu">vars</span>(sleep_total, sleep_rem), <span class="fu">all_vars</span>(.<span class="sc">&gt;</span><span class="dv">5</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Thick-tailed opposum","2":"19.4","3":"6.6","4":"NA","5":"0.37"},{"1":"Giant armadillo","2":"18.1","3":"6.1","4":"0.081","5":"60.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p>Example: using another select option:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>msleep <span class="sc">%&gt;%</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(name, sleep_total<span class="sc">:</span>sleep_rem, brainwt<span class="sc">:</span>bodywt) <span class="sc">%&gt;%</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter_at</span>(<span class="fu">vars</span>(<span class="fu">contains</span>(<span class="st">&quot;sleep&quot;</span>)), <span class="fu">all_vars</span>(.<span class="sc">&gt;</span><span class="dv">5</span>))</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["name"],"name":[1],"type":["chr"],"align":["left"]},{"label":["sleep_total"],"name":[2],"type":["dbl"],"align":["right"]},{"label":["sleep_rem"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["brainwt"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["bodywt"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"Thick-tailed opposum","2":"19.4","3":"6.6","4":"NA","5":"0.37"},{"1":"Giant armadillo","2":"18.1","3":"6.1","4":"0.081","5":"60.00"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

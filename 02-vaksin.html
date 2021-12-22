@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+
+<meta charset="utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Team Laboratorium Biro TI" />
+
+
+<title>Visualisasi Data Vaksin</title>
+
+<script src="site_libs/header-attrs-2.9/header-attrs.js"></script>
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/united.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<style>h1 {font-size: 34px;}
+       h1.title {font-size: 38px;}
+       h2 {font-size: 30px;}
+       h3 {font-size: 24px;}
+       h4 {font-size: 18px;}
+       h5 {font-size: 16px;}
+       h6 {font-size: 12px;}
+       code {color: inherit; background-color: rgba(0, 0, 0, 0.04);}
+       pre:not([class]) { background-color: white }</style>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<script src="site_libs/navigation-1.1/codefolding.js"></script>
+<link href="site_libs/pagedtable-1.1/css/pagedtable.css" rel="stylesheet" />
+<script src="site_libs/pagedtable-1.1/js/pagedtable.js"></script>
+
+<style type="text/css">
+  code{white-space: pre-wrap;}
+  span.smallcaps{font-variant: small-caps;}
+  span.underline{text-decoration: underline;}
+  div.column{display: inline-block; vertical-align: top; width: 50%;}
+  div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+  ul.task-list{list-style: none;}
+    </style>
+
+
+<style type="text/css">
+  code {
+    white-space: pre;
+  }
+  .sourceCode {
+    overflow: visible;
+  }
+</style>
+<style type="text/css" data-origin="pandoc">
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+    background-color: #2a211c;
+    color: #bdae9d;
+  }
+pre.numberSource { margin-left: 3em; border-left: 1px solid #bdae9d;  padding-left: 4px; }
+div.sourceCode
+  { color: #bdae9d; background-color: #2a211c; }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+code span.al { color: #ffff00; } /* Alert */
+code span.an { color: #0066ff; font-weight: bold; font-style: italic; } /* Annotation */
+code span.at { } /* Attribute */
+code span.bn { color: #44aa43; } /* BaseN */
+code span.bu { } /* BuiltIn */
+code span.cf { color: #43a8ed; font-weight: bold; } /* ControlFlow */
+code span.ch { color: #049b0a; } /* Char */
+code span.cn { } /* Constant */
+code span.co { color: #0066ff; font-weight: bold; font-style: italic; } /* Comment */
+code span.do { color: #0066ff; font-style: italic; } /* Documentation */
+code span.dt { text-decoration: underline; } /* DataType */
+code span.dv { color: #44aa43; } /* DecVal */
+code span.er { color: #ffff00; font-weight: bold; } /* Error */
+code span.ex { } /* Extension */
+code span.fl { color: #44aa43; } /* Float */
+code span.fu { color: #ff9358; font-weight: bold; } /* Function */
+code span.im { } /* Import */
+code span.in { color: #0066ff; font-weight: bold; font-style: italic; } /* Information */
+code span.kw { color: #43a8ed; font-weight: bold; } /* Keyword */
+code span.op { } /* Operator */
+code span.pp { font-weight: bold; } /* Preprocessor */
+code span.sc { color: #049b0a; } /* SpecialChar */
+code span.ss { color: #049b0a; } /* SpecialString */
+code span.st { color: #049b0a; } /* String */
+code span.va { } /* Variable */
+code span.vs { color: #049b0a; } /* VerbatimString */
+code span.wa { color: #ffff00; font-weight: bold; } /* Warning */
+
+.sourceCode .row {
+  width: 100%;
+}
+.sourceCode {
+  overflow-x: auto;
+}
+.code-folding-btn {
+  margin-right: -30px;
+}
+</style>
+<script>
+// apply pandoc div.sourceCode style to pre.sourceCode instead
+(function() {
+  var sheets = document.styleSheets;
+  for (var i = 0; i < sheets.length; i++) {
+    if (sheets[i].ownerNode.dataset["origin"] !== "pandoc") continue;
+    try { var rules = sheets[i].cssRules; } catch (e) { continue; }
+    for (var j = 0; j < rules.length; j++) {
+      var rule = rules[j];
+      // check if there is a div.sourceCode rule
+      if (rule.type !== rule.STYLE_RULE || rule.selectorText !== "div.sourceCode") continue;
+      var style = rule.style.cssText;
+      // check if color or background-color is set
+      if (rule.style.color === '' && rule.style.backgroundColor === '') continue;
+      // replace div.sourceCode by a pre.sourceCode rule
+      sheets[i].deleteRule(j);
+      sheets[i].insertRule('pre.sourceCode{' + style + '}', j);
+    }
+  }
+})();
+</script>
+
+
+
+
+<link rel="stylesheet" href="style.css" type="text/css" />
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+pre code {
+  padding: 0;
+}
+</style>
+
+
+<style type="text/css">
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #adb5bd;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script type="text/javascript">
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.tab('show');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+
+  // Navbar adjustments
+  var navHeight = $(".navbar").first().height() + 15;
+  var style = document.createElement('style');
+  var pt = "padding-top: " + navHeight + "px; ";
+  var mt = "margin-top: -" + navHeight + "px; ";
+  var css = "";
+  // offset scroll position for anchor links (for fixed navbar)
+  for (var i = 1; i <= 6; i++) {
+    css += ".section h" + i + "{ " + pt + mt + "}\n";
+  }
+  style.innerHTML = "body {" + pt + "padding-bottom: 40px; }\n" + css;
+  document.head.appendChild(style);
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+<style type="text/css">
+.code-folding-btn { margin-bottom: 4px; }
+</style>
+
+
+
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+.tocify-subheader {
+  display: inline;
+}
+.tocify-subheader .tocify-item {
+  font-size: 0.95em;
+}
+
+</style>
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Workshop Data Analytics</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="intro.html">Intro</a>
+</li>
+<li class="dropdown">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+    Tutorial
+     
+    <span class="caret"></span>
+  </a>
+  <ul class="dropdown-menu" role="menu">
+    <li>
+      <a href="11-dplyr-select.html">Select</a>
+    </li>
+    <li>
+      <a href="12-dplyr-transform.html">Transform</a>
+    </li>
+    <li>
+      <a href="13-dplyr-filter.html">Filter</a>
+    </li>
+    <li>
+      <a href="14-dplyr-sum.html">Summarize</a>
+    </li>
+  </ul>
+</li>
+<li>
+  <a href="01-processing.html">Processing</a>
+</li>
+<li>
+  <a href="02-vaksin.html">GGPlot</a>
+</li>
+<li>
+  <a href="03-covid.html">Plotly</a>
+</li>
+<li>
+  <a href="04-maps.html">Maps</a>
+</li>
+<li>
+  <a href="about.html">About</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div id="header">
+
+<div class="btn-group pull-right float-right">
+<button type="button" class="btn btn-default btn-xs btn-secondary btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span>Code</span> <span class="caret"></span></button>
+<ul class="dropdown-menu dropdown-menu-right" style="min-width: 50px;">
+<li><a id="rmd-show-all-code" href="#">Show All Code</a></li>
+<li><a id="rmd-hide-all-code" href="#">Hide All Code</a></li>
+</ul>
+</div>
+
+
+
+<h1 class="title toc-ignore">Visualisasi Data Vaksin</h1>
+<h4 class="author">Team Laboratorium Biro TI</h4>
+<h4 class="date">22 Desember, 2021</h4>
+
+</div>
+
+
+<div id="data" class="section level1" number="1">
+<h1 number="1"><span class="header-section-number">1</span> Data</h1>
+<div class="sourceCode" id="cb1"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="do">## Live Data</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#vaccines = read.csv(&quot;https://data.london.gov.uk/download/coronavirus--covid-19--cases/ae4d5fc9-5448-49a6-810f-910f7cbc9fd2/phe_vaccines_age_london_boroughs.csv&quot;)</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="do">## Sample Data</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>vaccines <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;./data/vaccines_london.csv&quot;</span>)</span></code></pre></div>
+<p><strong>Descripe Data</strong></p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(vaccines)</span></code></pre></div>
+<pre><code>## Rows: 369,270
+## Columns: 13
+## $ X          &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, ~
+## $ area_name  &lt;chr&gt; &quot;Barking and Dagenham&quot;, &quot;Barking and Dagenham&quot;, &quot;Barking an~
+## $ area_code  &lt;chr&gt; &quot;E09000002&quot;, &quot;E09000002&quot;, &quot;E09000002&quot;, &quot;E09000002&quot;, &quot;E09000~
+## $ date       &lt;chr&gt; &quot;2020-12-08&quot;, &quot;2020-12-08&quot;, &quot;2020-12-08&quot;, &quot;2020-12-08&quot;, &quot;20~
+## $ dose       &lt;chr&gt; &quot;1st dose&quot;, &quot;1st dose&quot;, &quot;1st dose&quot;, &quot;1st dose&quot;, &quot;1st dose&quot;,~
+## $ age_band   &lt;chr&gt; &quot;12 - 15 years&quot;, &quot;16 - 17 years&quot;, &quot;18 - 24 years&quot;, &quot;25 - 29~
+## $ age_higher &lt;int&gt; 15, 17, 24, 29, 34, 39, 44, 49, 54, 59, 64, 69, 74, 79, 90,~
+## $ age_lower  &lt;int&gt; 12, 16, 18, 25, 30, 35, 40, 45, 50, 55, 60, 65, 70, 75, 80,~
+## $ cum_doses  &lt;int&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
+## $ new_doses  &lt;int&gt; 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,~
+## $ population &lt;int&gt; 13415, 5541, 17719, 15880, 17683, 17445, 15380, 14293, 1273~
+## $ new_prop   &lt;dbl&gt; 0.00000000000, 0.00000000000, 0.00000000000, 0.00000000000,~
+## $ cum_prop   &lt;dbl&gt; 0.00000000000, 0.00000000000, 0.00000000000, 0.00000000000,~</code></pre>
+<div class="sourceCode" id="cb4"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaccines)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":[""],"name":["_rn_"],"type":[""],"align":["left"]},{"label":["X"],"name":[1],"type":["int"],"align":["right"]},{"label":["area_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["area_code"],"name":[3],"type":["chr"],"align":["left"]},{"label":["date"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dose"],"name":[5],"type":["chr"],"align":["left"]},{"label":["age_band"],"name":[6],"type":["chr"],"align":["left"]},{"label":["age_higher"],"name":[7],"type":["int"],"align":["right"]},{"label":["age_lower"],"name":[8],"type":["int"],"align":["right"]},{"label":["cum_doses"],"name":[9],"type":["int"],"align":["right"]},{"label":["new_doses"],"name":[10],"type":["int"],"align":["right"]},{"label":["population"],"name":[11],"type":["int"],"align":["right"]},{"label":["new_prop"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["cum_prop"],"name":[13],"type":["dbl"],"align":["right"]}],"data":[{"1":"1","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"12 - 15 years","7":"15","8":"12","9":"0","10":"0","11":"13415","12":"0.00000000000","13":"0.00000000000","_rn_":"1"},{"1":"2","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"16 - 17 years","7":"17","8":"16","9":"0","10":"0","11":"5541","12":"0.00000000000","13":"0.00000000000","_rn_":"2"},{"1":"3","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"18 - 24 years","7":"24","8":"18","9":"0","10":"0","11":"17719","12":"0.00000000000","13":"0.00000000000","_rn_":"3"},{"1":"4","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"25 - 29 years","7":"29","8":"25","9":"0","10":"0","11":"15880","12":"0.00000000000","13":"0.00000000000","_rn_":"4"},{"1":"5","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"30 - 34 years","7":"34","8":"30","9":"1","10":"1","11":"17683","12":"0.00005655149","13":"0.00005655149","_rn_":"5"},{"1":"6","2":"Barking and Dagenham","3":"E09000002","4":"2020-12-08","5":"1st dose","6":"35 - 39 years","7":"39","8":"35","9":"0","10":"0","11":"17445","12":"0.00000000000","13":"0.00000000000","_rn_":"6"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(vaccines)</span></code></pre></div>
+<pre><code>##        X           area_name          area_code             date          
+##  Min.   :     1   Length:369270      Length:369270      Length:369270     
+##  1st Qu.: 92318   Class :character   Class :character   Class :character  
+##  Median :184636   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :184636                                                           
+##  3rd Qu.:276953                                                           
+##  Max.   :369270                                                           
+##      dose             age_band           age_higher      age_lower    
+##  Length:369270      Length:369270      Min.   :15.00   Min.   :12.00  
+##  Class :character   Class :character   1st Qu.:29.00   1st Qu.:25.00  
+##  Mode  :character   Mode  :character   Median :49.00   Median :45.00  
+##                                        Mean   :49.33   Mean   :45.07  
+##                                        3rd Qu.:69.00   3rd Qu.:65.00  
+##                                        Max.   :90.00   Max.   :80.00  
+##    cum_doses       new_doses         population       new_prop       
+##  Min.   :    0   Min.   :   0.00   Min.   : 2833   Min.   :0.000000  
+##  1st Qu.:    2   1st Qu.:   0.00   1st Qu.: 9325   1st Qu.:0.000000  
+##  Median :  996   Median :   2.00   Median :15318   Median :0.000165  
+##  Mean   : 4914   Mean   :  26.99   Mean   :15806   Mean   :0.001749  
+##  3rd Qu.: 8952   3rd Qu.:  19.00   3rd Qu.:21241   3rd Qu.:0.001097  
+##  Max.   :38071   Max.   :2196.00   Max.   :41109   Max.   :0.299970  
+##     cum_prop        
+##  Min.   :0.0000000  
+##  1st Qu.:0.0001653  
+##  Median :0.0621244  
+##  Mean   :0.3266756  
+##  3rd Qu.:0.7627050  
+##  Max.   :1.0917643</code></pre>
+<hr />
+</div>
+<div id="diminta" class="section level1" number="2">
+<h1 number="2"><span class="header-section-number">2</span> Diminta</h1>
+<p>Buatkan Visualisasi dalam bentuk grafik, yang memuat:</p>
+<ul>
+<li>Data Per Tanggal 11 Desember 2021</li>
+<li>Kelompok Umur</li>
+<li>Persentase vaksin Per Umur</li>
+<li>Persentasi penduduk yang belum vaksin</li>
+<li>Order berdasarkan kelompok umur</li>
+</ul>
+<hr />
+</div>
+<div id="pengolahan-data" class="section level1" number="3">
+<h1 number="3"><span class="header-section-number">3</span> Pengolahan Data</h1>
+<div id="step-by-step" class="section level2" number="3.1">
+<h2 number="3.1"><span class="header-section-number">3.1</span> Step By Step</h2>
+<p><strong>Filter Data</strong></p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>vaxdat1 <span class="ot">=</span> vaccines <span class="sc">%&gt;%</span> </span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="st">&quot;2021-12-11&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_band,dose) </span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat1)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["X"],"name":[1],"type":["int"],"align":["right"]},{"label":["area_name"],"name":[2],"type":["chr"],"align":["left"]},{"label":["area_code"],"name":[3],"type":["chr"],"align":["left"]},{"label":["date"],"name":[4],"type":["chr"],"align":["left"]},{"label":["dose"],"name":[5],"type":["chr"],"align":["left"]},{"label":["age_band"],"name":[6],"type":["chr"],"align":["left"]},{"label":["age_higher"],"name":[7],"type":["int"],"align":["right"]},{"label":["age_lower"],"name":[8],"type":["int"],"align":["right"]},{"label":["cum_doses"],"name":[9],"type":["int"],"align":["right"]},{"label":["new_doses"],"name":[10],"type":["int"],"align":["right"]},{"label":["population"],"name":[11],"type":["int"],"align":["right"]},{"label":["new_prop"],"name":[12],"type":["dbl"],"align":["right"]},{"label":["cum_prop"],"name":[13],"type":["dbl"],"align":["right"]}],"data":[{"1":"16561","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"12 - 15 years","7":"15","8":"12","9":"3577","10":"100","11":"13415","12":"0.0074543422","13":"0.2666418"},{"1":"16562","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"16 - 17 years","7":"17","8":"16","9":"2718","10":"10","11":"5541","12":"0.0018047284","13":"0.4905252"},{"1":"16563","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"18 - 24 years","7":"24","8":"18","9":"11498","10":"20","11":"17719","12":"0.0011287319","13":"0.6489080"},{"1":"16564","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"25 - 29 years","7":"29","8":"25","9":"9857","10":"14","11":"15880","12":"0.0008816121","13":"0.6207179"},{"1":"16565","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"30 - 34 years","7":"34","8":"30","9":"12152","10":"12","11":"17683","12":"0.0006786179","13":"0.6872137"},{"1":"16566","2":"Barking and Dagenham","3":"E09000002","4":"2021-12-11","5":"1st dose","6":"35 - 39 years","7":"39","8":"35","9":"13671","10":"7","11":"17445","12":"0.0004012611","13":"0.7836629"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Menjumlahkan Populasi dan Membuat Kolom Presentasi Dosis dibangdingkan Populasi</strong></p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vaxdat2 <span class="ot">=</span> vaxdat1 <span class="sc">%&gt;%</span> </span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">totalpop =</span> <span class="fu">sum</span>(population), </span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_doses =</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>(<span class="fu">sum</span>(cum_doses)<span class="sc">/</span><span class="fu">sum</span>(population)),<span class="at">digits =</span> <span class="dv">1</span>))</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat2)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["dose"],"name":[2],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[3],"type":["int"],"align":["right"]},{"label":["prop_doses"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12 - 15 years","2":"1st dose","3":"298353","4":"37.9"},{"1":"12 - 15 years","2":"2nd dose","3":"298353","4":"0.6"},{"1":"12 - 15 years","2":"3rd dose","3":"298353","4":"0.0"},{"1":"16 - 17 years","2":"1st dose","3":"135739","4":"53.9"},{"1":"16 - 17 years","2":"2nd dose","3":"135739","4":"26.2"},{"1":"16 - 17 years","2":"3rd dose","3":"135739","4":"0.9"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Transpose Data (Wide)</strong></p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>vaxdat3 <span class="ot">=</span> vaxdat2 <span class="sc">%&gt;%</span> </span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">id_cols =</span> <span class="fu">c</span>(age_band,totalpop),</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_from =</span> dose,</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_from =</span> <span class="fu">c</span>(<span class="st">&quot;prop_doses&quot;</span>)) <span class="sc">%&gt;%</span> <span class="fu">clean_names</span>()</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat3)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[2],"type":["int"],"align":["right"]},{"label":["x1st_dose"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["x2nd_dose"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["x3rd_dose"],"name":[5],"type":["dbl"],"align":["right"]}],"data":[{"1":"12 - 15 years","2":"298353","3":"37.9","4":"0.6","5":"0.0"},{"1":"16 - 17 years","2":"135739","3":"53.9","4":"26.2","5":"0.9"},{"1":"18 - 24 years","2":"504390","3":"74.3","4":"62.4","5":"4.4"},{"1":"25 - 29 years","2":"501226","3":"79.8","4":"72.1","5":"7.7"},{"1":"30 - 34 years","2":"542086","3":"80.1","4":"73.5","5":"9.5"},{"1":"35 - 39 years","2":"516651","3":"80.7","4":"75.1","5":"12.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Menghitung Persentasi yang Belum Vaksin</strong></p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>vaxdat4 <span class="ot">=</span> vaxdat3 <span class="sc">%&gt;%</span> </span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1st_dose =</span> x1st_dose <span class="sc">-</span> x2nd_dose, </span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">unvaxed =</span> <span class="dv">100</span><span class="sc">-</span>(x1st_dose <span class="sc">+</span> x2nd_dose)) <span class="sc">%&gt;%</span> </span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">Unvaccinated =</span> unvaxed, </span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;1st Dose Only&quot;</span> <span class="ot">=</span> x1st_dose,  </span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;1st and 2nd Dose&quot;</span> <span class="ot">=</span> x2nd_dose) </span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat4)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[2],"type":["int"],"align":["right"]},{"label":["1st Dose Only"],"name":[3],"type":["dbl"],"align":["right"]},{"label":["1st and 2nd Dose"],"name":[4],"type":["dbl"],"align":["right"]},{"label":["x3rd_dose"],"name":[5],"type":["dbl"],"align":["right"]},{"label":["Unvaccinated"],"name":[6],"type":["dbl"],"align":["right"]}],"data":[{"1":"12 - 15 years","2":"298353","3":"37.3","4":"0.6","5":"0.0","6":"62.1"},{"1":"16 - 17 years","2":"135739","3":"27.7","4":"26.2","5":"0.9","6":"46.1"},{"1":"18 - 24 years","2":"504390","3":"11.9","4":"62.4","5":"4.4","6":"25.7"},{"1":"25 - 29 years","2":"501226","3":"7.7","4":"72.1","5":"7.7","6":"20.2"},{"1":"30 - 34 years","2":"542086","3":"6.6","4":"73.5","5":"9.5","6":"19.9"},{"1":"35 - 39 years","2":"516651","3":"5.6","4":"75.1","5":"12.1","6":"19.3"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Transpose Data (Long)</strong></p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>vaxdat5 <span class="ot">=</span> vaxdat4 <span class="sc">%&gt;%</span> </span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(age_band,totalpop)) <span class="sc">%&gt;%</span> </span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">factor</span>(name, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Unvaccinated&quot;</span>,<span class="st">&quot;1st Dose Only&quot;</span>,<span class="st">&quot;1st and 2nd Dose&quot;</span>)),</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_band =</span> <span class="fu">gsub</span>(age_band,<span class="at">pattern =</span> <span class="st">&quot; |years&quot;</span>,<span class="at">replacement =</span> <span class="st">&quot;&quot;</span>))</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>vaxdat5</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[2],"type":["int"],"align":["right"]},{"label":["name"],"name":[3],"type":["fct"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12-15","2":"298353","3":"1st Dose Only","4":"37.3"},{"1":"12-15","2":"298353","3":"1st and 2nd Dose","4":"0.6"},{"1":"12-15","2":"298353","3":"NA","4":"0.0"},{"1":"12-15","2":"298353","3":"Unvaccinated","4":"62.1"},{"1":"16-17","2":"135739","3":"1st Dose Only","4":"27.7"},{"1":"16-17","2":"135739","3":"1st and 2nd Dose","4":"26.2"},{"1":"16-17","2":"135739","3":"NA","4":"0.9"},{"1":"16-17","2":"135739","3":"Unvaccinated","4":"46.1"},{"1":"18-24","2":"504390","3":"1st Dose Only","4":"11.9"},{"1":"18-24","2":"504390","3":"1st and 2nd Dose","4":"62.4"},{"1":"18-24","2":"504390","3":"NA","4":"4.4"},{"1":"18-24","2":"504390","3":"Unvaccinated","4":"25.7"},{"1":"25-29","2":"501226","3":"1st Dose Only","4":"7.7"},{"1":"25-29","2":"501226","3":"1st and 2nd Dose","4":"72.1"},{"1":"25-29","2":"501226","3":"NA","4":"7.7"},{"1":"25-29","2":"501226","3":"Unvaccinated","4":"20.2"},{"1":"30-34","2":"542086","3":"1st Dose Only","4":"6.6"},{"1":"30-34","2":"542086","3":"1st and 2nd Dose","4":"73.5"},{"1":"30-34","2":"542086","3":"NA","4":"9.5"},{"1":"30-34","2":"542086","3":"Unvaccinated","4":"19.9"},{"1":"35-39","2":"516651","3":"1st Dose Only","4":"5.6"},{"1":"35-39","2":"516651","3":"1st and 2nd Dose","4":"75.1"},{"1":"35-39","2":"516651","3":"NA","4":"12.1"},{"1":"35-39","2":"516651","3":"Unvaccinated","4":"19.3"},{"1":"40-44","2":"461096","3":"1st Dose Only","4":"4.8"},{"1":"40-44","2":"461096","3":"1st and 2nd Dose","4":"81.4"},{"1":"40-44","2":"461096","3":"NA","4":"24.7"},{"1":"40-44","2":"461096","3":"Unvaccinated","4":"13.8"},{"1":"45-49","2":"413155","3":"1st Dose Only","4":"4.2"},{"1":"45-49","2":"413155","3":"1st and 2nd Dose","4":"84.6"},{"1":"45-49","2":"413155","3":"NA","4":"31.6"},{"1":"45-49","2":"413155","3":"Unvaccinated","4":"11.2"},{"1":"50-54","2":"398517","3":"1st Dose Only","4":"3.6"},{"1":"50-54","2":"398517","3":"1st and 2nd Dose","4":"87.6"},{"1":"50-54","2":"398517","3":"NA","4":"48.8"},{"1":"50-54","2":"398517","3":"Unvaccinated","4":"8.8"},{"1":"55-59","2":"361436","3":"1st Dose Only","4":"3.3"},{"1":"55-59","2":"361436","3":"1st and 2nd Dose","4":"90.4"},{"1":"55-59","2":"361436","3":"NA","4":"57.7"},{"1":"55-59","2":"361436","3":"Unvaccinated","4":"6.3"},{"1":"60-64","2":"288655","3":"1st Dose Only","4":"2.8"},{"1":"60-64","2":"288655","3":"1st and 2nd Dose","4":"92.1"},{"1":"60-64","2":"288655","3":"NA","4":"67.5"},{"1":"60-64","2":"288655","3":"Unvaccinated","4":"5.1"},{"1":"65-69","2":"227126","3":"1st Dose Only","4":"2.3"},{"1":"65-69","2":"227126","3":"1st and 2nd Dose","4":"91.0"},{"1":"65-69","2":"227126","3":"NA","4":"74.6"},{"1":"65-69","2":"227126","3":"Unvaccinated","4":"6.7"},{"1":"70-74","2":"202766","3":"1st Dose Only","4":"1.7"},{"1":"70-74","2":"202766","3":"1st and 2nd Dose","4":"89.8"},{"1":"70-74","2":"202766","3":"NA","4":"78.6"},{"1":"70-74","2":"202766","3":"Unvaccinated","4":"8.5"},{"1":"75-79","2":"142970","3":"1st Dose Only","4":"1.6"},{"1":"75-79","2":"142970","3":"1st and 2nd Dose","4":"93.9"},{"1":"75-79","2":"142970","3":"NA","4":"83.0"},{"1":"75-79","2":"142970","3":"Unvaccinated","4":"4.5"},{"1":"80+","2":"221706","3":"1st Dose Only","4":"1.5"},{"1":"80+","2":"221706","3":"1st and 2nd Dose","4":"84.0"},{"1":"80+","2":"221706","3":"NA","4":"72.2"},{"1":"80+","2":"221706","3":"Unvaccinated","4":"14.5"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+<p><strong>Menghilankan NA (vaksin ketiga)</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>vaxdat <span class="ot">&lt;-</span> vaxdat5 <span class="sc">%&gt;%</span> </span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[2],"type":["int"],"align":["right"]},{"label":["name"],"name":[3],"type":["fct"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12-15","2":"298353","3":"1st Dose Only","4":"37.3"},{"1":"12-15","2":"298353","3":"1st and 2nd Dose","4":"0.6"},{"1":"12-15","2":"298353","3":"Unvaccinated","4":"62.1"},{"1":"16-17","2":"135739","3":"1st Dose Only","4":"27.7"},{"1":"16-17","2":"135739","3":"1st and 2nd Dose","4":"26.2"},{"1":"16-17","2":"135739","3":"Unvaccinated","4":"46.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+<div id="final-code-merge" class="section level2" number="3.2">
+<h2 number="3.2"><span class="header-section-number">3.2</span> Final Code (Merge)</h2>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>vaxdat <span class="ot">&lt;-</span> vaccines <span class="sc">%&gt;%</span> </span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(age_band,dose) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(date <span class="sc">==</span> <span class="st">&quot;2021-12-11&quot;</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarise</span>(</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">totalpop =</span> <span class="fu">sum</span>(population), </span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">prop_doses =</span> <span class="fu">round</span>(<span class="dv">100</span><span class="sc">*</span>(<span class="fu">sum</span>(cum_doses)<span class="sc">/</span><span class="fu">sum</span>(population)),<span class="at">digits =</span> <span class="dv">1</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_wider</span>(<span class="at">id_cols =</span> <span class="fu">c</span>(age_band,totalpop),<span class="at">names_from =</span> dose,<span class="at">values_from =</span> <span class="fu">c</span>(<span class="st">&quot;prop_doses&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">clean_names</span>() <span class="sc">%&gt;%</span> </span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">x1st_dose =</span> x1st_dose <span class="sc">-</span> x2nd_dose, </span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    <span class="at">unvaxed =</span> <span class="dv">100</span><span class="sc">-</span>(x1st_dose <span class="sc">+</span> x2nd_dose)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Unvaccinated =</span> unvaxed, <span class="st">&quot;1st dose&quot;</span> <span class="ot">=</span> x1st_dose,  <span class="st">&quot;2nd dose&quot;</span> <span class="ot">=</span> x2nd_dose) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="sc">!</span><span class="fu">c</span>(age_band,totalpop)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="fu">factor</span>(name, <span class="at">levels=</span><span class="fu">c</span>(<span class="st">&quot;Unvaccinated&quot;</span>,<span class="st">&quot;1st dose&quot;</span>,<span class="st">&quot;2nd dose&quot;</span>)),</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">age_band =</span> <span class="fu">gsub</span>(age_band,<span class="at">pattern =</span> <span class="st">&quot; |years&quot;</span>,<span class="at">replacement =</span> <span class="st">&quot;&quot;</span>)) <span class="sc">%&gt;%</span> </span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span><span class="fu">is.na</span>(name))</span></code></pre></div>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(vaxdat)</span></code></pre></div>
+<div data-pagedtable="false">
+<script data-pagedtable-source type="application/json">
+{"columns":[{"label":["age_band"],"name":[1],"type":["chr"],"align":["left"]},{"label":["totalpop"],"name":[2],"type":["int"],"align":["right"]},{"label":["name"],"name":[3],"type":["fct"],"align":["left"]},{"label":["value"],"name":[4],"type":["dbl"],"align":["right"]}],"data":[{"1":"12-15","2":"298353","3":"1st Dose Only","4":"37.3"},{"1":"12-15","2":"298353","3":"1st and 2nd Dose","4":"0.6"},{"1":"12-15","2":"298353","3":"Unvaccinated","4":"62.1"},{"1":"16-17","2":"135739","3":"1st Dose Only","4":"27.7"},{"1":"16-17","2":"135739","3":"1st and 2nd Dose","4":"26.2"},{"1":"16-17","2":"135739","3":"Unvaccinated","4":"46.1"}],"options":{"columns":{"min":{},"max":[10]},"rows":{"min":[10],"max":[10]},"pages":{}}}
+  </script>
+</div>
+</div>
+</div>
+<div id="visualisasi" class="section level1" number="4">
+<h1 number="4"><span class="header-section-number">4</span> Visualisasi</h1>
+<div id="step-by-step-1" class="section level2" number="4.1">
+<h2 number="4.1"><span class="header-section-number">4.1</span> Step By Step</h2>
+<div id="the-basic-plot" class="section level3" number="4.1.1">
+<h3 number="4.1.1"><span class="header-section-number">4.1.1</span> The basic plot</h3>
+<p>Tampilan Bar Plot Sederhana.</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>plot_clean <span class="ot">=</span> <span class="fu">ggplot</span>(</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">data =</span> vaxdat,</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">aes</span>(<span class="at">x=</span>age_band, <span class="at">y=</span> value, <span class="at">fill=</span>name, <span class="at">width=</span>totalpop)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;stack&quot;</span>, <span class="at">stat=</span><span class="st">&quot;identity&quot;</span>,<span class="at">col=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>age_band,<span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>, <span class="at">space =</span> <span class="st">&#39;free&#39;</span>) </span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>plot_clean</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-11-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Melihat kode di atas, perhatikan panggilan awal ke ggplot() yang memetakan kolom dari vaxdat ke berbagai estetika yang ingin kita tampilkan.</p>
+<p>Di sini kita akan memetakan:</p>
+<ul>
+<li>Kelompok umur terhadap sumbu x</li>
+<li>Kolom nilai (yang kami hitung sebelumnya) dengan ketinggian setiap segmen batang</li>
+<li>Nama setiap segmen dipetakan ke warna isian</li>
+<li>Lebar bilah akan terkait dengan total kolom populasi</li>
+</ul>
+<p>Untuk ini kami menambahkan geom_bar() yang memahami bagaimana menafsirkan <em><strong>estetika</strong></em> x, y, fill dan lebar sesuai keinginan kita.</p>
+<p>Untuk menghemat ruang, pilih grafik batang yang ditumpuk, tinggi setiap batang harus berhubungan dengan nilai sumbu y yang telah kami berikan <em><strong>(stat = ‘identity’)</strong></em>, dan bahwa warna batas setiap batang harus putih.</p>
+<p>Terakhir, kami membagi plot berdasarkan kelompok usia dan mengizinkan skala sumbu x selebar yang diperlukan dengan parameter skala.</p>
+</div>
+<div id="customise-the-facets" class="section level3" number="4.1.2">
+<h3 number="4.1.2"><span class="header-section-number">4.1.2</span> Customise the facets</h3>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>plot_facets <span class="ot">=</span> plot_clean  <span class="sc">+</span> </span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;lines&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),<span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_blank</span>())</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>plot_facets</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-12-1.png" width="960" style="display: block; margin: auto;" /></p>
+<p>Penyesuaian format facet:</p>
+<ul>
+<li>Penggunaan Black Element</li>
+<li>Menghilangkan Jarak antar facet</li>
+</ul>
+</div>
+<div id="axis-and-margins" class="section level3" number="4.1.3">
+<h3 number="4.1.3"><span class="header-section-number">4.1.3</span> Axis and Margins</h3>
+<div class="sourceCode" id="cb17"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>plot_axes <span class="ot">=</span> plot_facets <span class="sc">+</span> </span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.length.y.left =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.length.y.right =</span> <span class="fu">unit</span>(<span class="fl">1.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">scale =</span> <span class="dv">1</span>), <span class="at">sec.axis =</span> <span class="fu">dup_axis</span>(<span class="at">name=</span><span class="cn">NULL</span>,<span class="at">labels =</span> <span class="cn">NULL</span>)) <span class="sc">+</span> </span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="fl">1.3</span>,<span class="at">r =</span> <span class="fl">0.2</span>,<span class="at">b =</span> <span class="fl">0.25</span>,<span class="at">l =</span> <span class="fl">0.25</span>,<span class="at">unit =</span> <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span> </span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">&quot;#D4D4D4&quot;</span>,<span class="at">size=</span><span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">color=</span> <span class="st">&quot;#343C41&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>,<span class="at">color=</span> <span class="st">&quot;#343C41&quot;</span>)) </span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>plot_axes</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-13-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="legends-and-colours" class="section level3" number="4.1.4">
+<h3 number="4.1.4"><span class="header-section-number">4.1.4</span> Legends and Colours</h3>
+<div class="sourceCode" id="cb18"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>plot_legends <span class="ot">=</span> plot_axes <span class="sc">+</span> </span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,<span class="at">legend.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">&#39;cm&#39;</span>),<span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.62</span>, <span class="st">&quot;cm&quot;</span>),<span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.19</span>,<span class="fl">1.08</span>),<span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">color=</span><span class="st">&quot;#343C41&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#CCCCCC&quot;</span>,<span class="st">&quot;#87A4C4&quot;</span>,<span class="st">&quot;#4D657F&quot;</span>)) </span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>plot_legends</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-14-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+<div id="text-and-labels" class="section level3" number="4.1.5">
+<h3 number="4.1.5"><span class="header-section-number">4.1.5</span> Text and Labels</h3>
+<div class="sourceCode" id="cb19"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>plot_text <span class="ot">=</span> plot_legends <span class="sc">+</span> </span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percentage of the population by age band who have received COVID-19 Vaccinations&quot;</span>, <span class="at">subtitle =</span> <span class="st">&quot;Vaccinations administered to London residents up to 27 October 2021</span><span class="sc">\n</span><span class="st">Width of blocks is proportional to population size&quot;</span>,<span class="at">caption =</span> <span class="st">&quot;Source: PHE COVID-19 Dashboard</span><span class="sc">\n</span><span class="st">Graphic by George Seed (original by GLA City Intelligence)&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>,<span class="at">size=</span><span class="dv">18</span>,<span class="at">vjust =</span> <span class="dv">8</span>), <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>,<span class="at">size=</span><span class="dv">14</span>,<span class="at">vjust =</span> <span class="dv">10</span>)) <span class="sc">+</span> </span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>) <span class="sc">+</span> </span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption.position =</span> <span class="st">&quot;plot&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>,<span class="at">size=</span><span class="fl">12.5</span>,<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>,<span class="at">vjust=</span><span class="dv">0</span>)) </span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>plot_text</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-15-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="final" class="section level2" number="4.2">
+<h2 number="4.2"><span class="header-section-number">4.2</span> Final</h2>
+<div class="sourceCode" id="cb20"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>plot <span class="ot">=</span> <span class="fu">ggplot</span>(<span class="at">data =</span> vaxdat,<span class="fu">aes</span>(<span class="at">x=</span>age_band,<span class="at">y=</span>value,</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                <span class="at">fill=</span>name,</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                                <span class="at">width=</span>totalpop)) <span class="sc">+</span></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position=</span><span class="st">&quot;stack&quot;</span>, </span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>           <span class="at">stat=</span><span class="st">&quot;identity&quot;</span>,</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>           <span class="at">col=</span><span class="st">&quot;white&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">facet_grid</span>(<span class="sc">~</span>age_band,<span class="at">scales =</span> <span class="st">&quot;free_x&quot;</span>, </span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>             <span class="at">space =</span> <span class="st">&#39;free&#39;</span>) <span class="sc">+</span></span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.spacing =</span> <span class="fu">unit</span>(<span class="dv">0</span>, <span class="st">&quot;lines&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">strip.background =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>        <span class="at">strip.text.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.title =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">panel.background =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.length.y.left =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.length.y.right =</span> <span class="fu">unit</span>(<span class="fl">0.25</span>, <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_y_continuous</span>(<span class="at">labels=</span>scales<span class="sc">::</span><span class="fu">percent_format</span>(<span class="at">scale =</span> <span class="dv">1</span>),</span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>                     <span class="at">sec.axis =</span> <span class="fu">dup_axis</span>(<span class="at">name=</span><span class="cn">NULL</span>,<span class="at">labels =</span> <span class="cn">NULL</span>)) <span class="sc">+</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.title.x =</span> <span class="fu">element_blank</span>(), </span>
+<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span></span>
+<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.direction =</span> <span class="st">&quot;horizontal&quot;</span>,</span>
+<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.spacing.x =</span> <span class="fu">unit</span>(<span class="fl">0.4</span>, <span class="st">&#39;cm&#39;</span>),</span>
+<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.key.size =</span> <span class="fu">unit</span>(<span class="fl">0.62</span>, <span class="st">&quot;cm&quot;</span>),</span>
+<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.position =</span> <span class="fu">c</span>(<span class="fl">0.19</span>,<span class="fl">1.08</span>),</span>
+<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">color=</span><span class="st">&quot;#343C41&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.margin =</span> <span class="fu">margin</span>(<span class="at">t =</span> <span class="fl">1.3</span>,<span class="at">r =</span> <span class="fl">0.2</span>,<span class="at">b =</span> <span class="fl">0.25</span>,<span class="at">l =</span> <span class="fl">0.25</span>,</span>
+<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>                             <span class="at">unit =</span> <span class="st">&quot;cm&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">&quot;Percentage of the population by age band who have received COVID-19 Vaccinations&quot;</span>, </span>
+<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>       <span class="at">subtitle =</span> <span class="st">&quot;Vaccinations administered to London residents up to 11 December 2021</span><span class="sc">\n</span><span class="st">Width of blocks is proportional to population size&quot;</span>,</span>
+<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>       <span class="at">caption =</span> <span class="st">&quot;Source: PHE COVID-19 Dashboard</span><span class="sc">\n</span><span class="st">Graphic by George Seed (original by GLA City Intelligence)&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>, <span class="at">face=</span><span class="st">&quot;bold&quot;</span>,</span>
+<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>                                  <span class="at">size=</span><span class="dv">16</span>,<span class="at">vjust =</span> <span class="dv">8</span>), </span>
+<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>,</span>
+<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>                                     <span class="at">size=</span><span class="dv">14</span>,<span class="at">vjust =</span> <span class="dv">10</span>)) <span class="sc">+</span></span>
+<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">color =</span> <span class="st">&quot;#D4D4D4&quot;</span>,<span class="at">size=</span><span class="fl">0.5</span>)) <span class="sc">+</span></span>
+<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.y =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">12</span>,<span class="at">color=</span> <span class="st">&quot;#343C41&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-36"><a href="#cb20-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.title.position =</span> <span class="st">&quot;plot&quot;</span>) <span class="sc">+</span></span>
+<span id="cb20-37"><a href="#cb20-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">plot.caption.position =</span> <span class="st">&quot;plot&quot;</span>, <span class="at">plot.caption =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="dv">0</span>,<span class="at">size=</span><span class="fl">12.5</span>,<span class="at">color =</span> <span class="st">&quot;#343C41&quot;</span>,<span class="at">vjust=</span><span class="dv">0</span>)) <span class="sc">+</span></span>
+<span id="cb20-38"><a href="#cb20-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.ticks.x =</span> <span class="fu">element_blank</span>()) <span class="sc">+</span> </span>
+<span id="cb20-39"><a href="#cb20-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">axis.text.x =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">9</span>,<span class="at">color=</span> <span class="st">&quot;#343C41&quot;</span>)) <span class="sc">+</span></span>
+<span id="cb20-40"><a href="#cb20-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="at">values =</span> <span class="fu">c</span>(<span class="st">&quot;#CCCCCC&quot;</span>,<span class="st">&quot;#87A4C4&quot;</span>,<span class="st">&quot;#4D657F&quot;</span>))</span>
+<span id="cb20-41"><a href="#cb20-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-42"><a href="#cb20-42" aria-hidden="true" tabindex="-1"></a>plot</span></code></pre></div>
+<p><img src="02-vaksin_files/figure-html/unnamed-chunk-16-1.png" width="960" style="display: block; margin: auto;" /></p>
+</div>
+</div>
+<div id="referensi" class="section level1" number="5">
+<h1 number="5"><span class="header-section-number">5</span> Referensi</h1>
+<ul>
+<li><a href="https://ggplot2.tidyverse.org/reference/geom_bar.html" class="uri">https://ggplot2.tidyverse.org/reference/geom_bar.html</a></li>
+<li><a href="https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html" class="uri">https://www.r-graph-gallery.com/48-grouped-barplot-with-ggplot2.html</a></li>
+<li><a href="https://medium.com/save-the-data/forensic-plotting-london-covid-vaccine-data-in-r-5a38aeb9c370" class="uri">https://medium.com/save-the-data/forensic-plotting-london-covid-vaccine-data-in-r-5a38aeb9c370</a></li>
+</ul>
+</div>
+
+
+
+</div>
+</div>
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.odd').parent('tbody').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open');
+  });
+});
+</script>
+
+<!-- code folding -->
+<script>
+$(document).ready(function () {
+  window.initializeCodeFolding("hide" === "show");
+});
+</script>
+
+<script>
+$(document).ready(function ()  {
+
+    // temporarily add toc-ignore selector to headers for the consistency with Pandoc
+    $('.unlisted.unnumbered').addClass('toc-ignore')
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3,h4",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = false;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
